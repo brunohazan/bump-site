@@ -4,9 +4,9 @@ export function Projeto() {
   return (
     <section
       id="projeto"
-      className="border-t border-line-1 bg-ink-soft px-10 py-40"
+      className="border-t border-line-1 bg-ink-soft px-5 py-24 md:px-10 md:py-40"
     >
-      <div className="mx-auto grid max-w-[1280px] grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] items-center gap-20">
+      <div className="mx-auto grid max-w-[1280px] grid-cols-1 items-center gap-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-20">
         <div>
           <div
             data-reveal
@@ -16,7 +16,7 @@ export function Projeto() {
           </div>
           <h2
             data-reveal
-            className="m-0 mb-7 text-[clamp(44px,6vw,88px)] leading-[0.95] font-black tracking-[-0.03em] uppercase"
+            className="m-0 mb-7 text-[clamp(38px,6vw,88px)] leading-[0.95] font-black tracking-[-0.03em] uppercase"
           >
             Seu terreno.
             <br />
@@ -35,7 +35,7 @@ export function Projeto() {
         </div>
         <div
           data-reveal
-          className="border border-line-2 bg-ink p-10"
+          className="border border-line-2 bg-ink p-6 md:p-10"
         >
           <div className="flex flex-col gap-5.5">
             <div className="flex flex-col gap-2">
@@ -68,7 +68,7 @@ export function Projeto() {
             </div>
             <a
               href="#projeto"
-              className="block rounded-sm bg-accent px-4.5 py-4.5 text-center font-mono text-[13px] font-semibold tracking-[0.14em] text-ink hover:bg-paper"
+              className="block rounded-sm bg-accent px-4.5 py-4.5 text-center font-mono text-[13px] font-semibold tracking-[0.14em] text-ink transition-colors hover:bg-paper"
             >
               SOLICITAR ACERTO E ORÇAMENTO →
             </a>

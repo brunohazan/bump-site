@@ -9,9 +9,9 @@ const EMPRESA = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-line-1 bg-ink px-10 pt-[72px] pb-10">
+    <footer className="border-t border-line-1 bg-ink px-5 pt-12 pb-8 md:px-10 md:pt-[72px] md:pb-10">
       <div className="mx-auto max-w-[1280px]">
-        <div className="mb-[72px] grid grid-cols-[2fr_1fr_1fr_1fr] gap-12">
+        <div className="mb-12 grid grid-cols-1 gap-10 sm:grid-cols-2 md:mb-[72px] lg:grid-cols-[2fr_1fr_1fr_1fr] lg:gap-12">
           <div className="flex flex-col gap-4">
             <div className="flex items-baseline gap-2.5">
               <span className="text-[22px] font-black tracking-tight">
@@ -37,7 +37,7 @@ export function Footer() {
               <a
                 key={produto}
                 href="#linha"
-                className="text-[13px] text-mute-1 hover:text-accent"
+                className="text-[13px] text-mute-1 transition-colors hover:text-accent"
               >
                 {produto}
               </a>
@@ -51,7 +51,7 @@ export function Footer() {
               <a
                 key={item.href}
                 href={item.href}
-                className="text-[13px] text-mute-1 hover:text-accent"
+                className="text-[13px] text-mute-1 transition-colors hover:text-accent"
               >
                 {item.label}
               </a>
@@ -63,7 +63,7 @@ export function Footer() {
             </span>
             <a
               href="https://www.instagram.com/bumpamortecedores"
-              className="text-[13px] text-mute-1 hover:text-accent"
+              className="text-[13px] text-mute-1 transition-colors hover:text-accent"
             >
               @bumpamortecedores
             </a>

@@ -2,7 +2,7 @@ export function Prova() {
   return (
     <section
       id="prova"
-      className="relative overflow-hidden border-t border-line-1 px-10 py-40"
+      className="relative overflow-hidden border-t border-line-1 px-5 py-24 md:px-10 md:py-40"
     >
       <div
         className="absolute inset-0"
@@ -11,7 +11,7 @@ export function Prova() {
             "repeating-linear-gradient(115deg, #0B0B0A 0px, #0B0B0A 22px, #0D0D0C 22px, #0D0D0C 44px)",
         }}
       >
-        <span className="absolute top-10 right-10 text-right font-mono text-xs leading-[2] tracking-[0.08em] text-mute-4">
+        <span className="absolute top-10 right-10 hidden text-right font-mono text-xs leading-[2] tracking-[0.08em] text-mute-4 md:block">
           [ FOTO EDITORIAL · amortecedor desmontado na bancada após 400.000
           km,
           <br />
@@ -28,19 +28,19 @@ export function Prova() {
         </div>
         <h2
           data-reveal
-          className="m-0 mb-7 text-[clamp(56px,9vw,140px)] leading-[0.9] font-black tracking-[-0.035em]"
+          className="m-0 mb-7 text-[clamp(44px,9vw,140px)] leading-[0.9] font-black tracking-[-0.035em]"
         >
           400.000<span className="text-accent">km</span>
         </h2>
         <p
           data-reveal
-          className="m-0 mb-10 max-w-[48ch] text-[17px] leading-[1.7] text-mute-1"
+          className="m-0 mb-10 max-w-[48ch] text-[15px] leading-[1.7] text-mute-1 md:text-[17px]"
         >
           Um único amortecedor BUMP. Quatrocentos mil quilômetros de estrada
           brasileira. Desmontado, inspecionado, recuperado — e devolvido ao
           trabalho. Um equipamento de engenharia não é descartável.
         </p>
-        <div data-reveal className="flex flex-wrap gap-10">
+        <div data-reveal className="flex flex-wrap gap-6 md:gap-10">
           <div className="flex flex-col gap-1.5">
             <span className="font-mono text-[11px] tracking-[0.16em] text-mute-3">
               GARANTIA

@@ -5,7 +5,7 @@ export function AntesDepois() {
   return (
     <section
       id="antesdepois"
-      className="border-y border-line-1 bg-ink-soft px-10 py-[140px]"
+      className="border-y border-line-1 bg-ink-soft px-5 py-20 md:px-10 md:py-[140px]"
     >
       <div className="mx-auto max-w-[1280px]">
         <div
@@ -16,7 +16,7 @@ export function AntesDepois() {
         </div>
         <h2
           data-reveal
-          className="m-0 mb-16 text-[clamp(40px,5vw,72px)] leading-[0.98] font-black tracking-[-0.03em] uppercase"
+          className="m-0 mb-10 text-[clamp(34px,5vw,72px)] leading-[0.98] font-black tracking-[-0.03em] uppercase md:mb-16"
         >
           Antes. <span className="text-accent">Depois.</span>
         </h2>

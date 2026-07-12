@@ -10,20 +10,20 @@ export function Engenharia() {
   return (
     <section
       id="engenharia"
-      className="border-y border-line-1 bg-ink-soft px-10 py-[140px]"
+      className="border-y border-line-1 bg-ink-soft px-5 py-20 md:px-10 md:py-[140px]"
     >
       <div className="mx-auto max-w-[1280px]">
         <div
           data-reveal
-          className="mb-12 font-mono text-xs tracking-[0.22em] text-mute-3"
+          className="mb-8 font-mono text-xs tracking-[0.22em] text-mute-3 md:mb-12"
         >
           02 — ENGENHARIA
         </div>
-        <div className="grid grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] items-start gap-20">
+        <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:gap-20">
           <div>
             <h2
               data-reveal
-              className="m-0 mb-7 text-[clamp(40px,5vw,72px)] leading-[0.98] font-black tracking-[-0.03em] uppercase"
+              className="m-0 mb-7 text-[clamp(34px,5vw,72px)] leading-[0.98] font-black tracking-[-0.03em] uppercase"
             >
               Corpo duplo.
               <br />
@@ -51,7 +51,7 @@ export function Engenharia() {
               {specs.map((spec) => (
                 <div
                   key={spec.k}
-                  className="grid grid-cols-[180px_1fr] gap-4 border-b border-[#161616] px-6 py-[15px]"
+                  className="grid grid-cols-[110px_1fr] gap-3 border-b border-[#161616] px-4 py-[13px] sm:grid-cols-[180px_1fr] sm:gap-4 sm:px-6 sm:py-[15px]"
                 >
                   <span className="font-mono text-xs tracking-[0.1em] text-mute-3">
                     {spec.k}
@@ -63,7 +63,10 @@ export function Engenharia() {
               ))}
             </div>
           </div>
-          <div data-reveal className="sticky top-[100px] flex flex-col gap-4">
+          <div
+            data-reveal
+            className="flex flex-col gap-4 lg:sticky lg:top-[100px]"
+          >
             <div className="relative grid aspect-[3/4] place-items-center overflow-hidden border border-line-1 bg-ink-frame">
               <Image
                 src={premiumFigureImage}

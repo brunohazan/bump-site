@@ -4,7 +4,7 @@ export function Processo() {
   return (
     <section
       id="processo"
-      className="border-t border-line-1 bg-ink-soft px-10 py-[140px]"
+      className="border-t border-line-1 bg-ink-soft px-5 py-20 md:px-10 md:py-[140px]"
     >
       <div className="mx-auto max-w-[1280px]">
         <div
@@ -15,18 +15,18 @@ export function Processo() {
         </div>
         <h2
           data-reveal
-          className="m-0 mb-[72px] text-[clamp(40px,5vw,72px)] leading-[0.98] font-black tracking-[-0.03em] uppercase"
+          className="m-0 mb-12 text-[clamp(34px,5vw,72px)] leading-[0.98] font-black tracking-[-0.03em] uppercase md:mb-[72px]"
         >
           Do seu terreno
           <br />
           <span className="text-mute-3">à sua suspensão.</span>
         </h2>
-        <div className="grid grid-cols-4 gap-px border border-line-1 bg-line-1">
+        <div className="grid grid-cols-1 gap-px border border-line-1 bg-line-1 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((step) => (
             <div
               key={step.num}
               data-reveal
-              className="flex min-h-[260px] flex-col gap-4.5 bg-ink-card px-7.5 pt-9 pb-11"
+              className="flex flex-col gap-4.5 bg-ink-card px-6 pt-8 pb-9 md:min-h-[260px] md:px-7.5 md:pt-9 md:pb-11"
             >
               <span className="font-mono text-xs tracking-[0.14em] text-accent">
                 {step.num}

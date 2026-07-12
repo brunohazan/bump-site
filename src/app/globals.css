@@ -54,6 +54,16 @@ body {
   background: var(--color-ink);
 }
 
+html {
+  scroll-padding-top: 72px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 body {
   color: var(--color-paper);
   font-family: var(--font-sans), sans-serif;

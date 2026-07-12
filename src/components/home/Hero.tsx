@@ -18,23 +18,23 @@ export function Hero() {
         />
       </div>
       <div className="absolute inset-0 bg-gradient-to-t from-ink/92 via-ink/20 to-ink/35" />
-      <div className="relative flex flex-col gap-8 px-10 pb-16">
+      <div className="relative flex flex-col gap-6 px-5 pb-10 md:gap-8 md:px-10 md:pb-16">
         <div data-reveal className="flex items-center gap-3.5">
-          <span className="block h-px w-[34px] bg-accent" />
-          <span className="font-mono text-xs tracking-[0.22em] text-accent">
+          <span className="block h-px w-[34px] shrink-0 bg-accent" />
+          <span className="font-mono text-[10px] tracking-[0.22em] text-accent md:text-xs">
             SISTEMAS DE SUSPENSÃO SOB MEDIDA · EST. 2013
           </span>
         </div>
         <h1
           data-reveal
-          className="m-0 max-w-[14ch] text-[clamp(64px,11vw,168px)] leading-[0.9] font-black tracking-[-0.035em] uppercase"
+          className="m-0 max-w-[14ch] text-[clamp(44px,11vw,168px)] leading-[0.9] font-black tracking-[-0.035em] uppercase"
         >
           Domine qualquer terreno
         </h1>
-        <div className="flex flex-wrap items-end justify-between gap-10">
+        <div className="flex flex-wrap items-end justify-between gap-6 md:gap-10">
           <p
             data-reveal
-            className="m-0 max-w-[44ch] text-[17px] leading-relaxed font-normal text-mute-1"
+            className="m-0 max-w-[44ch] text-[15px] leading-relaxed font-normal text-mute-1 md:text-[17px]"
           >
             Amortecedores de competição desenvolvidos sob medida para o seu
             veículo, o seu piloto e o seu terreno. Fabricados no Brasil.
@@ -42,7 +42,7 @@ export function Hero() {
           <a
             data-reveal
             href="#projeto"
-            className="inline-flex items-center gap-3 rounded-sm border border-line-4 px-7 py-4 font-mono text-[13px] tracking-[0.14em] whitespace-nowrap hover:border-accent hover:text-accent"
+            className="inline-flex items-center gap-3 rounded-sm border border-line-4 px-7 py-4 font-mono text-[13px] tracking-[0.14em] whitespace-nowrap transition-colors hover:border-accent hover:text-accent"
           >
             INICIAR PROJETO <span className="text-accent">→</span>
           </a>

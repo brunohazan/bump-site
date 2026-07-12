@@ -15,7 +15,7 @@ export function BeforeAfterSlider({
   return (
     <div
       data-reveal
-      className="relative aspect-[21/9] select-none overflow-hidden border border-line-1"
+      className="relative aspect-[4/3] select-none overflow-hidden border border-line-1 md:aspect-[21/9]"
     >
       <div className="absolute inset-0">
         <Image
