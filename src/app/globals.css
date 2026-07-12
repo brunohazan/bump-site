@@ -47,38 +47,40 @@
   --font-mono: var(--font-plex-mono);
 }
 
-html,
-body {
-  margin: 0;
-  padding: 0;
-  background: var(--color-ink);
-}
-
-html {
-  scroll-padding-top: 72px;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  html {
-    scroll-behavior: smooth;
+@layer base {
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    background: var(--color-ink);
   }
-}
 
-body {
-  color: var(--color-paper);
-  font-family: var(--font-sans), sans-serif;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: clip;
-}
+  html {
+    scroll-padding-top: 72px;
+  }
 
-::selection {
-  background: var(--color-accent);
-  color: var(--color-ink);
-}
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
 
-a {
-  color: var(--color-paper);
-  text-decoration: none;
+  body {
+    color: var(--color-paper);
+    font-family: var(--font-sans), sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-ink);
+  }
+
+  a {
+    color: var(--color-paper);
+    text-decoration: none;
+  }
 }
 
 @keyframes bump-pulse {
