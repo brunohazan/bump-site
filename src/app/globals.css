@@ -1,26 +1,97 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Surfaces */
+  --color-ink: #080808;
+  --color-ink-soft: #0d0d0d;
+  --color-ink-card: #0a0a0a;
+  --color-ink-frame: #0e0e0e;
+
+  /* Text */
+  --color-paper: #f2f2ef;
+  --color-mute-1: #b9bdb9;
+  --color-mute-2: #8a8f8a;
+  --color-mute-3: #6a6f6a;
+  --color-mute-4: #4a4f4a;
+
+  /* Brand */
+  --color-accent: #2fd35d;
+
+  /* Lines */
+  --color-line-1: #1e1e1e;
+  --color-line-2: #2a2f2a;
+  --color-line-3: #161616;
+  --color-line-4: #3a3f3a;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-ink-card: var(--color-ink-card);
+  --color-ink-frame: var(--color-ink-frame);
+
+  --color-paper: var(--color-paper);
+  --color-mute-1: var(--color-mute-1);
+  --color-mute-2: var(--color-mute-2);
+  --color-mute-3: var(--color-mute-3);
+  --color-mute-4: var(--color-mute-4);
+
+  --color-accent: var(--color-accent);
+
+  --color-line-1: var(--color-line-1);
+  --color-line-2: var(--color-line-2);
+  --color-line-3: var(--color-line-3);
+  --color-line-4: var(--color-line-4);
+
+  --font-sans: var(--font-archivo);
+  --font-mono: var(--font-plex-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-ink);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--color-paper);
+  font-family: var(--font-sans), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-ink);
+}
+
+a {
+  color: var(--color-paper);
+  text-decoration: none;
+}
+
+@keyframes bump-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+      opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  [data-reveal].is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
