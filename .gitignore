@@ -39,3 +39,18 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local files
+/_local/*
+!/_local/.gitkeep
+
+# ai-ready -- sistema de agentes (local only)
+/ai-ready
+
+# setups (local only)
+/setupprojeto.md
+/setupprojeto-v2.7.md
+/setupartes.md
+
+# context do projeto (local only)
+CLAUDE.md
