@@ -1,6 +1,6 @@
 import type { ProductLine } from "@/lib/site-data";
 
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://bumpamortecedores.com";
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://bump-weld.vercel.app";
 
 export const organizationJsonLd = {
   "@context": "https://schema.org",

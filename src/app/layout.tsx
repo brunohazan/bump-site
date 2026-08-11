@@ -18,7 +18,7 @@ const shareDescription =
   "Mais conforto, controle e durabilidade para quem usa a picape como ferramenta de trabalho. Feito sob medida no Brasil.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://bumpamortecedores.com"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://bump-weld.vercel.app"),
   title: { default: "BUMP Amortecedores | Conforto feito para o seu chão", template: "%s | BUMP Amortecedores" },
   description,
   applicationName: "BUMP Amortecedores",

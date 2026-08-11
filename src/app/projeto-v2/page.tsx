@@ -7,6 +7,19 @@ export const metadata: Metadata = {
   description: "Resumo temporário da evolução, arquitetura e ferramentas usadas na V2 do site BUMP.",
   robots: { index: false, follow: false },
   alternates: { canonical: "/projeto-v2" },
+  openGraph: {
+    title: "BUMP V2 | Conforto que faz o corpo chegar inteiro",
+    description: "Conheça a evolução do novo site BUMP: experiência, tecnologia e conversão pensadas para quem usa a picape de verdade.",
+    url: "/projeto-v2",
+    locale: "pt_BR",
+    type: "website",
+    siteName: "BUMP Amortecedores",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "BUMP V2 | Conforto que faz o corpo chegar inteiro",
+    description: "Conheça a evolução do novo site BUMP, da estratégia ao produto.",
+  },
 };
 
 const decisions = [
