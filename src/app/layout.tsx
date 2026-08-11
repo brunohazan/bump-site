@@ -10,7 +10,12 @@ import "./globals.css";
 const archivo = Archivo({ variable: "--font-archivo", subsets: ["latin"], weight: ["400", "500", "600", "700", "800", "900"] });
 const plexMono = IBM_Plex_Mono({ variable: "--font-plex-mono", subsets: ["latin"], weight: ["400", "500", "600"] });
 
-const description = "Amortecedores sob medida para sua picape, seu trabalho e seu chão. Engenharia própria, fabricação no Brasil e 2 anos de garantia.";
+const description =
+  "Amortecedores sob medida para sua picape, seu trabalho e seu chão. Engenharia própria, fabricação no Brasil e 2 anos de garantia.";
+
+const shareTitle = "BUMP | Conforto que faz o corpo chegar inteiro";
+const shareDescription =
+  "Mais conforto, controle e durabilidade para quem usa a picape como ferramenta de trabalho. Feito sob medida no Brasil.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://bumpamortecedores.com"),
@@ -18,14 +23,18 @@ export const metadata: Metadata = {
   description,
   applicationName: "BUMP Amortecedores",
   openGraph: {
-    title: "BUMP Amortecedores | Conforto feito para o seu chão",
-    description,
+    title: shareTitle,
+    description: shareDescription,
+    url: "/",
     locale: "pt_BR",
     type: "website",
     siteName: "BUMP Amortecedores",
-    images: [{ url: "https://pub-8f0b05c2503f42609136a4e1e55a9242.r2.dev/amortecedores/hero.png", width: 1200, height: 630, alt: "Picape equipada com amortecedores BUMP" }],
   },
-  twitter: { card: "summary_large_image" },
+  twitter: {
+    card: "summary_large_image",
+    title: shareTitle,
+    description: shareDescription,
+  },
 };
 
 export const viewport: Viewport = { themeColor: "#080808", colorScheme: "dark" };
