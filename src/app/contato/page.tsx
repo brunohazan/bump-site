@@ -1,0 +1,8 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { ContactForm } from "@/components/contact/ContactForm";
+import { Breadcrumb, PageHero } from "@/components/site/Primitives";
+
+export const metadata: Metadata = { title: "Contato", description: "Fale com a equipe BUMP sobre sua picape, aplicação ou orçamento.", alternates: { canonical: "/contato" } };
+const channels = [["WhatsApp", "Atendimento comercial e técnico"], ["Telefone", "Segunda a sexta, 8h às 18h"], ["E-mail", "Retorno sobre projeto e pós-venda"], ["Endereço", "Gravataí, RS"]] as const;
+export default function ContactPage() { return <><Breadcrumb items={[{ label: "Home", href: "/" }, { label: "Contato" }]} /><PageHero eyebrow="Canal humano" title="Fale com a BUMP" description="Conte o que sua picape enfrenta. A equipe ajuda a transformar rotina, carga e terreno em uma configuração." /><section className="section-space"><div className="site-container grid gap-8 lg:grid-cols-[1.1fr_.9fr]"><ContactForm /><aside className="grid content-start gap-4">{channels.map(([title, text]) => <div key={title} className="surface-card p-6"><h2 className="font-black">{title}</h2><p className="mt-2 text-sm text-mute-2">{text}</p></div>)}<div className="min-h-48 rounded-sm border border-line-2 bg-[linear-gradient(135deg,var(--color-ink-card),var(--color-accent-soft))] p-6"><p className="font-mono text-xs text-accent">Localização</p><h2 className="mt-3 text-2xl font-black">Fábrica em Gravataí</h2><p className="mt-2 text-sm text-mute-2">Endereço completo será confirmado antes da publicação final.</p></div><Link href="/configurador" className="button-primary">Prefiro montar meu amortecedor</Link></aside></div></section></>; }

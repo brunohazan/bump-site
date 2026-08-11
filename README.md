@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BUMP Amortecedores
 
-## Getting Started
+Site institucional V2 da BUMP, construído com Next.js 16, React 19, TypeScript e Tailwind CSS v4.
 
-First, run the development server:
+## Desenvolvimento
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Acesse `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Validação
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run lint
+npx tsc --noEmit
+npm run build
+```
 
-## Learn More
+## Estrutura da V2
 
-To learn more about Next.js, take a look at the following resources:
+- Home orientada a conforto e uso de trabalho
+- Seis linhas com template dinâmico em `/linhas/[slug]`
+- Configurador de nove passos em `/configurador`
+- Páginas institucionais, aplicações, resultados, FAQ, contato e legais
+- Header, Footer e ação de contato persistentes
+- Página temporária de apresentação técnica em `/projeto-v2` (`noindex`)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Conteúdo e decisões do redesenho: `_local/plano-v2-site.md`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Estado dos formulários
 
-## Deploy on Vercel
+Configurador e Contato estão em modo local simulado. Não enviam nem persistem dados. A conexão
+com backend depende do hardening de validação, rate limit, consentimento LGPD e revisão de segurança.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## SEO/AEO e segurança
+
+A V2 inclui canonical por rota, `robots.txt`, `sitemap.xml`, `llms.txt`, JSON-LD de organização,
+produto, FAQ e breadcrumbs, além de CSP, HSTS e headers defensivos. Redirects de domínio,
+Cloudflare, analytics e medição de LCP dependem do ambiente de produção.
