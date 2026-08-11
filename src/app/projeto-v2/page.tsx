@@ -14,11 +14,20 @@ export const metadata: Metadata = {
     locale: "pt_BR",
     type: "website",
     siteName: "BUMP Amortecedores",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "BUMP Amortecedores, conforto que faz o corpo chegar inteiro",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "BUMP V2 | Conforto que faz o corpo chegar inteiro",
     description: "Conheça a evolução do novo site BUMP, da estratégia ao produto.",
+    images: ["/opengraph-image"],
   },
 };
 
