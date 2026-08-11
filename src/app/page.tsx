@@ -28,7 +28,11 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-ink/30" />
         <div className="site-container relative py-16 md:py-24">
           <p className="mb-5 font-mono text-xs tracking-[0.16em] text-accent uppercase">Fábrica de conforto · Gravataí, RS</p>
-          <h1 className="max-w-[12ch] text-balance text-[clamp(3.15rem,9vw,9rem)] leading-[0.88] font-black tracking-[-0.06em] uppercase">Conforto que faz o corpo chegar inteiro.</h1>
+          <h1 className="max-w-full text-[clamp(2.35rem,8.4vw,8rem)] leading-[0.88] font-black tracking-[-0.06em] uppercase">
+            <span className="block whitespace-nowrap">Conforto que faz</span>
+            <span className="block whitespace-nowrap">o corpo</span>
+            <span className="block whitespace-nowrap">chegar inteiro.</span>
+          </h1>
           <p className="mt-7 max-w-2xl text-base leading-relaxed text-mute-1 md:text-xl">Amortecedores sob medida para sua picape, seu trabalho e seu chão. Engenharia própria, fabricação no Brasil e 2 anos de garantia.</p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link href="/configurador" className="button-primary">Montar meu amortecedor</Link>
