@@ -2,112 +2,262 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { productLines } from "@/lib/site-data";
 
+type DesktopMenu = "lines" | "company" | null;
+
 const companyLinks = [
-  { href: "/quem-somos", label: "Quem somos" },
-  { href: "/tecnologia", label: "Tecnologia" },
+  {
+    href: "/quem-somos",
+    label: "Quem somos",
+    description: "História, fábrica e a engenharia que nasceu no chão brasileiro.",
+    code: "01",
+  },
+  {
+    href: "/tecnologia",
+    label: "Tecnologia",
+    description: "Corpo duplo, monotubo e acerto traduzidos em conforto real.",
+    code: "02",
+  },
 ] as const;
 
 export function Header() {
-  const [open, setOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [desktopMenu, setDesktopMenu] = useState<DesktopMenu>(null);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const transparent = pathname === "/" && !scrolled && !mobileOpen && !desktopMenu;
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 24);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMobileOpen(false);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [mobileOpen]);
+
+  function closeAll() {
+    setMobileOpen(false);
+    setDesktopMenu(null);
+  }
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-line-1 bg-ink/95 backdrop-blur-md">
-      <div className="site-container flex h-[72px] items-center justify-between gap-6">
-        <Link href="/" aria-label="BUMP, ir para a página inicial" className="flex shrink-0 items-baseline gap-2">
-          <span className="text-xl font-black tracking-[-0.04em]">BUMP</span>
-          <span className="hidden font-mono text-[10px] tracking-[0.15em] text-mute-2 sm:inline">SUSPENSION SYSTEMS</span>
+    <header
+      onMouseLeave={() => setDesktopMenu(null)}
+      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-300 ${
+        transparent
+          ? "border-b border-transparent bg-gradient-to-b from-ink/80 to-transparent"
+          : "border-b border-line-1 bg-ink/92 backdrop-blur-xl"
+      }`}
+    >
+      <div className="site-container flex h-[72px] items-center justify-between gap-5">
+        <Link
+          href="/"
+          onClick={closeAll}
+          aria-label="BUMP, ir para a página inicial"
+          className="group flex shrink-0 items-center gap-3"
+        >
+          <span className="text-[22px] font-black tracking-[-0.055em] transition-colors group-hover:text-accent">
+            BUMP
+          </span>
+          <span className="hidden h-5 w-px bg-line-4 sm:block" />
+          <span className="hidden font-mono text-[9px] leading-tight tracking-[0.16em] text-mute-2 sm:block">
+            SUSPENSION<br />SYSTEMS
+          </span>
         </Link>
 
-        <nav aria-label="Navegação principal" className="hidden items-stretch gap-7 lg:flex">
-          <NavLink href="/" label="Home" active={pathname === "/"} />
-          <Dropdown label="Linhas" active={pathname.startsWith("/linhas")}>
-            <Link href="/linhas" className="menu-item font-semibold text-paper">Todas as linhas</Link>
-            {productLines.map((line) => (
-              <Link key={line.slug} href={`/linhas/${line.slug}`} className="menu-item">{line.shortName}</Link>
-            ))}
-          </Dropdown>
-          <Dropdown label="A BUMP" active={pathname === "/quem-somos" || pathname === "/tecnologia"}>
-            {companyLinks.map((item) => (
-              <Link key={item.href} href={item.href} className="menu-item">{item.label}</Link>
-            ))}
-          </Dropdown>
-          <NavLink href="/resultados" label="Resultados" active={pathname === "/resultados"} />
+        <nav aria-label="Navegação principal" className="hidden h-full items-stretch lg:flex">
+          <NavLink href="/" label="Home" active={pathname === "/"} onNavigate={closeAll} />
+          <MenuButton
+            label="Linhas"
+            active={pathname.startsWith("/linhas")}
+            expanded={desktopMenu === "lines"}
+            onOpen={() => setDesktopMenu("lines")}
+            onToggle={() => setDesktopMenu((current) => current === "lines" ? null : "lines")}
+          />
+          <MenuButton
+            label="A BUMP"
+            active={pathname === "/quem-somos" || pathname === "/tecnologia"}
+            expanded={desktopMenu === "company"}
+            onOpen={() => setDesktopMenu("company")}
+            onToggle={() => setDesktopMenu((current) => current === "company" ? null : "company")}
+          />
+          <NavLink href="/resultados" label="Resultados" active={pathname === "/resultados"} onNavigate={closeAll} />
         </nav>
 
         <div className="hidden shrink-0 items-center gap-3 lg:flex">
-          <Link href="/configurador" className="button-primary button-sm">Montar meu amortecedor</Link>
-          <Link href="/contato" className="button-secondary button-sm">Contato</Link>
+          <Link href="/contato" onClick={closeAll} className="px-2 font-mono text-[11px] tracking-[0.08em] text-mute-1 transition-colors hover:text-accent">
+            Contato
+          </Link>
+          <Link href="/configurador" onClick={closeAll} className="button-primary button-sm gap-2">
+            Montar o meu <span aria-hidden="true">↗</span>
+          </Link>
         </div>
 
         <button
           type="button"
-          aria-label={open ? "Fechar menu" : "Abrir menu"}
-          aria-expanded={open}
+          aria-label={mobileOpen ? "Fechar menu" : "Abrir menu"}
+          aria-expanded={mobileOpen}
           aria-controls="mobile-menu"
-          onClick={() => setOpen((value) => !value)}
-          className="grid size-11 place-items-center rounded-sm border border-line-2 text-paper lg:hidden"
+          onClick={() => setMobileOpen((value) => !value)}
+          className="relative grid size-11 shrink-0 place-items-center rounded-full border border-paper/25 text-paper transition-colors hover:border-accent hover:text-accent lg:hidden"
         >
           <span className="sr-only">Menu</span>
           <span className="flex flex-col gap-1.5">
-            <span className={`h-px w-5 bg-current transition-transform ${open ? "translate-y-[3.5px] rotate-45" : ""}`} />
-            <span className={`h-px w-5 bg-current transition-transform ${open ? "-translate-y-[3.5px] -rotate-45" : ""}`} />
+            <span className={`h-px w-5 bg-current transition-transform duration-300 ${mobileOpen ? "translate-y-[3.5px] rotate-45" : ""}`} />
+            <span className={`h-px w-5 bg-current transition-transform duration-300 ${mobileOpen ? "-translate-y-[3.5px] -rotate-45" : ""}`} />
           </span>
         </button>
       </div>
 
-      {open && (
-        <nav
-          id="mobile-menu"
-          aria-label="Navegação móvel"
-          onClick={(event) => {
-            if ((event.target as HTMLElement).closest("a")) setOpen(false);
-          }}
-          className="max-h-[calc(100dvh-72px)] overflow-y-auto border-t border-line-1 bg-ink px-5 py-5 lg:hidden"
-        >
-          <div className="mx-auto flex max-w-[1280px] flex-col">
-            <Link href="/" className="mobile-link">Home</Link>
-            <details className="group border-b border-line-1">
-              <summary className="mobile-summary">Linhas <span aria-hidden="true">+</span></summary>
-              <div className="flex flex-col pb-3 pl-4">
-                <Link href="/linhas" className="mobile-sublink">Todas as linhas</Link>
-                {productLines.map((line) => <Link key={line.slug} href={`/linhas/${line.slug}`} className="mobile-sublink">{line.shortName}</Link>)}
+      {desktopMenu && (
+        <div className="hidden border-t border-line-1 bg-ink/98 shadow-[0_30px_60px_rgba(0,0,0,.45)] backdrop-blur-xl lg:block">
+          {desktopMenu === "lines" ? (
+            <div className="site-container py-7">
+              <div className="mb-5 flex items-end justify-between">
+                <div>
+                  <p className="font-mono text-[10px] tracking-[0.16em] text-accent uppercase">Escolha pelo seu uso</p>
+                  <p className="mt-1 text-sm text-mute-2">Seis linhas. Um acerto para cada rotina.</p>
+                </div>
+                <Link href="/linhas" onClick={closeAll} className="font-mono text-[11px] text-mute-1 transition-colors hover:text-accent">
+                  Comparar todas as linhas ↗
+                </Link>
               </div>
-            </details>
-            <details className="group border-b border-line-1">
-              <summary className="mobile-summary">A BUMP <span aria-hidden="true">+</span></summary>
-              <div className="flex flex-col pb-3 pl-4">
-                {companyLinks.map((item) => <Link key={item.href} href={item.href} className="mobile-sublink">{item.label}</Link>)}
+              <div className="grid grid-cols-3 gap-px overflow-hidden border border-line-1 bg-line-1 xl:grid-cols-6">
+                {productLines.map((line, index) => (
+                  <Link
+                    key={line.slug}
+                    href={`/linhas/${line.slug}`}
+                    onClick={closeAll}
+                    className="group flex min-h-36 flex-col bg-ink-card p-4 transition-colors hover:bg-accent-soft"
+                  >
+                    <span className="font-mono text-[10px] text-accent">0{index + 1}</span>
+                    <strong className="mt-6 text-base tracking-[-0.02em] group-hover:text-accent">{line.shortName}</strong>
+                    <span className="mt-2 line-clamp-2 text-xs leading-relaxed text-mute-2">{line.use}</span>
+                    <span className="mt-auto pt-4 text-xs text-mute-3 transition-transform group-hover:translate-x-1 group-hover:text-paper">→</span>
+                  </Link>
+                ))}
               </div>
-            </details>
-            <Link href="/resultados" className="mobile-link">Resultados</Link>
-            <div className="mt-5 grid gap-3 sm:grid-cols-2">
-              <Link href="/configurador" className="button-primary">Montar meu amortecedor</Link>
-              <Link href="/contato" className="button-secondary">Contato</Link>
+            </div>
+          ) : (
+            <div className="site-container grid grid-cols-[1fr_1fr_.7fr] gap-px bg-line-1 py-7">
+              {companyLinks.map((item) => (
+                <Link key={item.href} href={item.href} onClick={closeAll} className="group min-h-48 bg-ink-card p-7 transition-colors hover:bg-accent-soft">
+                  <span className="font-mono text-[10px] text-accent">{item.code}</span>
+                  <h2 className="mt-8 text-2xl font-black tracking-[-0.04em] group-hover:text-accent">{item.label}</h2>
+                  <p className="mt-3 max-w-sm text-sm leading-relaxed text-mute-2">{item.description}</p>
+                </Link>
+              ))}
+              <div className="flex min-h-48 flex-col justify-between bg-accent p-7 text-ink">
+                <p className="font-mono text-[10px] font-semibold tracking-[0.12em] uppercase">Prova de campo</p>
+                <div>
+                  <strong className="block text-4xl font-black tracking-[-0.05em]">400 mil km</strong>
+                  <p className="mt-2 text-sm">Recuperado e de volta ao trabalho.</p>
+                </div>
+                <Link href="/resultados" onClick={closeAll} className="font-mono text-[11px] font-semibold">Ver resultados ↗</Link>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      <nav
+        id="mobile-menu"
+        aria-label="Navegação móvel"
+        aria-hidden={!mobileOpen}
+        onClick={(event) => {
+          if ((event.target as HTMLElement).closest("a")) closeAll();
+        }}
+        className={`fixed inset-x-0 top-[72px] bottom-0 overflow-y-auto bg-ink transition-[opacity,transform,visibility] duration-300 lg:hidden ${
+          mobileOpen ? "visible translate-y-0 opacity-100" : "invisible -translate-y-3 opacity-0"
+        }`}
+      >
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_90%_10%,rgba(47,211,93,.16),transparent_32%)]" />
+        <div className="site-container relative flex min-h-full flex-col py-7">
+          <div className="grid gap-0">
+            {[
+              ["01", "Home", "/"],
+              ["02", "Todas as linhas", "/linhas"],
+              ["03", "Quem somos", "/quem-somos"],
+              ["04", "Tecnologia", "/tecnologia"],
+              ["05", "Resultados", "/resultados"],
+            ].map(([number, label, href]) => (
+              <Link key={href} href={href} className="group flex min-h-16 items-center gap-4 border-b border-line-1 py-3">
+                <span className="font-mono text-[10px] text-accent">{number}</span>
+                <span className="text-2xl font-black tracking-[-0.04em] transition-transform group-hover:translate-x-1 group-hover:text-accent">{label}</span>
+              </Link>
+            ))}
+          </div>
+
+          <div className="mt-8">
+            <p className="mb-3 font-mono text-[10px] tracking-[0.14em] text-mute-3 uppercase">Linhas BUMP</p>
+            <div className="grid grid-cols-2 gap-px overflow-hidden border border-line-1 bg-line-1">
+              {productLines.map((line) => (
+                <Link key={line.slug} href={`/linhas/${line.slug}`} className="min-h-14 bg-ink-card p-3 text-sm font-semibold transition-colors hover:bg-accent-soft hover:text-accent">
+                  {line.shortName}
+                </Link>
+              ))}
             </div>
           </div>
-        </nav>
-      )}
+
+          <div className="mt-auto grid gap-3 pt-8 sm:grid-cols-2">
+            <Link href="/configurador" className="button-primary">Montar meu amortecedor</Link>
+            <Link href="/contato" className="button-secondary">Falar com especialista</Link>
+          </div>
+          <div className="mt-7 flex items-center justify-between border-t border-line-1 pt-4 font-mono text-[9px] text-mute-4">
+            <span>GRAVATAÍ · RS</span>
+            <span>DESDE 2013</span>
+          </div>
+        </div>
+      </nav>
     </header>
   );
 }
 
-function NavLink({ href, label, active }: { href: string; label: string; active: boolean }) {
-  return <Link href={href} aria-current={active ? "page" : undefined} className={`flex items-center border-b-2 px-1 font-mono text-xs tracking-[0.08em] transition-colors ${active ? "border-accent text-paper" : "border-transparent text-mute-1 hover:text-accent"}`}>{label}</Link>;
+function NavLink({ href, label, active, onNavigate }: { href: string; label: string; active: boolean; onNavigate: () => void }) {
+  return (
+    <Link
+      href={href}
+      onClick={onNavigate}
+      aria-current={active ? "page" : undefined}
+      className={`relative flex items-center px-5 font-mono text-[11px] tracking-[0.08em] transition-colors after:absolute after:inset-x-5 after:bottom-0 after:h-px after:origin-left after:bg-accent after:transition-transform ${
+        active ? "text-paper after:scale-x-100" : "text-mute-1 after:scale-x-0 hover:text-paper hover:after:scale-x-100"
+      }`}
+    >
+      {label}
+    </Link>
+  );
 }
 
-function Dropdown({ label, active, children }: { label: string; active: boolean; children: React.ReactNode }) {
+function MenuButton({ label, active, expanded, onOpen, onToggle }: { label: string; active: boolean; expanded: boolean; onOpen: () => void; onToggle: () => void }) {
   return (
-    <div className="group relative flex items-stretch">
-      <button type="button" className={`flex items-center gap-1 border-b-2 px-1 font-mono text-xs tracking-[0.08em] transition-colors ${active ? "border-accent text-paper" : "border-transparent text-mute-1 group-hover:text-accent"}`}>
-        {label} <span aria-hidden="true" className="text-[10px]">⌄</span>
-      </button>
-      <div className="invisible absolute top-full left-0 min-w-56 translate-y-1 border border-line-2 bg-ink p-2 opacity-0 shadow-2xl transition-all group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
-        {children}
-      </div>
-    </div>
+    <button
+      type="button"
+      aria-expanded={expanded}
+      onMouseEnter={onOpen}
+      onFocus={onOpen}
+      onClick={onToggle}
+      className={`relative flex items-center gap-1.5 px-5 font-mono text-[11px] tracking-[0.08em] transition-colors after:absolute after:inset-x-5 after:bottom-0 after:h-px after:origin-left after:bg-accent after:transition-transform ${
+        active || expanded ? "text-paper after:scale-x-100" : "text-mute-1 after:scale-x-0 hover:text-paper hover:after:scale-x-100"
+      }`}
+    >
+      {label}
+      <span aria-hidden="true" className={`text-[9px] transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}>⌄</span>
+    </button>
   );
 }

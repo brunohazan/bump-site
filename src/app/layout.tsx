@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Archivo, IBM_Plex_Mono } from "next/font/google";
+import { ScrollReveal } from "@/components/ScrollReveal";
 import { Footer } from "@/components/site/Footer";
 import { JsonLd } from "@/components/site/JsonLd";
 import { Header } from "@/components/site/Header";
@@ -45,6 +46,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         <JsonLd data={organizationJsonLd} />
         <JsonLd data={websiteJsonLd} />
+        <ScrollReveal />
         <Header />
         <main className="pt-[72px]">{children}</main>
         <Footer />

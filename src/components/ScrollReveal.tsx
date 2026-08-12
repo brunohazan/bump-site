@@ -1,28 +1,39 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 export function ScrollReveal() {
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const pathname = usePathname();
 
-    const els = document.querySelectorAll<HTMLElement>("[data-reveal]");
-    const io = new IntersectionObserver(
+  useEffect(() => {
+    const root = document.documentElement;
+    const elements = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+      root.classList.remove("reveal-ready");
+      elements.forEach((element) => element.classList.add("is-visible"));
+      return;
+    }
+
+    root.classList.add("reveal-ready");
+
+    const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            io.unobserve(entry.target);
-          }
+          if (!entry.isIntersecting) continue;
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
         }
       },
-      { threshold: 0.12 },
+      { rootMargin: "0px 0px -8%", threshold: 0.1 },
     );
 
-    els.forEach((el) => io.observe(el));
+    elements.forEach((element) => observer.observe(element));
 
-    return () => io.disconnect();
-  }, []);
+    return () => observer.disconnect();
+  }, [pathname]);
 
   return null;
 }
