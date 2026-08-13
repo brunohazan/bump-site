@@ -825,3 +825,38 @@
   :global(body.concept-force-motion) .productStage { top: 10vh; right: -18vw; width: 92vw; height: 58vh; opacity: clamp(0, calc((var(--journey) - .43) * 6), .86); transform: translate3d(calc((1 - var(--journey)) * 24vw), calc((.5 - var(--journey)) * 8vh), 0) rotate(calc(14deg - var(--journey) * 17deg)); }
   :global(body.concept-force-motion) .heroActions { align-items: stretch; }
 }
+
+
+/* Reduced motion keeps the same narrative composition instead of becoming a different page */
+@media (prefers-reduced-motion: reduce) {
+  :global(body:not(.concept-force-motion)) .journey { min-height: auto; }
+  :global(body:not(.concept-force-motion)) .sticky { position: relative; height: auto; min-height: auto; padding: 0; overflow: hidden; }
+  :global(body:not(.concept-force-motion)) .truckLayer { position: absolute; inset: 0 0 auto; height: 100svh; opacity: .72; transform: none; }
+  :global(body:not(.concept-force-motion)) .truckShade { background: linear-gradient(90deg,#000 0%,rgb(0 0 0 / 70%) 52%,transparent 90%),linear-gradient(0deg,#000 0%,transparent 48%,rgb(0 0 0 / 25%) 100%); }
+  :global(body:not(.concept-force-motion)) .terrain { right: -15vw; bottom: auto; top: 70svh; width: 130vw; height: 28vh; transform: none; }
+  :global(body:not(.concept-force-motion)) .productStage { position: absolute; z-index: 10; top: 8vh; right: -8vw; width: min(44vw,680px); height: 82vh; min-height: 0; margin: 0; opacity: .18; transform: rotate(-4deg); pointer-events: none; }
+  :global(body:not(.concept-force-motion)) .compressionScale { display: none; }
+  :global(body:not(.concept-force-motion)) .chapters { position: relative; z-index: 35; display: block; margin: 0; }
+  :global(body:not(.concept-force-motion)) .chapter { position: relative; inset: auto; display: flex; min-height: 78svh; width: auto; flex-direction: column; justify-content: flex-end; padding: 8rem max(13vw,calc((100vw - 1060px)/2)) 9vh; border: 0; background: linear-gradient(0deg,#000 0%,rgb(0 0 0 / 72%) 45%,transparent 100%); opacity: 1; transform: none; }
+  :global(body:not(.concept-force-motion)) .chapter:first-child { min-height: 100svh; padding-bottom: 9vh; background: linear-gradient(0deg,#000 0%,rgb(0 0 0 / 45%) 58%,transparent 100%); }
+  :global(body:not(.concept-force-motion)) .chapter h1,
+  :global(body:not(.concept-force-motion)) .chapter[data-key="terrain"] h1,
+  :global(body:not(.concept-force-motion)) .chapter[data-key="compression"] h1,
+  :global(body:not(.concept-force-motion)) .chapter[data-key="control"] h1 { max-width: 12ch; font-size: clamp(3rem,6vw,7rem); line-height: .86; }
+  :global(body:not(.concept-force-motion)) .description { max-width: 42rem; font-size: clamp(1rem,1.3vw,1.2rem); }
+  :global(body:not(.concept-force-motion)) .heroActions { align-items: center; }
+}
+
+@media (max-width: 900px) and (prefers-reduced-motion: reduce) {
+  :global(body:not(.concept-force-motion)) .truckLayer { height: 100svh; opacity: .78; }
+  :global(body:not(.concept-force-motion)) .truckImage { object-position: 62% center; }
+  :global(body:not(.concept-force-motion)) .terrain { top: 72svh; right: -80vw; width: 260vw; }
+  :global(body:not(.concept-force-motion)) .productStage { top: 5vh; right: -42vw; width: 110vw; height: 68vh; opacity: .11; }
+  :global(body:not(.concept-force-motion)) .chapter { min-height: 70svh; padding: 7rem 1.25rem 4rem; }
+  :global(body:not(.concept-force-motion)) .chapter:first-child { min-height: 100svh; padding-bottom: 7rem; }
+  :global(body:not(.concept-force-motion)) .chapter h1,
+  :global(body:not(.concept-force-motion)) .chapter[data-key="terrain"] h1,
+  :global(body:not(.concept-force-motion)) .chapter[data-key="compression"] h1,
+  :global(body:not(.concept-force-motion)) .chapter[data-key="control"] h1 { max-width: 13ch; font-size: clamp(2.55rem,11vw,4.6rem); }
+  :global(body:not(.concept-force-motion)) .heroActions { align-items: stretch; }
+}
