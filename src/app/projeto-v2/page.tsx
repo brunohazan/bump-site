@@ -43,12 +43,14 @@ const decisions = [
 ] as const;
 
 const visualEvolution = [
-  ["Header e mega menu", "Navegação transparente sobre o Hero, estado sólido no scroll, menus ricos por intenção e drawer móvel em tela cheia."],
-  ["Hero full-bleed", "Headline preservada em três linhas, mídia imersiva, CTAs claros e faixa de confiança integrada à primeira dobra."],
-  ["Home editorial", "Promessa assimétrica, grandes declarações e alternância entre conteúdo, produto e prova para criar ritmo narrativo."],
-  ["Seletor de uso", "Controle horizontal no mobile, grid no desktop e recomendação cinematográfica com produto, benefícios e próxima ação."],
-  ["Tecnologia cropada", "Produto Premium ultrapassa a moldura em uma cena sticky no desktop, com explicações técnicas traduzidas em benefício."],
-  ["Motion responsável", "Reveals, máscara, entrada do seletor e movimentos sutis com fallback completo para prefers-reduced-motion."],
+  ["Home e navegação", "Header transparente, mega menus, Hero full-bleed e narrativa editorial orientada a conforto e trabalho."],
+  ["Seis linhas", "Template único com Hero por produto, benefícios, cena técnica, ficha responsiva, aplicações e CTA contextual."],
+  ["Tecnologia", "Produto sticky no desktop, capítulos técnicos em fluxo mobile e comparação sem tabela quebrada."],
+  ["Configurador", "Nove etapas com recomendação visual, resumo persistente desktop e resumo expansível no mobile."],
+  ["Resultados", "Autoridade baseada em fatos, cenários não atribuídos e caso de 400 mil km com limite explicitado."],
+  ["Quem Somos", "Origem, princípios e processo verificável sem apresentar veículos como fotografias de fábrica."],
+  ["Motion responsável", "Reveals, máscaras e movimentos sutis com conteúdo íntegro e fallback completo para redução de movimento."],
+  ["Auditoria real", "Viewports exatos de 390×844 e 1440×1000, interações mobile e todas as rotas críticas verificadas."],
 ] as const;
 
 const tools = [
@@ -57,29 +59,30 @@ const tools = [
   ["TypeScript", "Contratos de conteúdo e validação em tempo de desenvolvimento"],
   ["Tailwind CSS v4", "Tokens CSS-first, cenas editoriais e interface responsiva"],
   ["IntersectionObserver", "Revelação progressiva sem biblioteca adicional de animação"],
-  ["Figma MCP", "Leitura direta dos wireframes e conferência da arquitetura visual"],
+  ["Chrome CDP", "Auditoria de viewports reais, movimento reduzido e interações"],
   ["Kiro CLI", "Implementação, inspeção, validação e fluxo de publicação"],
   ["Vercel", "Hospedagem e publicação contínua do site"],
 ] as const;
 
 const delivered = [
-  "Header transparente, mega menus desktop e drawer mobile acessível",
-  "Home cinematográfica com Hero full-bleed e headline preservada",
-  "Seletor editorial de uso e recomendação dinâmica de linha",
-  "Tecnologia cropada/sticky, marquee, autoridade, resultados e CTA final",
-  "Motion progressivo, route-aware e compatível com prefers-reduced-motion",
-  "Seis linhas com páginas geradas por template",
-  "Configurador interativo de nove passos e rotas institucionais completas",
+  "Header, mega menus e drawer mobile acessível",
+  "Home cinematográfica e recomendação dinâmica por uso",
+  "Seis linhas com template editorial e engenharia contextual",
+  "Tecnologia com narrativa por componentes e sticky apenas no desktop",
+  "Configurador local de nove passos com resumo responsivo",
+  "Resultados com evidências, ressalvas e sem depoimentos inventados",
+  "Quem Somos com origem, princípios e processo verificável",
+  "Motion progressivo e compatível com prefers-reduced-motion",
   "SEO/AEO, headers defensivos e formulários mantidos em modo seguro",
-  "Lint, TypeScript, build, rotas e viewports 390×844 e 1440×1000 validados",
+  "Lint, TypeScript, build, seis slugs, rotas e viewports reais validados",
 ] as const;
 
 const nextSteps = [
-  "Apresentação e ajuste fino de copy com o cliente",
-  "Substituição de fotos e logo provisórios pelos arquivos finais",
-  "Conexão segura dos formulários com consentimento e hardening LGPD",
-  "Medição de LCP, CLS e INP no tráfego real de produção",
-  "Evolução visual das páginas de linha, Tecnologia e Configurador",
+  "Aplicar manual de marca, logo vetorial e sistema visual final",
+  "Substituir imagens provisórias por fotografias aprovadas de produto, fábrica e equipe",
+  "Fazer ajuste fino de copy e conteúdo com o cliente",
+  "Conectar formulários somente após consentimento e hardening LGPD",
+  "Medir LCP, CLS e INP com tráfego real de produção",
 ] as const;
 
 export default function ProjectV2Page() {
@@ -214,8 +217,8 @@ export default function ProjectV2Page() {
       <section className="border-y border-line-1 bg-accent text-ink">
         <div className="site-container py-14 text-center">
           <p className="font-mono text-xs font-semibold">STATUS DA ENTREGA</p>
-          <h2 className="mt-3 text-3xl font-black md:text-5xl">Evolução visual implementada e validada localmente.</h2>
-          <p className="mx-auto mt-4 max-w-2xl">A versão está pronta para publicação e apresentação. Conteúdo final, formulários reais e próximas páginas permanecem separados desta etapa.</p>
+          <h2 className="mt-3 text-3xl font-black md:text-5xl">Ciclo visual ampliado, publicado e auditado.</h2>
+          <p className="mx-auto mt-4 max-w-2xl">Home, linhas, Tecnologia, Configurador, Resultados e Quem Somos formam uma base coerente. O próximo ciclo pode começar pelo manual de marca, logo e imagens finais.</p>
         </div>
       </section>
     </>

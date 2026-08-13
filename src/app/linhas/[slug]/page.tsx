@@ -43,7 +43,7 @@ export default async function ProductLinePage({ params }: LinePageProps) {
               <span className="h-px w-10 bg-accent" />
               <span className="font-mono text-[10px] tracking-[0.12em] text-mute-2 uppercase">{line.badge}</span>
             </div>
-            <h1 data-reveal data-delay="1" className="mt-6 text-[clamp(3.5rem,8.5vw,8.5rem)] leading-[.82] font-black tracking-[-0.065em] uppercase">
+            <h1 data-reveal data-delay="1" className="mt-6 text-[clamp(2.2rem,11vw,3.25rem)] leading-[.86] font-black tracking-[-0.065em] uppercase md:text-[clamp(3.5rem,8.5vw,8.5rem)] md:leading-[.82]">
               {line.shortName}
             </h1>
             <p data-reveal data-delay="2" className="mt-7 max-w-xl text-xl leading-tight font-black tracking-[-0.025em] md:text-3xl">{line.headline}</p>

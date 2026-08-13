@@ -39,7 +39,7 @@ export default function AboutPage() {
         <div className="site-container relative grid min-h-[760px] items-center gap-10 py-14 lg:grid-cols-[.9fr_1.1fr] lg:py-20">
           <div className="relative z-10">
             <Eyebrow>Origem, fábrica e propósito</Eyebrow>
-            <h1 data-reveal className="max-w-[10ch] text-[clamp(3.5rem,8vw,8.5rem)] leading-[.84] font-black tracking-[-0.065em] uppercase">Piloto antes de fabricante.</h1>
+            <h1 data-reveal className="max-w-[10ch] text-[clamp(2.2rem,11vw,3.25rem)] leading-[.88] font-black tracking-[-0.065em] uppercase md:text-[clamp(3.5rem,8vw,8.5rem)] md:leading-[.84]">Piloto antes de fabricante.</h1>
             <p data-reveal data-delay="1" className="mt-7 max-w-xl text-lg leading-relaxed text-mute-1">A BUMP nasceu de uma pergunta sentida no volante: por que aceitar uma suspensão que castiga o corpo e perde comportamento quando o terreno exige mais?</p>
             <div data-reveal data-delay="2" className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link href="#historia" className="button-primary">Conhecer a origem</Link>
