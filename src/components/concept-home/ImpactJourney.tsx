@@ -126,7 +126,7 @@ export function ImpactJourney() {
 
     <section className={styles.authority}>
       <div className={styles.sectionIntro} data-reveal><p className={styles.sectionCode}>10 · Autoridade sem personagem</p><h2>Fábrica própria. Engenharia que começa no volante.</h2></div>
-      <div className={styles.authorityGrid}><article data-reveal><span>GRAVATAÍ · RS</span><h3>Piloto antes de fabricante.</h3><p>A experiência no terreno virou método técnico e produção sob medida. Sem usar imagem genérica para representar fundador ou fábrica.</p><Link href="/quem-somos">Conhecer a história ↗</Link></article><article data-reveal><span>EVIDÊNCIA DECLARADA</span><h3>O que afirmamos tem limite.</h3><p>13+ anos de fábrica, produção própria no Brasil, 2 anos contra vazamento e o caso factual de 400 mil km.</p><Link href="/resultados">Ver evidências ↗</Link></article></div>
+      <div className={styles.authorityGrid}><article data-reveal><span>CENÁRIO DE APLICAÇÃO · IMAGEM TEMPORÁRIA</span><h3>Piloto antes de fabricante.</h3><p>A experiência no terreno virou método técnico e produção sob medida. A imagem ilustra o tipo de aplicação; não representa fundador ou fábrica.</p><Link href="/quem-somos">Conhecer a história ↗</Link></article><article data-reveal><span>EVIDÊNCIA DECLARADA · CENÁRIO TEMPORÁRIO</span><h3>O que afirmamos tem limite.</h3><p>13+ anos de fábrica, produção própria no Brasil, 2 anos contra vazamento e o caso factual de 400 mil km.</p><Link href="/resultados">Ver evidências ↗</Link></article></div>
     </section>
 
     <section className={styles.finalCta}>

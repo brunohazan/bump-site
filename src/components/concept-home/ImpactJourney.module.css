@@ -720,3 +720,54 @@
 @media(prefers-reduced-motion:reduce){
   .experience [data-reveal]{opacity:1;transform:none;transition:none}.marquee>div,.fluid,.useScene,.lineProduct img{animation:none!important}.useProduct img,.engineeringVisual img{transform:none}.engineeringVisual{position:relative}.finalCta{min-height:760px}
 }
+
+
+/* Photographic fine-tuning · existing BUMP-hosted application scenes */
+.promise::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  right: 0;
+  width: 48%;
+  height: 62%;
+  background: linear-gradient(90deg, #fff 0%, transparent 34%), linear-gradient(0deg, #fff 0%, transparent 42%), url("https://pub-8f0b05c2503f42609136a4e1e55a9242.r2.dev/banco_web_800/ranger.webp") 62% center / cover;
+  filter: grayscale(1) contrast(1.12);
+  opacity: .58;
+  clip-path: polygon(24% 0, 100% 0, 100% 100%, 0 84%);
+}
+.promise > * { position: relative; z-index: 2; }
+.promise h2 { max-width: 10ch; text-shadow: 0 2px 0 rgb(255 255 255 / 45%); }
+.durability::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0 0 0 48%;
+  background: linear-gradient(90deg, var(--citrus), transparent 52%), linear-gradient(0deg, var(--citrus), transparent 46%), url("https://pub-8f0b05c2503f42609136a4e1e55a9242.r2.dev/banco_web_800/ram1500.webp") center / cover;
+  filter: grayscale(1) contrast(1.15) brightness(.8);
+  mix-blend-mode: multiply;
+  opacity: .52;
+}
+.authorityGrid article {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-position: center;
+  background-size: cover;
+}
+.authorityGrid article:first-child { background-image: linear-gradient(90deg, rgb(0 0 0 / 95%), rgb(0 0 0 / 45%)), url("https://pub-8f0b05c2503f42609136a4e1e55a9242.r2.dev/banco_web_800/ranger.webp"); }
+.authorityGrid article:last-child { background-image: linear-gradient(90deg, rgb(0 0 0 / 92%), rgb(0 0 0 / 48%)), url("https://pub-8f0b05c2503f42609136a4e1e55a9242.r2.dev/banco_web_800/hilux.webp"); }
+.authorityGrid article::after { content: ""; position: absolute; z-index: -1; inset: 0; background: linear-gradient(0deg, #050505 0%, transparent 72%); }
+.authorityGrid article > * { position: relative; z-index: 2; }
+.authorityGrid h3 { color: #fff; text-shadow: 0 3px 24px #000; }
+.authorityGrid p { color: rgb(255 255 255 / 78%); }
+
+@media (max-width: 900px) {
+  .promise::after { top: 12%; width: 100%; height: 34%; opacity: .2; clip-path: none; background-image: linear-gradient(0deg, #fff 0%, transparent 45%), url("https://pub-8f0b05c2503f42609136a4e1e55a9242.r2.dev/banco_web_800/ranger.webp"); }
+  .durability::before { inset: 0; opacity: .18; background-image: linear-gradient(0deg, var(--citrus) 0%, transparent 55%), url("https://pub-8f0b05c2503f42609136a4e1e55a9242.r2.dev/banco_web_800/ram1500.webp"); }
+  .authorityGrid article { min-height: 480px; background-position: 58% center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .promise::after, .durability::before, .authorityGrid article { background-attachment: scroll; }
+}

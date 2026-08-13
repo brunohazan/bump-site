@@ -19,6 +19,14 @@ Entradas: vídeo de referência United Cargo + guia básico de estilo BUMP
 
 Limitações conhecidas: a compressão continua conceitual sobre um único asset; Horizon licenciada, logo vetorial, estados reais comprimido/estendido, fotos de instalação, fundador e fábrica continuam pendentes. A migração para `/` depende de aprovação explícita.
 
+### Passagem fotográfica
+
+- A seção `O corpo` usa a Ranger existente como máscara editorial.
+- O caso de durabilidade usa a RAM 1500 como cenário de aplicação, sem atribuí-la ao equipamento de 400 mil km.
+- Os cards de autoridade usam Ranger e Hilux com identificação explícita de imagem temporária; não representam fundador, fábrica ou depoimento.
+- Três candidatos Pexels para poeira, picape em trilha e estrada de cascalho foram verificados e registrados em `docs/assets/stock-manifest.csv` como `proposed`.
+- Nenhum candidato de banco foi baixado ou publicado neste checkpoint.
+
 ## Ideia central
 
 **Toda força procura um caminho. A BUMP decide quanto dela chega ao corpo.**
