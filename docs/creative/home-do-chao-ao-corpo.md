@@ -13,7 +13,7 @@ Entradas: vídeo de referência United Cargo + guia básico de estilo BUMP
 - Interações: quatro estágios de impacto por scroll, seletor de rotina, troca das seis linhas, marquee e acordeões nativos.
 - Conteúdo factual: dados existentes de produto, 13+ anos, 2 anos contra vazamento, produção própria e caso real de 400 mil km com limite explícito.
 - Assets: somente imagens BUMP já hospedadas; nenhuma fotografia genérica representa fundador, fábrica, cliente ou depoimento.
-- Acessibilidade: mobile próprio e versão estática integral em `prefers-reduced-motion`.
+- Acessibilidade: mobile próprio e versão estática integral em `prefers-reduced-motion`; quando o Windows/Chrome ativa essa preferência, a interface informa o modo e oferece `Ativar movimento` para restaurar explicitamente a jornada cinematográfica.
 - Auditoria visual: desktop `1440×1000` (15.626 px de altura), mobile `390×844` (13.743 px) e reduced motion `390×844` (12.706 px), todos sem overflow horizontal e com shell global isolado.
 - Validação técnica: ESLint, TypeScript, build de produção e `git diff --check` aprovados.
 

@@ -34,11 +34,21 @@ function stageFromProgress(progress: number) {
 export function ImpactJourney() {
   const journeyRef = useRef<HTMLElement>(null);
   const frameRef = useRef<number | null>(null);
+  const forceMotionRef = useRef(false);
+  const [motionReduced, setMotionReduced] = useState(false);
   const [useId, setUseId] = useState<(typeof useCases)[number]["id"]>(useCases[0].id);
   const [lineIndex, setLineIndex] = useState(0);
   const useCase = useCases.find((item) => item.id === useId) ?? useCases[0];
   const useLine = getProductLine(useCase.line)!;
   const activeLine = productLines[lineIndex];
+
+  const enableMotion = () => {
+    forceMotionRef.current = true;
+    document.body.classList.add("concept-force-motion");
+    journeyRef.current?.setAttribute("data-force-motion", "true");
+    setMotionReduced(false);
+    window.dispatchEvent(new Event("resize"));
+  };
 
   useEffect(() => {
     const body = document.body;
@@ -46,9 +56,10 @@ export function ImpactJourney() {
     if (!journey) return;
     body.classList.add("concept-mode");
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const prefersReduced = () => media.matches && !forceMotionRef.current;
     const update = () => {
       frameRef.current = null;
-      if (media.matches) { journey.style.setProperty("--journey", ".68"); journey.dataset.stage = "control"; return; }
+      if (prefersReduced()) { journey.style.setProperty("--journey", ".68"); journey.dataset.stage = "control"; return; }
       const rect = journey.getBoundingClientRect();
       const distance = Math.max(journey.offsetHeight - window.innerHeight, 1);
       const progress = Math.min(1, Math.max(0, -rect.top / distance));
@@ -56,18 +67,19 @@ export function ImpactJourney() {
       journey.dataset.stage = stageFromProgress(progress);
     };
     const requestUpdate = () => { if (frameRef.current === null) frameRef.current = requestAnimationFrame(update); };
+    const syncPreference = () => { setMotionReduced(prefersReduced()); requestUpdate(); };
     const observer = new IntersectionObserver((entries) => entries.forEach((entry) => entry.target.toggleAttribute("data-visible", entry.isIntersecting)), { threshold: .12 });
     document.querySelectorAll(`.${styles.experience} [data-reveal]`).forEach((node) => observer.observe(node));
-    update();
-    addEventListener("scroll", requestUpdate, { passive: true }); addEventListener("resize", requestUpdate); media.addEventListener("change", requestUpdate);
-    return () => { body.classList.remove("concept-mode"); removeEventListener("scroll", requestUpdate); removeEventListener("resize", requestUpdate); media.removeEventListener("change", requestUpdate); observer.disconnect(); if (frameRef.current !== null) cancelAnimationFrame(frameRef.current); };
+    syncPreference();
+    addEventListener("scroll", requestUpdate, { passive: true }); addEventListener("resize", requestUpdate); media.addEventListener("change", syncPreference);
+    return () => { body.classList.remove("concept-mode", "concept-force-motion"); removeEventListener("scroll", requestUpdate); removeEventListener("resize", requestUpdate); media.removeEventListener("change", syncPreference); observer.disconnect(); if (frameRef.current !== null) cancelAnimationFrame(frameRef.current); };
   }, []);
 
-  return <div className={styles.experience}>
+  return <div className={styles.experience} data-motion={motionReduced ? "reduced" : "full"}>
     <header className={styles.topbar}>
       <Link href="/" className={styles.brand}>BUMP</Link>
       <nav className={styles.miniNav}><a href="#rotina">Rotina</a><a href="#engenharia">Engenharia</a><a href="#linhas">Linhas</a><a href="#resultados">400 mil km</a></nav>
-      <Link href="/" className={styles.exit}>Sair ↗</Link>
+      <div className={styles.topActions}>{motionReduced && <button type="button" className={styles.motionToggle} onClick={enableMotion}>Ativar movimento</button>}<Link href="/" className={styles.exit}>Sair ↗</Link></div>
     </header>
 
     <section ref={journeyRef} className={styles.journey} data-stage="hero">

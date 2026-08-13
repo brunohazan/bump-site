@@ -771,3 +771,57 @@
 @media (prefers-reduced-motion: reduce) {
   .promise::after, .durability::before, .authorityGrid article { background-attachment: scroll; }
 }
+
+
+/* Explicit motion opt-in for browsers/OSes reporting reduced motion */
+.topActions { justify-self: end; display: flex; align-items: center; gap: .9rem; }
+.motionToggle { min-height: 34px; padding: .55rem .8rem; border: 1px solid var(--citrus); background: var(--citrus); color: #000; font-size: .58rem; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
+.experience[data-motion="reduced"]::before { content: "Movimento reduzido pelo sistema"; position: fixed; z-index: 79; right: 4vw; top: 78px; padding: .45rem .65rem; background: #000; color: rgb(255 255 255 / 62%); border: 1px solid rgb(255 255 255 / 18%); font-size: .52rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+
+@media (prefers-reduced-motion: reduce) {
+  :global(body.concept-force-motion) .journey { min-height: 410svh; }
+  :global(body.concept-force-motion) .sticky { position: sticky; top: 0; height: 100svh; min-height: 620px; padding: 0; overflow: hidden; }
+  :global(body.concept-force-motion) .truckLayer { position: absolute; opacity: clamp(.08, calc(1 - var(--journey) * 1.45), 1); transform: translate3d(calc(var(--journey) * -8vw), 0, 0) scale(calc(1 + var(--journey) * .18)); }
+  :global(body.concept-force-motion) .terrain { right: -15vw; bottom: -2vh; width: 130vw; transform: translate3d(calc(var(--journey) * -24vw), calc(var(--journey) * -5vh), 0) scaleY(calc(1 + var(--journey) * .4)); }
+  :global(body.concept-force-motion) .productStage { position: absolute; top: 9vh; right: 5vw; width: min(49vw, 720px); height: 84vh; min-height: 0; margin: 0; opacity: clamp(0, calc((var(--journey) - .36) * 5.4), 1); transform: translate3d(calc((1 - var(--journey)) * 18vw), calc((.55 - var(--journey)) * 12vh), 0) rotate(calc(10deg - var(--journey) * 13deg)) scale(calc(.78 + var(--journey) * .24)); }
+  :global(body.concept-force-motion) .productImage { transform: scaleY(clamp(.82, calc(1 - (var(--journey) - .56) * .35), 1)); }
+  :global(body.concept-force-motion) .energyPath { display: block; }
+  :global(body.concept-force-motion) .impactPulse { display: block; }
+  :global(body.concept-force-motion) .stageRail { display: flex; }
+  :global(body.concept-force-motion) .progress, :global(body.concept-force-motion) .conceptNote { display: block; }
+  :global(body.concept-force-motion) .chapters { position: absolute; display: block; inset: 0; margin: 0; }
+  :global(body.concept-force-motion) .chapter { position: absolute; left: 13vw; right: auto; bottom: 10vh; width: min(50rem, 58vw); padding: 0; border: 0; background: transparent; opacity: 0; transform: translateY(28px); }
+  :global(body.concept-force-motion) .journey[data-stage="hero"] .chapter[data-key="hero"],
+  :global(body.concept-force-motion) .journey[data-stage="terrain"] .chapter[data-key="terrain"],
+  :global(body.concept-force-motion) .journey[data-stage="compression"] .chapter[data-key="compression"],
+  :global(body.concept-force-motion) .journey[data-stage="control"] .chapter[data-key="control"] { opacity: 1; transform: none; }
+  :global(body.concept-force-motion) .chapter h1,
+  :global(body.concept-force-motion) .chapter[data-key="terrain"] h1,
+  :global(body.concept-force-motion) .chapter[data-key="compression"] h1,
+  :global(body.concept-force-motion) .chapter[data-key="control"] h1 { max-width: 12ch; font-size: clamp(2.9rem, 5.7vw, 6.8rem); }
+  :global(body.concept-force-motion) .chapter[data-key="hero"] h1 { font-size: clamp(3.2rem, 6.4vw, 7.8rem); }
+  :global(body.concept-force-motion) .heroActions { align-items: center; }
+  :global(body.concept-force-motion) .experience [data-reveal] { opacity: 0 !important; transform: translateY(50px) !important; transition: opacity .7s ease, transform .9s cubic-bezier(.2,.7,.2,1) !important; }
+  :global(body.concept-force-motion) .experience [data-reveal][data-visible] { opacity: 1 !important; transform: none !important; }
+  :global(body.concept-force-motion) .marquee > div { animation: brandMove 28s linear infinite !important; }
+  :global(body.concept-force-motion) .fluid { animation: spin 18s linear infinite !important; }
+}
+
+@media (max-width: 900px) and (prefers-reduced-motion: reduce) {
+  .topActions { gap: .55rem; }
+  .motionToggle { padding-inline: .6rem; font-size: .52rem; }
+  .experience[data-motion="reduced"]::before { left: 1.25rem; right: auto; top: 76px; }
+  :global(body.concept-force-motion) .journey { min-height: 330svh; }
+  :global(body.concept-force-motion) .sticky { min-height: 560px; }
+  :global(body.concept-force-motion) .truckLayer { opacity: clamp(.1, calc(1 - var(--journey) * 1.6), .82); transform: translate3d(calc(var(--journey) * -14vw), 0, 0) scale(calc(1.1 + var(--journey) * .16)); }
+  :global(body.concept-force-motion) .terrain { right: -80vw; width: 260vw; height: 30vh; transform: translate3d(calc(var(--journey) * -75vw), 0, 0) scaleY(calc(1 + var(--journey) * .25)); }
+  :global(body.concept-force-motion) .stageRail { display: none; }
+  :global(body.concept-force-motion) .chapter { left: 1.25rem; right: 1.25rem; bottom: 7.5rem; width: auto; }
+  :global(body.concept-force-motion) .chapter h1,
+  :global(body.concept-force-motion) .chapter[data-key="hero"] h1,
+  :global(body.concept-force-motion) .chapter[data-key="terrain"] h1,
+  :global(body.concept-force-motion) .chapter[data-key="compression"] h1,
+  :global(body.concept-force-motion) .chapter[data-key="control"] h1 { max-width: 13ch; font-size: clamp(2.25rem, 11vw, 4.4rem); }
+  :global(body.concept-force-motion) .productStage { top: 10vh; right: -18vw; width: 92vw; height: 58vh; opacity: clamp(0, calc((var(--journey) - .43) * 6), .86); transform: translate3d(calc((1 - var(--journey)) * 24vw), calc((.5 - var(--journey)) * 8vh), 0) rotate(calc(14deg - var(--journey) * 17deg)); }
+  :global(body.concept-force-motion) .heroActions { align-items: stretch; }
+}
