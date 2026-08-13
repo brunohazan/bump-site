@@ -56,6 +56,12 @@ export function ImpactJourney() {
     if (!journey) return;
     body.classList.add("concept-mode");
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const explicitReduced = new URLSearchParams(window.location.search).get("motion") === "reduce";
+    if (!explicitReduced) {
+      forceMotionRef.current = true;
+      body.classList.add("concept-force-motion");
+      journey.setAttribute("data-force-motion", "true");
+    }
     const prefersReduced = () => media.matches && !forceMotionRef.current;
     const update = () => {
       frameRef.current = null;
