@@ -2,168 +2,143 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
-import { ASSET_BASE } from "@/lib/site-data";
+import { useEffect, useRef, useState } from "react";
+import { ASSET_BASE, faqItems, getProductLine, productLines, useCases, vehicleBrands } from "@/lib/site-data";
 import styles from "./ImpactJourney.module.css";
 
 const stages = [
-  { key: "hero", number: "01", label: "O chão", title: "Conforto que faz o corpo chegar inteiro.", text: "Toda força começa no terreno. A jornada mostra o caminho que ela percorre antes de chegar em quem dirige." },
+  { key: "hero", number: "01", label: "O chão", title: "Conforto que faz o corpo chegar inteiro.", text: "Toda força começa no terreno. A jornada acompanha o caminho que ela percorre antes de chegar em quem dirige." },
   { key: "terrain", number: "02", label: "O terreno muda", title: "O chão muda. A força continua.", text: "Asfalto, cascalho, barro e carga alteram a frequência do impacto. O amortecedor precisa responder ao uso real." },
   { key: "compression", number: "03", label: "Compressão", title: "O que para aqui não precisa chegar em você.", text: "A roda sobe, a haste entra e o conjunto controla a energia antes que a carroceria repita todo o movimento." },
-  { key: "control", number: "04", label: "Controle", title: "Pressão, fluido e retorno viram conforto.", text: "Esta é uma visualização conceitual. O acerto final considera veículo, carga, altura e rotina antes da produção." },
+  { key: "control", number: "04", label: "Controle", title: "Pressão, fluido e retorno viram conforto.", text: "Visualização conceitual. O acerto final considera veículo, carga, altura e rotina antes da produção." },
+] as const;
+
+const useImages: Record<string, string> = {
+  urbano: `${ASSET_BASE}/banco_web_800/ram1500.webp`, agro: `${ASSET_BASE}/banco_web_800/ranger.webp`,
+  trilha: `${ASSET_BASE}/banco_web_800/hilux.webp`, rally: `${ASSET_BASE}/banco_web_800/triton.webp`,
+};
+const technology = [
+  ["01", "Corpo duplo + monotubo", "Mais volume de fluido, proteção externa e resposta consistente quando a jornada se estende."],
+  ["02", "Haste de 20 mm", "Aço temperado e construção preparada para o trabalho mecânico do conjunto."],
+  ["03", "Pressão sob medida", "Veículo, carga, altura e uso orientam o acerto. Não existe uma pressão única para toda picape."],
+  ["04", "Recuperável", "O equipamento pode voltar à fábrica para desmontagem, inspeção e recuperação."],
 ] as const;
 
 function stageFromProgress(progress: number) {
-  if (progress >= 0.79) return "control";
-  if (progress >= 0.53) return "compression";
-  if (progress >= 0.26) return "terrain";
+  if (progress >= .79) return "control";
+  if (progress >= .53) return "compression";
+  if (progress >= .26) return "terrain";
   return "hero";
 }
 
 export function ImpactJourney() {
   const journeyRef = useRef<HTMLElement>(null);
   const frameRef = useRef<number | null>(null);
+  const [useId, setUseId] = useState<(typeof useCases)[number]["id"]>(useCases[0].id);
+  const [lineIndex, setLineIndex] = useState(0);
+  const useCase = useCases.find((item) => item.id === useId) ?? useCases[0];
+  const useLine = getProductLine(useCase.line)!;
+  const activeLine = productLines[lineIndex];
 
   useEffect(() => {
     const body = document.body;
     const journey = journeyRef.current;
     if (!journey) return;
-
     body.classList.add("concept-mode");
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-
     const update = () => {
       frameRef.current = null;
-      if (media.matches) {
-        journey.style.setProperty("--journey", "0.68");
-        journey.dataset.stage = "control";
-        return;
-      }
-
+      if (media.matches) { journey.style.setProperty("--journey", ".68"); journey.dataset.stage = "control"; return; }
       const rect = journey.getBoundingClientRect();
       const distance = Math.max(journey.offsetHeight - window.innerHeight, 1);
       const progress = Math.min(1, Math.max(0, -rect.top / distance));
       journey.style.setProperty("--journey", progress.toFixed(4));
       journey.dataset.stage = stageFromProgress(progress);
     };
-
-    const requestUpdate = () => {
-      if (frameRef.current !== null) return;
-      frameRef.current = window.requestAnimationFrame(update);
-    };
-
+    const requestUpdate = () => { if (frameRef.current === null) frameRef.current = requestAnimationFrame(update); };
+    const observer = new IntersectionObserver((entries) => entries.forEach((entry) => entry.target.toggleAttribute("data-visible", entry.isIntersecting)), { threshold: .12 });
+    document.querySelectorAll(`.${styles.experience} [data-reveal]`).forEach((node) => observer.observe(node));
     update();
-    window.addEventListener("scroll", requestUpdate, { passive: true });
-    window.addEventListener("resize", requestUpdate);
-    media.addEventListener("change", requestUpdate);
-
-    return () => {
-      body.classList.remove("concept-mode");
-      window.removeEventListener("scroll", requestUpdate);
-      window.removeEventListener("resize", requestUpdate);
-      media.removeEventListener("change", requestUpdate);
-      if (frameRef.current !== null) window.cancelAnimationFrame(frameRef.current);
-    };
+    addEventListener("scroll", requestUpdate, { passive: true }); addEventListener("resize", requestUpdate); media.addEventListener("change", requestUpdate);
+    return () => { body.classList.remove("concept-mode"); removeEventListener("scroll", requestUpdate); removeEventListener("resize", requestUpdate); media.removeEventListener("change", requestUpdate); observer.disconnect(); if (frameRef.current !== null) cancelAnimationFrame(frameRef.current); };
   }, []);
 
-  return (
-    <div className={styles.experience}>
-      <header className={styles.topbar}>
-        <Link href="/" className={styles.brand} aria-label="Voltar para a Home BUMP">BUMP</Link>
-        <div className={styles.prototypeTag}><span /> Conceito navegável · v0.1</div>
-        <Link href="/" className={styles.exit}>Sair do conceito ↗</Link>
-      </header>
+  return <div className={styles.experience}>
+    <header className={styles.topbar}>
+      <Link href="/" className={styles.brand}>BUMP</Link>
+      <nav className={styles.miniNav}><a href="#rotina">Rotina</a><a href="#engenharia">Engenharia</a><a href="#linhas">Linhas</a><a href="#resultados">400 mil km</a></nav>
+      <Link href="/" className={styles.exit}>Sair ↗</Link>
+    </header>
 
-      <section ref={journeyRef} className={styles.journey} data-stage="hero" aria-label="Jornada do impacto, do chão ao corpo">
-        <div className={styles.sticky}>
-          <div className={styles.grid} aria-hidden="true" />
-          <div className={styles.noise} aria-hidden="true" />
+    <section ref={journeyRef} className={styles.journey} data-stage="hero">
+      <div className={styles.sticky}>
+        <div className={styles.grid}/><div className={styles.noise}/>
+        <div className={styles.truckLayer}><Image src={`${ASSET_BASE}/amortecedores/hero.png`} alt="Picape atravessando terreno irregular" fill priority sizes="100vw" className={styles.truckImage}/><div className={styles.truckShade}/></div>
+        <svg className={styles.terrain} viewBox="0 0 1600 300" preserveAspectRatio="none" aria-hidden="true"><path className={styles.terrainGhost} d="M0 180 C150 120 250 235 390 175 S650 110 770 190 S1030 240 1160 150 S1430 100 1600 185"/><path className={styles.terrainLine} d="M0 180 C150 120 250 235 390 175 S650 110 770 190 S1030 240 1160 150 S1430 100 1600 185"/></svg>
+        <div className={styles.impactPulse}><span/><span/><span/></div>
+        <div className={styles.productStage}><div className={styles.productHalo}/><Image src={productLines[2].image} alt="Amortecedor BUMP Premium em visualização conceitual" fill sizes="(min-width:900px) 48vw,88vw" className={styles.productImage}/><div className={styles.compressionScale}><span>EXTENSÃO</span><i/><span>COMPRESSÃO</span></div></div>
+        <div className={styles.energyPath}><span/><span/><span/></div>
+        <nav className={styles.stageRail}>{stages.map((stage) => <div key={stage.key} className={styles.railItem} data-key={stage.key}><span>{stage.number}</span><i/><strong>{stage.label}</strong></div>)}</nav>
+        <div className={styles.chapters}>{stages.map((stage) => <article key={stage.key} className={styles.chapter} data-key={stage.key}><p className={styles.eyebrow}>{stage.number} · {stage.label}</p><h1>{stage.title}</h1><p className={styles.description}>{stage.text}</p>{stage.key === "hero" && <div className={styles.heroActions}><a href="#rotina" className={styles.primaryAction}>Acompanhar a força</a><span>Role para entrar no sistema</span></div>}</article>)}</div>
+        <div className={styles.progress}><span/></div><p className={styles.conceptNote}>Movimento conceitual · acerto sujeito à validação técnica</p>
+      </div>
+    </section>
 
-          <div className={styles.truckLayer}>
-            <Image
-              src={`${ASSET_BASE}/amortecedores/hero.png`}
-              alt="Picape atravessando terreno irregular"
-              fill
-              priority
-              sizes="100vw"
-              className={styles.truckImage}
-            />
-            <div className={styles.truckShade} />
-          </div>
+    <section className={styles.promise} data-reveal>
+      <p className={styles.sectionCode}>05 · O corpo</p><h2>A última peça do sistema não é de metal.</h2>
+      <div className={styles.bodyGrid}><p>É o corpo de quem dirige. Conforto não é adorno: é reduzir o impacto acumulado sem tirar controle da ferramenta.</p><div className={styles.wave}><i/><i/><i/><span>IMPACTO ENTRA</span><b>ENERGIA CONTROLADA</b></div></div>
+      <div className={styles.trust}>{[["13+","anos de fábrica"],["2 anos","contra vazamento"],["Sob medida","veículo e uso"],["Brasil","produção própria"]].map(([a,b])=><div key={b}><strong>{a}</strong><span>{b}</span></div>)}</div>
+    </section>
 
-          <svg className={styles.terrain} viewBox="0 0 1600 300" preserveAspectRatio="none" aria-hidden="true">
-            <path className={styles.terrainGhost} d="M0 180 C150 120 250 235 390 175 S650 110 770 190 S1030 240 1160 150 S1430 100 1600 185" />
-            <path className={styles.terrainLine} d="M0 180 C150 120 250 235 390 175 S650 110 770 190 S1030 240 1160 150 S1430 100 1600 185" />
-          </svg>
+    <section id="rotina" className={styles.uses}>
+      <div className={styles.sectionIntro} data-reveal><p className={styles.sectionCode}>06 · O uso define o acerto</p><h2>Qual chão repete no seu corpo todo dia?</h2><p>Escolha a rotina. A cena, o produto e o ponto de partida mudam juntos.</p></div>
+      <div className={styles.useTabs}>{useCases.map((item)=><button key={item.id} type="button" data-active={item.id===useId} onClick={()=>setUseId(item.id)}><span>{item.number}</span>{item.label}</button>)}<Link href="/configurador?uso=projeto"><span>05</span>Projeto especial ↗</Link></div>
+      <article className={styles.useScene} key={useId}>
+        <Image src={useImages[useId]} alt={`Picape em cenário de ${useCase.label.toLowerCase()}`} fill sizes="100vw" className={styles.useBackground}/><div className={styles.useShade}/>
+        <div className={styles.useCopy}><p>Recomendado para {useCase.label}</p><h3>{useLine.shortName}</h3><span>{useCase.description} {useLine.description}</span><div><Link className={styles.primaryAction} href={`/configurador?linha=${useLine.slug}&uso=${useId}`}>Montar essa linha</Link><Link href={`/linhas/${useLine.slug}`}>Ver detalhes ↗</Link></div></div>
+        <div className={styles.useProduct}><Image src={useLine.image} alt={useLine.name} fill sizes="(min-width:900px) 42vw,85vw"/></div>
+      </article>
+    </section>
 
-          <div className={styles.impactPulse} aria-hidden="true">
-            <span /><span /><span />
-          </div>
+    <section className={styles.brands}><p>Picapes que encontram seu acerto</p><div className={styles.marquee}><div>{[...vehicleBrands,...vehicleBrands].map((brand,i)=><span key={`${brand}-${i}`}>{brand}</span>)}</div></div></section>
 
-          <div className={styles.productStage}>
-            <div className={styles.productHalo} aria-hidden="true" />
-            <Image
-              src={`${ASSET_BASE}/amortecedoressemfundo/amortecedorpremiumsemfundo.webp`}
-              alt="Amortecedor BUMP Premium em visualização conceitual de compressão"
-              fill
-              sizes="(min-width: 900px) 48vw, 88vw"
-              className={styles.productImage}
-            />
-            <div className={styles.compressionScale} aria-hidden="true">
-              <span>EXTENSÃO</span>
-              <i />
-              <span>COMPRESSÃO</span>
-            </div>
-          </div>
+    <section id="engenharia" className={styles.engineering}>
+      <div className={styles.engineeringVisual}><div className={styles.fluid}><i/><i/><i/><i/><i/></div><Image src={productLines[2].image} alt="Vista técnica do amortecedor BUMP" fill sizes="50vw"/><span>PRESSÃO → FLUIDO → RETORNO</span></div>
+      <div className={styles.engineeringCopy}><div className={styles.sectionIntro} data-reveal><p className={styles.sectionCode}>07 · Dentro do amortecedor</p><h2>A engenharia só termina quando chega ao corpo.</h2></div>{technology.map(([n,title,text])=><article key={n} data-reveal><span>{n}</span><div><h3>{title}</h3><p>{text}</p></div></article>)}<Link href="/tecnologia">Entender toda a engenharia ↗</Link></div>
+    </section>
 
-          <div className={styles.energyPath} aria-hidden="true">
-            <span className={styles.energyOne} />
-            <span className={styles.energyTwo} />
-            <span className={styles.energyThree} />
-          </div>
+    <section id="linhas" className={styles.lines}>
+      <div className={styles.sectionIntro} data-reveal><p className={styles.sectionCode}>08 · Anatomia das linhas</p><h2>Seis respostas. A força nunca é a mesma.</h2></div>
+      <div className={styles.lineStage}>
+        <button type="button" onClick={()=>setLineIndex((lineIndex+productLines.length-1)%productLines.length)} aria-label="Linha anterior">←</button>
+        <div className={styles.lineProduct} key={activeLine.slug}><span>{activeLine.code}</span><Image src={activeLine.image} alt={activeLine.name} fill sizes="(min-width:900px) 48vw,90vw"/></div>
+        <div className={styles.lineCopy}><p>{activeLine.badge}</p><h3>{activeLine.shortName}</h3><strong>{activeLine.headline}</strong><span>{activeLine.description}</span><Link href={`/linhas/${activeLine.slug}`}>Explorar a linha ↗</Link></div>
+        <button type="button" onClick={()=>setLineIndex((lineIndex+1)%productLines.length)} aria-label="Próxima linha">→</button>
+      </div>
+      <div className={styles.lineIndex}>{productLines.map((line,i)=><button type="button" data-active={i===lineIndex} onClick={()=>setLineIndex(i)} key={line.slug}>{line.code}<strong>{line.shortName}</strong></button>)}</div>
+    </section>
 
-          <nav className={styles.stageRail} aria-label="Capítulos do conceito">
-            {stages.map((stage) => (
-              <div key={stage.key} className={styles.railItem} data-key={stage.key}>
-                <span>{stage.number}</span><i /><strong>{stage.label}</strong>
-              </div>
-            ))}
-          </nav>
+    <section id="resultados" className={styles.durability}>
+      <div className={styles.odometer} data-reveal><span>CASO REAL · NÃO É GARANTIA UNIVERSAL</span><strong>400.000</strong><b>km</b></div>
+      <div className={styles.durabilityCopy} data-reveal><p className={styles.sectionCode}>09 · O tempo volta para a fábrica</p><h2>Não virou descarte. Voltou ao trabalho.</h2><p>Um equipamento real foi desmontado, inspecionado, recuperado e devolvido ao uso. O caso comprova a lógica recuperável da construção — não promete a mesma quilometragem para toda aplicação.</p><Link href="/resultados">Ver o caso com contexto ↗</Link></div>
+      <div className={styles.recovery}>{["Desmontar","Inspecionar","Recuperar","Retornar"].map((item,i)=><div key={item}><span>0{i+1}</span><i/>{item}</div>)}</div>
+    </section>
 
-          <div className={styles.chapters}>
-            {stages.map((stage) => (
-              <article key={stage.key} className={styles.chapter} data-key={stage.key}>
-                <p className={styles.eyebrow}>{stage.number} · {stage.label}</p>
-                <h1>{stage.title}</h1>
-                <p className={styles.description}>{stage.text}</p>
-                {stage.key === "hero" && (
-                  <div className={styles.heroActions}>
-                    <Link href="/configurador" className={styles.primaryAction}>Montar para o meu chão</Link>
-                    <span>Role para acompanhar o impacto</span>
-                  </div>
-                )}
-              </article>
-            ))}
-          </div>
+    <section className={styles.authority}>
+      <div className={styles.sectionIntro} data-reveal><p className={styles.sectionCode}>10 · Autoridade sem personagem</p><h2>Fábrica própria. Engenharia que começa no volante.</h2></div>
+      <div className={styles.authorityGrid}><article data-reveal><span>GRAVATAÍ · RS</span><h3>Piloto antes de fabricante.</h3><p>A experiência no terreno virou método técnico e produção sob medida. Sem usar imagem genérica para representar fundador ou fábrica.</p><Link href="/quem-somos">Conhecer a história ↗</Link></article><article data-reveal><span>EVIDÊNCIA DECLARADA</span><h3>O que afirmamos tem limite.</h3><p>13+ anos de fábrica, produção própria no Brasil, 2 anos contra vazamento e o caso factual de 400 mil km.</p><Link href="/resultados">Ver evidências ↗</Link></article></div>
+    </section>
 
-          <div className={styles.progress} aria-hidden="true"><span /></div>
-          <p className={styles.conceptNote}>Visualização conceitual · produto e movimento sujeitos à validação técnica</p>
-        </div>
-      </section>
+    <section className={styles.finalCta}>
+      <Image src={`${ASSET_BASE}/banco_web_800/triton.webp`} alt="Picape pronta para o próximo terreno" fill sizes="100vw"/><div/><div className={styles.finalCopy} data-reveal><p className={styles.sectionCode}>11 · O próximo chão</p><h2>A estrada pode continuar ruim. Seu corpo não precisa repetir tudo.</h2><p>Conte o veículo, a carga e a rotina. A fábrica transforma contexto em um ponto de partida técnico.</p><Link href="/configurador" className={styles.primaryAction}>Montar para o meu chão</Link></div>
+    </section>
 
-      <section className={styles.respite}>
-        <p className={styles.respiteEyebrow}>Fim do primeiro protótipo</p>
-        <h2>A história continua dentro do amortecedor.</h2>
-        <p>Este slice valida Hero, mudança de terreno e compressão. As próximas cenas podem revelar fluido, retorno, rotinas, linhas e o caso de 400 mil km.</p>
-        <div className={styles.respiteActions}>
-          <Link href="/" className={styles.darkAction}>Comparar com a Home atual</Link>
-          <Link href="/configurador" className={styles.outlineAction}>Testar configurador</Link>
-        </div>
-        <div className={styles.pending}>
-          <strong>Assets pendentes para produção final</strong>
-          <span>Horizon licenciada · logo vetorial · produto comprimido/estendido · instalação real · terrenos aprovados</span>
-        </div>
-      </section>
-    </div>
-  );
+    <section className={styles.faq}>
+      <div className={styles.sectionIntro} data-reveal><p className={styles.sectionCode}>12 · Antes de decidir</p><h2>Perguntas que também fazem parte do projeto.</h2></div>
+      <div className={styles.faqList}>{faqItems.slice(0,5).map((item,i)=><details key={item.question} data-reveal><summary><span>0{i+1}</span>{item.question}<i>+</i></summary><p>{item.answer}</p></details>)}</div>
+      <div className={styles.faqActions}><Link href="/faq">Ver todas as dúvidas ↗</Link><Link href="/contato">Falar com a BUMP ↗</Link></div>
+    </section>
+
+    <footer className={styles.conceptFooter}><strong>BUMP</strong><span>DO CHÃO AO CORPO · CONCEITO V0.2</span><Link href="/">Voltar ao site atual ↗</Link></footer>
+  </div>;
 }

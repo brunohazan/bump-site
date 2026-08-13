@@ -1,22 +1,23 @@
 # BUMP Home — Direção criativa “Do chão ao corpo”
 
-Status: protótipo navegável v0.1 implementado, ainda não aprovado para substituir a Home
+Status: protótipo navegável v0.2 completo, ainda não aprovado para substituir a Home
 Data: 13/08/2026
 Entradas: vídeo de referência United Cargo + guia básico de estilo BUMP
 
-## Checkpoint navegável v0.1
+## Checkpoint navegável v0.2
 
-- Rota isolada: `/conceito-home`.
-- Indexação: `noindex` e `nofollow` via metadata da rota.
-- Home publicada: preservada sem alterações.
-- Escopo implementado: Hero, mudança de terreno, compressão conceitual, controle e seção final de continuidade.
-- Identidade aplicada: preto, branco e Amarelo Citrus `#D3FF1A`; Montserrat como fonte de corpo e fallback temporário de display enquanto a Horizon licenciada não está disponível.
-- Assets: somente imagens BUMP já hospedadas; nenhuma fotografia de banco foi introduzida neste checkpoint.
-- Acessibilidade de movimento: composição dedicada para mobile e versão estática completa em `prefers-reduced-motion`.
-- Auditoria visual: desktop `1440×1000`, mobile `390×844` e reduced motion `390×844`, sem overflow horizontal; shell global oculto somente durante o conceito.
+- Rota isolada: `/conceito-home`, com `noindex` e `nofollow`; `/` permanece intacta.
+- Narrativa completa: terreno → impacto → compressão → corpo → rotina → engenharia → seis linhas → recuperação → CTA → FAQ.
+- Wireframe contemplado: Hero, promessa, recomendação dinâmica por uso, marcas, tecnologia, prova/autoridade, CTA final e dúvidas.
+- Direção visual: preto, branco e Amarelo Citrus `#D3FF1A`, mudanças radicais de cenário, produto em escala, capítulos sticky e transições editoriais.
+- Interações: quatro estágios de impacto por scroll, seletor de rotina, troca das seis linhas, marquee e acordeões nativos.
+- Conteúdo factual: dados existentes de produto, 13+ anos, 2 anos contra vazamento, produção própria e caso real de 400 mil km com limite explícito.
+- Assets: somente imagens BUMP já hospedadas; nenhuma fotografia genérica representa fundador, fábrica, cliente ou depoimento.
+- Acessibilidade: mobile próprio e versão estática integral em `prefers-reduced-motion`.
+- Auditoria visual: desktop `1440×1000` (15.626 px de altura), mobile `390×844` (13.743 px) e reduced motion `390×844` (12.706 px), todos sem overflow horizontal e com shell global isolado.
 - Validação técnica: ESLint, TypeScript, build de produção e `git diff --check` aprovados.
 
-Limitações conhecidas: a compressão usa transformação visual sobre um único asset e não constitui simulação técnica; Horizon, logo vetorial, estados reais comprimido/estendido, instalação e terrenos finais continuam pendentes. A migração para `/` depende de aprovação explícita.
+Limitações conhecidas: a compressão continua conceitual sobre um único asset; Horizon licenciada, logo vetorial, estados reais comprimido/estendido, fotos de instalação, fundador e fábrica continuam pendentes. A migração para `/` depende de aprovação explícita.
 
 ## Ideia central
 
