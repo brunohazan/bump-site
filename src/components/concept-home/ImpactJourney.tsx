@@ -524,7 +524,7 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
 
     <section id="resultados" className={styles.durability}>
       <div className={styles.odometer} data-reveal><span>CASO REAL · NÃO É GARANTIA UNIVERSAL</span><strong>400.000</strong><b>km</b></div>
-      <div className={styles.durabilityCopy} data-reveal><p className={styles.sectionCode}>09 · O tempo volta para a fábrica</p><h2>Não virou descarte. Voltou ao trabalho.</h2><p>Um equipamento real foi desmontado, inspecionado, recuperado e devolvido ao uso. O caso comprova a lógica recuperável da construção — não promete a mesma quilometragem para toda aplicação.</p><Link href="/resultados">Ver o caso com contexto ↗</Link></div>
+      <div className={styles.durabilityCopy} data-reveal><p className={styles.sectionCode}>09 · O tempo volta para a fábrica</p><h2>Não virou descarte. Voltou ao trabalho.</h2><p>Um equipamento real foi desmontado, inspecionado, recuperado e devolvido ao uso. O caso comprova a lógica recuperável da construção. Não promete a mesma quilometragem para toda aplicação.</p><Link href="/resultados">Ver o caso com contexto ↗</Link></div>
       <div className={styles.recovery}>{["Desmontar","Inspecionar","Recuperar","Retornar"].map((item,i)=><div key={item}><span>0{i+1}</span><i/>{item}</div>)}</div>
     </section>
 

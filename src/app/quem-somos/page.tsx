@@ -61,7 +61,7 @@ export default function AboutPage() {
           <div><Eyebrow>01 · História do fundador</Eyebrow><h2 data-reveal className="text-balance text-[clamp(2.8rem,6vw,6rem)] leading-[.9] font-black tracking-[-0.055em]">Experiência no volante. Engenharia aplicada. Fábrica em Gravataí.</h2></div>
           <div data-reveal data-delay="1" className="lg:border-l lg:border-accent lg:pl-10">
             <p className="text-xl leading-relaxed text-mute-1">A experiência de Cristian como piloto colocou o problema no corpo. A observação virou método. A fábrica transformou esse método em amortecedores desenvolvidos para cada aplicação.</p>
-            <p className="mt-6 leading-relaxed text-mute-1">É daí que vem a especialização da BUMP: entender primeiro qual veículo, quanto peso, que altura, qual terreno e o que precisa mudar para quem dirige — só depois definir a peça.</p>
+            <p className="mt-6 leading-relaxed text-mute-1">É daí que vem a especialização da BUMP: entender primeiro qual veículo, quanto peso, que altura, qual terreno e o que precisa mudar para quem dirige. Só depois vem a definição da peça.</p>
             <div className="mt-9 grid gap-px overflow-hidden border border-line-1 bg-line-1 sm:grid-cols-3">
               {[["13+", "anos de fábrica"], ["Brasil", "produção própria"], ["2 anos", "contra vazamento"]].map(([value, label]) => <div key={label} className="bg-ink-card p-5"><strong className="block text-2xl font-black text-accent">{value}</strong><span className="mt-2 block font-mono text-[9px] tracking-[0.08em] text-mute-3 uppercase">{label}</span></div>)}
             </div>
@@ -80,7 +80,7 @@ export default function AboutPage() {
             <VideoEmbed
               videoId="AYLSZZo0-N8"
               title="Vídeo institucional BUMP Amortecedores"
-              caption="Publicado no canal oficial da BUMP. As aplicações mostradas são exemplos reais e não representam compatibilidade automática com outros veículos ou versões."
+              caption="Vídeo do canal oficial BUMP. Exemplos reais. Consulte os modelos ideais para o seu veículo e uso."
             />
           </div>
         </div>

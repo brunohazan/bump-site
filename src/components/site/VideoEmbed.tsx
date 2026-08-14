@@ -52,9 +52,6 @@ export function VideoEmbed({ videoId, title, caption }: VideoEmbedProps) {
                 </svg>
               </span>
             </span>
-            <span className="absolute inset-x-0 bottom-0 p-5 text-left font-mono text-[9px] tracking-[0.12em] text-mute-1 uppercase md:p-6">
-              Vídeo do canal oficial da BUMP · carrega ao clicar
-            </span>
           </button>
         )}
       </div>

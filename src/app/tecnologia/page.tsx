@@ -88,7 +88,7 @@ export default function TechnologyPage() {
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_42%,rgba(211,255,26,.17),transparent_57%)]" />
               <div className="absolute inset-5 border border-line-1" />
               <Image src={`${ASSET_BASE}/amortecedoressemfundo/amortecedorpremiumsemfundo.webp`} alt="Vista técnica do amortecedor BUMP" fill sizes="(min-width: 1024px) 52vw, 100vw" className="selector-product object-contain p-12 md:p-20" />
-              <span className="absolute top-8 left-8 font-mono text-[9px] tracking-[0.12em] text-accent">CENA TÉCNICA · 01—04</span>
+              <span className="absolute top-8 left-8 font-mono text-[9px] tracking-[0.12em] text-accent">CENA TÉCNICA · 01 A 04</span>
               <span className="absolute right-8 bottom-8 font-mono text-[9px] tracking-[0.1em] text-mute-3">GRAVATAÍ · RS</span>
             </div>
 

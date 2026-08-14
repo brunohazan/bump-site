@@ -51,7 +51,7 @@ export function Footer() {
             <Link href="/politica-de-privacidade" className="hover:text-accent">Política de Privacidade</Link>
             <Link href="/termos-de-uso" className="hover:text-accent">Termos de Uso</Link>
           </div>
-          <span>CNPJ 18.052.960/0001-60 · © 2013–2026 BUMP Amortecedores</span>
+          <span>CNPJ 18.052.960/0001-60 · © 2013-2026 BUMP Amortecedores</span>
         </div>
       </div>
     </footer>

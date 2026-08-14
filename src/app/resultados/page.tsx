@@ -126,7 +126,7 @@ export default function ResultsPage() {
           <article data-reveal data-delay="1" className="border border-line-2 bg-ink p-7 md:p-9">
             <Eyebrow>04 · O que não prometemos</Eyebrow>
             <ul className="mt-6 grid gap-4 text-lg font-semibold text-mute-1">
-              {["A mesma quilometragem em toda aplicação.", "Um resultado igual sem considerar carga e uso.", "Correção de defeitos mecânicos preexistentes.", "Depoimentos sem autoria ou validação do cliente."].map((item) => <li key={item} className="flex gap-3"><span className="text-mute-4">—</span><span>{item}</span></li>)}
+              {["A mesma quilometragem em toda aplicação.", "Um resultado igual sem considerar carga e uso.", "Correção de defeitos mecânicos preexistentes.", "Depoimentos sem autoria ou validação do cliente."].map((item) => <li key={item} className="flex gap-3"><span className="text-mute-4">✕</span><span>{item}</span></li>)}
             </ul>
           </article>
         </div>

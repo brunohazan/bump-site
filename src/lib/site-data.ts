@@ -262,7 +262,7 @@ export const vehicleApplications: readonly VehicleApplication[] = [
     slug: "hilux",
     brand: "Toyota",
     model: "Hilux",
-    headline: "O amortecedor para Hilux começa pelo que ela carrega — e por onde passa.",
+    headline: "O amortecedor para Hilux começa pelo que ela carrega e por onde passa.",
     description:
       "A configuração BUMP para Hilux considera versão, carga, acessórios, altura e rotina antes de definir linha, pressão e curso.",
     contexts: [

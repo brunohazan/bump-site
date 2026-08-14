@@ -1,4 +1,4 @@
-# Posicionamento e sistema editorial — BUMP
+# Posicionamento e sistema editorial da BUMP
 
 Status: direção estratégica vigente para conteúdo do site
 Atualizado em: 14/08/2026
@@ -30,8 +30,8 @@ o próximo passo abre uma conversa consultiva.
 ### Especialização sob medida
 
 A BUMP não começa por uma peça de prateleira. Começa por perguntas sobre a picape e o uso. “Sob
-medida” deve aparecer como processo — entender, definir, produzir e acompanhar — e não como adjetivo
-solto.
+medida” deve aparecer como processo, ou seja, entender, definir, produzir e acompanhar, e não como
+adjetivo solto.
 
 ### Engenharia brasileira com autoria
 
@@ -88,13 +88,15 @@ O CTA primário das superfícies de decisão é comercial. Ações narrativas fi
 ## Voz e escolha de palavras
 
 - Técnica, direta, segura e humana.
+- Não usar travessão (—) nem meia-risca (–) em textos do site. Preferir ponto, vírgula, dois-pontos ou
+  ponto e vírgula. Em intervalos, usar hífen ou a palavra “a”.
 - Explicar componente sempre pelo efeito no veículo, no corpo ou na operação.
 - Preferir “especialista”, “sob medida”, “uso real”, “produção própria” e “atendimento técnico”.
 - Evitar superlativos sem prova, jargão vazio, guerra de preço e ataques a marcas ou países.
 - Não prometer “o melhor”, “indestrutível”, “qualidade superior”, quilometragem universal ou
   resultado idêntico para qualquer picape.
-- “Nacional versus importado” deve comparar critérios de decisão — aplicação, suporte,
-  recuperabilidade e custo total — sem declarar superioridade universal.
+- “Nacional versus importado” deve comparar critérios de decisão, como aplicação, suporte,
+  recuperabilidade e custo total, sem declarar superioridade universal.
 
 ## Papel das páginas
 

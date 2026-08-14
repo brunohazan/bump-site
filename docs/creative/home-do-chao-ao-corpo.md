@@ -40,7 +40,7 @@ forças e elementos próprios:
 - próximo chão.
 
 Cada capítulo recebe energia do anterior e a entrega ao seguinte. O motivo visual recorrente é um
-**conduíte de energia**: linha, onda, eixo, órbita ou régua — nunca um efeito sem função narrativa.
+**conduíte de energia**: linha, onda, eixo, órbita ou régua, nunca um efeito sem função narrativa.
 
 ## Jornada em produção
 
@@ -109,7 +109,7 @@ oficial, imagens temporárias continuam sendo apenas cenários de aplicação e 
 Cristian, equipe, fábrica, cliente ou instalação.
 
 A prova permanece ancorada em fabricação própria, experiência de uso, engenharia, atendimento
-técnico e limites explícitos — não em personagens inventados, depoimentos sem fonte ou superioridade
+técnico e limites explícitos, não em personagens inventados, depoimentos sem fonte ou superioridade
 não demonstrada.
 
 ### 11 · O próximo chão

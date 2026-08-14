@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 const criteria = [
   {
     title: "Acerto para a aplicação",
-    text: "Pergunte se o conjunto considera veículo, carga, altura, acessórios e terreno — ou se repete a mesma configuração para usos diferentes.",
+    text: "Pergunte se o conjunto considera veículo, carga, altura, acessórios e terreno, ou se repete a mesma configuração para usos diferentes.",
   },
   {
     title: "Suporte técnico",
