@@ -706,6 +706,328 @@
   display: none;
 }
 
+.flowConnector {
+  --flow: 0;
+  --flow-from: #000;
+  --flow-to: #000;
+  --flow-height: 20svh;
+  position: relative;
+  z-index: 4;
+  min-height: var(--flow-height);
+  overflow: hidden;
+  isolation: isolate;
+  background: linear-gradient(to bottom, var(--flow-from) 0%, var(--flow-from) 20%, var(--flow-to) 82%, var(--flow-to) 100%);
+}
+
+.flowSurface,
+.flowTrace,
+.flowAxis,
+.flowOrbit,
+.flowTicks {
+  position: absolute;
+}
+
+.flowSurface {
+  z-index: 1;
+  right: -6%;
+  bottom: -2%;
+  left: -6%;
+  height: 70%;
+  background: var(--flow-to);
+  clip-path: ellipse(78% 78% at 50% 100%);
+  transform: translate3d(0, calc((1 - var(--flow)) * 4%), 0);
+  will-change: auto;
+}
+
+.flowTrace {
+  z-index: 3;
+  top: 5%;
+  left: -8%;
+  width: 116%;
+  height: 94%;
+  overflow: visible;
+  opacity: clamp(0, calc((var(--flow) - .04) * 2.2), 1);
+  transform: translate3d(calc((.5 - var(--flow)) * 5vw), 0, 0);
+  will-change: auto;
+}
+
+.flowTraceBase,
+.flowTraceEnergy {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.flowTraceBase {
+  stroke: rgb(128 128 128 / 48%);
+  stroke-width: 16;
+}
+
+.flowTraceEnergy {
+  stroke: var(--citrus);
+  stroke-width: 2.5;
+  stroke-dasharray: 11 10;
+  stroke-dashoffset: calc(520 - var(--flow) * 520);
+}
+
+.flowAxis {
+  z-index: 5;
+  top: 0;
+  left: 50%;
+  display: none;
+  width: 1px;
+  height: 100%;
+}
+
+.flowAxis i {
+  display: block;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(transparent, var(--citrus) 18%, var(--citrus) 82%, transparent);
+  transform: scaleY(clamp(0, calc(var(--flow) * 1.35), 1));
+  transform-origin: top;
+  box-shadow: 0 0 16px rgb(211 255 26 / 48%);
+}
+
+.flowAxis span {
+  position: absolute;
+  top: calc(var(--flow) * 100%);
+  left: 50%;
+  width: 11px;
+  height: 11px;
+  border: 2px solid var(--citrus);
+  border-radius: 50%;
+  background: var(--flow-from);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 18px rgb(211 255 26 / 62%);
+}
+
+.flowOrbit {
+  z-index: 4;
+  top: 50%;
+  left: 50%;
+  display: none;
+  width: min(32vw, 340px);
+  aspect-ratio: 1;
+  border: 1px solid rgb(211 255 26 / 42%);
+  border-radius: 50%;
+  opacity: clamp(.16, calc(var(--flow) * 1.4), .82);
+  transform: translate(-50%, -50%) rotate(calc(var(--flow) * 140deg)) scale(calc(.58 + var(--flow) * .42));
+  will-change: auto;
+}
+
+.flowOrbit::before,
+.flowOrbit::after {
+  content: "";
+  position: absolute;
+  border: 1px solid rgb(211 255 26 / 20%);
+  border-radius: inherit;
+}
+
+.flowOrbit::before { inset: 18%; }
+.flowOrbit::after { inset: 36%; }
+
+.flowOrbit i {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--citrus);
+  box-shadow: 0 0 16px var(--citrus);
+}
+
+.flowOrbit i:nth-child(1) { top: 7%; left: 48%; }
+.flowOrbit i:nth-child(2) { right: 8%; bottom: 24%; }
+.flowOrbit i:nth-child(3) { bottom: 9%; left: 26%; }
+
+.flowTicks {
+  z-index: 4;
+  top: 50%;
+  right: 5vw;
+  left: 5vw;
+  display: none;
+  grid-template-columns: repeat(7, 1fr);
+  align-items: start;
+  border-top: 1px solid rgb(0 0 0 / 62%);
+  color: #000;
+  transform: scaleX(clamp(0, calc(var(--flow) * 1.25), 1));
+  transform-origin: left;
+}
+
+.flowTicks i {
+  width: 1px;
+  height: 12px;
+  background: currentColor;
+}
+
+.flowTicks i:nth-child(2n) { height: 22px; }
+.flowTicks i:nth-child(4) { height: 34px; }
+
+.flowConnector[data-active="true"] .flowSurface,
+.flowConnector[data-active="true"] .flowTrace,
+.flowConnector[data-active="true"] .flowOrbit {
+  will-change: transform;
+}
+
+.flowConnector[data-flow="body-use"] {
+  --flow-from: #fff;
+  --flow-to: #050505;
+  --flow-height: 26svh;
+}
+
+.flowConnector[data-flow="body-use"] .flowSurface {
+  height: 76%;
+  clip-path: polygon(0 34%, 16% 13%, 36% 32%, 58% 8%, 78% 27%, 100% 5%, 100% 100%, 0 100%);
+}
+
+.flowConnector[data-flow="brands-engineering"] {
+  --flow-from: #000;
+  --flow-to: #090909;
+  --flow-height: 16svh;
+}
+
+.flowConnector[data-flow="brands-engineering"] .flowSurface,
+.flowConnector[data-flow="authority-cta"] .flowSurface {
+  inset: 0;
+  height: auto;
+  clip-path: none;
+  opacity: .72;
+  background: radial-gradient(circle at 50% 50%, rgb(211 255 26 / 8%), transparent 54%), var(--flow-to);
+}
+
+.flowConnector[data-flow="brands-engineering"] .flowTrace,
+.flowConnector[data-flow="brands-engineering"] .flowAxis,
+.flowConnector[data-flow="brands-engineering"] .flowTicks,
+.flowConnector[data-flow="results-authority"] .flowAxis,
+.flowConnector[data-flow="results-authority"] .flowTicks {
+  display: none;
+}
+
+.flowConnector[data-flow="brands-engineering"] .flowOrbit,
+.flowConnector[data-flow="results-authority"] .flowOrbit {
+  display: block;
+}
+
+.flowConnector[data-flow="engineering-lines"] {
+  --flow-from: #090909;
+  --flow-to: #fff;
+  --flow-height: 24svh;
+}
+
+.flowConnector[data-flow="engineering-lines"] .flowAxis,
+.flowConnector[data-flow="cta-faq"] .flowAxis,
+.flowConnector[data-flow="faq-footer"] .flowAxis {
+  display: block;
+}
+
+.flowConnector[data-flow="engineering-lines"] .flowSurface,
+.flowConnector[data-flow="cta-faq"] .flowSurface {
+  height: 78%;
+  clip-path: ellipse(70% 76% at 50% 100%);
+}
+
+.flowConnector[data-flow="lines-results"] {
+  --flow-from: #fff;
+  --flow-to: var(--citrus);
+  --flow-height: 18svh;
+}
+
+.flowConnector[data-flow="lines-results"] .flowSurface {
+  height: 72%;
+  clip-path: polygon(0 28%, 100% 0, 100% 100%, 0 100%);
+}
+
+.flowConnector[data-flow="lines-results"] .flowTrace,
+.flowConnector[data-flow="lines-results"] .flowAxis,
+.flowConnector[data-flow="lines-results"] .flowOrbit {
+  display: none;
+}
+
+.flowConnector[data-flow="lines-results"] .flowTicks {
+  display: grid;
+}
+
+.flowConnector[data-flow="results-authority"] {
+  --flow-from: var(--citrus);
+  --flow-to: #050505;
+  --flow-height: 22svh;
+}
+
+.flowConnector[data-flow="results-authority"] .flowSurface {
+  height: 82%;
+  clip-path: ellipse(72% 88% at 50% 100%);
+}
+
+.flowConnector[data-flow="results-authority"] .flowOrbit {
+  width: min(26vw, 260px);
+  border-color: rgb(0 0 0 / 55%);
+}
+
+.flowConnector[data-flow="authority-cta"] {
+  --flow-from: #050505;
+  --flow-to: #000;
+  --flow-height: 14svh;
+}
+
+.flowConnector[data-flow="authority-cta"] .flowTrace {
+  top: -24%;
+  height: 150%;
+  opacity: clamp(0, calc(var(--flow) * .7), .42);
+}
+
+.flowConnector[data-flow="cta-faq"] {
+  --flow-from: #000;
+  --flow-to: #fff;
+  --flow-height: 24svh;
+}
+
+.flowConnector[data-flow="faq-footer"] {
+  --flow-from: #fff;
+  --flow-to: #000;
+  --flow-height: 16svh;
+}
+
+.flowConnector[data-flow="faq-footer"] .flowSurface {
+  height: 74%;
+  clip-path: polygon(0 20%, 42% 4%, 100% 28%, 100% 100%, 0 100%);
+}
+
+.flowConnector[data-flow="faq-footer"] .flowTrace {
+  opacity: clamp(0, calc(var(--flow) * .8), .58);
+}
+
+@media (max-width: 900px) {
+  .flowConnector[data-flow="body-use"] { --flow-height: 20svh; }
+  .flowConnector[data-flow="brands-engineering"] { --flow-height: 12svh; }
+  .flowConnector[data-flow="engineering-lines"] { --flow-height: 20svh; }
+  .flowConnector[data-flow="lines-results"] { --flow-height: 16svh; }
+  .flowConnector[data-flow="results-authority"] { --flow-height: 18svh; }
+  .flowConnector[data-flow="authority-cta"] { --flow-height: 12svh; }
+  .flowConnector[data-flow="cta-faq"] { --flow-height: 20svh; }
+  .flowConnector[data-flow="faq-footer"] { --flow-height: 14svh; }
+  .flowTrace { left: -45%; width: 190%; }
+  .flowAxis { left: 67%; }
+  .flowOrbit { width: 180px; }
+  .flowTicks { right: 1.25rem; left: 1.25rem; }
+}
+
+.experience[data-motion="reduced"] .flowConnector {
+  min-height: 7rem;
+}
+
+.experience[data-motion="reduced"] .flowConnector[data-flow="brands-engineering"],
+.experience[data-motion="reduced"] .flowConnector[data-flow="authority-cta"] {
+  min-height: 5rem;
+}
+
+.experience[data-motion="reduced"] .flowTrace,
+.experience[data-motion="reduced"] .flowSurface {
+  transform: none;
+}
+
+.experience[data-motion="reduced"] .flowAxis span {
+  display: none;
+}
+
  .respite {
   position: relative;
   z-index: 3;

@@ -36,11 +36,27 @@ function stageFromProgress(progress: number) {
   return "hero";
 }
 
+type FlowVariant = "body-use" | "brands-engineering" | "engineering-lines" | "lines-results" | "results-authority" | "authority-cta" | "cta-faq" | "faq-footer";
+
+function FlowConnector({ variant }: { variant: FlowVariant }) {
+  return <div className={styles.flowConnector} data-flow={variant} aria-hidden="true">
+    <div className={styles.flowSurface}/>
+    <svg className={styles.flowTrace} viewBox="0 0 1600 260" preserveAspectRatio="none">
+      <path className={styles.flowTraceBase} d="M-80 152 C170 38 340 230 545 142 S875 45 1080 154 S1395 230 1680 105"/>
+      <path className={styles.flowTraceEnergy} d="M-80 152 C170 38 340 230 545 142 S875 45 1080 154 S1395 230 1680 105"/>
+    </svg>
+    <div className={styles.flowAxis}><i/><span/></div>
+    <div className={styles.flowOrbit}><i/><i/><i/></div>
+    <div className={styles.flowTicks}><i/><i/><i/><i/><i/><i/><i/></div>
+  </div>;
+}
+
 export function ImpactJourney({ definitive = false }: { definitive?: boolean }) {
   const journeyRef = useRef<HTMLElement>(null);
   const bridgeRef = useRef<HTMLElement>(null);
   const frameRef = useRef<number | null>(null);
   const bridgeFrameRef = useRef<number | null>(null);
+  const flowFrameRef = useRef<number | null>(null);
   const forceMotionRef = useRef(false);
   const [motionReduced, setMotionReduced] = useState(false);
   const [useId, setUseId] = useState<(typeof useCases)[number]["id"]>(useCases[0].id);
@@ -298,6 +314,137 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
     };
   }, []);
 
+  useEffect(() => {
+    const connectors = Array.from(document.querySelectorAll<HTMLElement>(`.${styles.experience} [data-flow]`));
+    if (!connectors.length) return;
+
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const explicitReduced = new URLSearchParams(window.location.search).get("motion") === "reduce";
+    const prefersReduced = () => !forceMotionRef.current && (explicitReduced || media.matches);
+    const states = new Map(connectors.map((node) => [node, {
+      current: 0,
+      target: 0,
+      visible: false,
+      needsMeasure: true,
+      initialized: false,
+      lastRendered: -1,
+    }]));
+    let previousTime = performance.now();
+
+    const render = (node: HTMLElement, progress: number) => {
+      const state = states.get(node)!;
+      if (Math.abs(progress - state.lastRendered) < .0005) return;
+      node.style.setProperty("--flow", progress.toFixed(4));
+      state.lastRendered = progress;
+    };
+
+    const measure = (node: HTMLElement) => {
+      const state = states.get(node)!;
+      const rect = node.getBoundingClientRect();
+      const distance = Math.max(node.offsetHeight + window.innerHeight, 1);
+      state.target = Math.min(1, Math.max(0, (window.innerHeight - rect.top) / distance));
+    };
+
+    const tick = (time: number) => {
+      flowFrameRef.current = null;
+
+      if (prefersReduced()) {
+        connectors.forEach((node) => {
+          const state = states.get(node)!;
+          state.current = .72;
+          state.target = .72;
+          render(node, .72);
+        });
+        return;
+      }
+
+      const delta = Math.min(Math.max(time - previousTime, 0), 64);
+      previousTime = time;
+      const alpha = 1 - Math.exp(-delta / 90);
+      let keepAnimating = false;
+
+      connectors.forEach((node) => {
+        const state = states.get(node)!;
+        if (!state.visible) return;
+
+        if (state.needsMeasure) {
+          measure(node);
+          state.needsMeasure = false;
+          if (!state.initialized) {
+            state.current = state.target;
+            state.initialized = true;
+          }
+        }
+
+        state.current += (state.target - state.current) * alpha;
+        if (Math.abs(state.target - state.current) < .0007) state.current = state.target;
+        render(node, state.current);
+        if (Math.abs(state.target - state.current) >= .0007) keepAnimating = true;
+      });
+
+      if (keepAnimating) flowFrameRef.current = requestAnimationFrame(tick);
+    };
+
+    const schedule = () => {
+      if (flowFrameRef.current !== null) return;
+      previousTime = performance.now();
+      flowFrameRef.current = requestAnimationFrame(tick);
+    };
+
+    const requestUpdate = () => {
+      let hasVisibleConnector = false;
+      states.forEach((state) => {
+        if (!state.visible) return;
+        state.needsMeasure = true;
+        hasVisibleConnector = true;
+      });
+      if (hasVisibleConnector) schedule();
+    };
+
+    const syncPreference = () => {
+      states.forEach((state) => {
+        state.initialized = false;
+        state.needsMeasure = true;
+      });
+      schedule();
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const node = entry.target as HTMLElement;
+        const state = states.get(node)!;
+        state.visible = entry.isIntersecting;
+        if (state.visible) {
+          node.dataset.active = "true";
+          state.needsMeasure = true;
+          schedule();
+        } else {
+          node.removeAttribute("data-active");
+          const restingProgress = entry.boundingClientRect.top < 0 ? 1 : 0;
+          state.current = restingProgress;
+          state.target = restingProgress;
+          state.initialized = false;
+          render(node, prefersReduced() ? .72 : restingProgress);
+        }
+      });
+    }, { rootMargin: "100px 0px", threshold: 0 });
+
+    connectors.forEach((node) => observer.observe(node));
+    syncPreference();
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
+    media.addEventListener("change", syncPreference);
+
+    return () => {
+      window.removeEventListener("scroll", requestUpdate);
+      window.removeEventListener("resize", requestUpdate);
+      media.removeEventListener("change", syncPreference);
+      observer.disconnect();
+      connectors.forEach((node) => node.removeAttribute("data-active"));
+      if (flowFrameRef.current !== null) cancelAnimationFrame(flowFrameRef.current);
+    };
+  }, []);
+
   return <div className={styles.experience} data-motion={motionReduced ? "reduced" : "full"}>
     {definitive && motionReduced && <button type="button" className={styles.motionToggleStandalone} onClick={enableMotion}>Ativar movimento</button>}
     {!definitive && <header className={styles.topbar}>
@@ -339,6 +486,8 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
       <div className={styles.trust} data-reveal>{[["13+","anos de fábrica"],["2 anos","contra vazamento"],["Sob medida","veículo e uso"],["Brasil","produção própria"],["Envio","nacional"]].map(([a,b])=><div key={b}><strong>{a}</strong><span>{b}</span></div>)}</div>
     </section>
 
+    <FlowConnector variant="body-use"/>
+
     <section id="rotina" className={styles.uses}>
       <div className={styles.sectionIntro} data-reveal><p className={styles.sectionCode}>06 · O uso define o acerto</p><h2>Qual chão repete no seu corpo todo dia?</h2><p>Escolha a rotina. A cena, o produto e o ponto de partida mudam juntos.</p></div>
       <div className={styles.useTabs}>{useCases.map((item)=><button key={item.id} type="button" data-active={item.id===useId} onClick={()=>setUseId(item.id)}><span>{item.number}</span>{item.label}</button>)}<Link href="/configurador?uso=projeto"><span>05</span>Projeto especial ↗</Link></div>
@@ -351,10 +500,14 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
 
     <section className={styles.brands}><p>Picapes que encontram seu acerto</p><div className={styles.marquee} aria-label={brandMarks.map(([name]) => name).join(", ")}><div>{[...brandMarks,...brandMarks].map(([name,slug],i)=><span className={styles.brandMark} key={`${slug}-${i}`}><Image src={`/brands/${slug}.svg`} alt="" width={72} height={44} loading="eager" unoptimized className={styles.brandMarkLogo}/><b>{name}</b></span>)}</div></div></section>
 
+    <FlowConnector variant="brands-engineering"/>
+
     <section id="engenharia" className={styles.engineering}>
       <div className={styles.engineeringVisual}><div className={styles.fluid}><i/><i/><i/><i/><i/></div><Image src={productLines[2].image} alt="Vista técnica do amortecedor BUMP" fill sizes="50vw"/><span>PRESSÃO → FLUIDO → RETORNO</span></div>
       <div className={styles.engineeringCopy}><div className={styles.sectionIntro} data-reveal><p className={styles.sectionCode}>07 · Dentro do amortecedor</p><h2>A engenharia só termina quando chega ao corpo.</h2></div>{technology.map(([n,title,text])=><article key={n} data-reveal><span>{n}</span><div><h3>{title}</h3><p>{text}</p></div></article>)}<Link href="/tecnologia">Entender toda a engenharia ↗</Link></div>
     </section>
+
+    <FlowConnector variant="engineering-lines"/>
 
     <section id="linhas" className={styles.lines}>
       <div className={styles.sectionIntro} data-reveal><p className={styles.sectionCode}>08 · Anatomia das linhas</p><h2>Seis respostas. A força nunca é a mesma.</h2></div>
@@ -367,26 +520,36 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
       <div className={styles.lineIndex}>{productLines.map((line,i)=><button type="button" data-active={i===lineIndex} onClick={()=>setLineIndex(i)} key={line.slug}>{line.code}<strong>{line.shortName}</strong></button>)}</div>
     </section>
 
+    <FlowConnector variant="lines-results"/>
+
     <section id="resultados" className={styles.durability}>
       <div className={styles.odometer} data-reveal><span>CASO REAL · NÃO É GARANTIA UNIVERSAL</span><strong>400.000</strong><b>km</b></div>
       <div className={styles.durabilityCopy} data-reveal><p className={styles.sectionCode}>09 · O tempo volta para a fábrica</p><h2>Não virou descarte. Voltou ao trabalho.</h2><p>Um equipamento real foi desmontado, inspecionado, recuperado e devolvido ao uso. O caso comprova a lógica recuperável da construção — não promete a mesma quilometragem para toda aplicação.</p><Link href="/resultados">Ver o caso com contexto ↗</Link></div>
       <div className={styles.recovery}>{["Desmontar","Inspecionar","Recuperar","Retornar"].map((item,i)=><div key={item}><span>0{i+1}</span><i/>{item}</div>)}</div>
     </section>
 
+    <FlowConnector variant="results-authority"/>
+
     <section className={styles.authority}>
       <div className={styles.sectionIntro} data-reveal><p className={styles.sectionCode}>10 · Autoridade sem personagem</p><h2>Fábrica própria. Engenharia que começa no volante.</h2></div>
       <div className={styles.authorityGrid}><article data-reveal><span>CENÁRIO DE APLICAÇÃO · IMAGEM TEMPORÁRIA</span><h3>Piloto antes de fabricante.</h3><p>A experiência no terreno virou método técnico e produção sob medida. A imagem ilustra o tipo de aplicação; não representa fundador ou fábrica.</p><Link href="/quem-somos">Conhecer a história ↗</Link></article><article data-reveal><span>EVIDÊNCIA DECLARADA · CENÁRIO TEMPORÁRIO</span><h3>O que afirmamos tem limite.</h3><p>13+ anos de fábrica, produção própria no Brasil, 2 anos contra vazamento e o caso factual de 400 mil km.</p><Link href="/resultados">Ver evidências ↗</Link></article></div>
     </section>
 
+    <FlowConnector variant="authority-cta"/>
+
     <section className={styles.finalCta}>
       <Image src={`${ASSET_BASE}/banco_web_800/triton.webp`} alt="Picape pronta para o próximo terreno" fill sizes="100vw"/><div/><div className={styles.finalCopy} data-reveal><p className={styles.sectionCode}>11 · O próximo chão</p><h2>A estrada pode continuar ruim. Seu corpo não precisa repetir tudo.</h2><p>Conte o veículo, a carga e a rotina. A fábrica transforma contexto em um ponto de partida técnico.</p><div className={styles.finalActions}><Link href="/configurador" className={styles.primaryAction}>Montar para o meu chão</Link><Link href="/contato" className={styles.finalSecondaryAction}>Falar com a BUMP</Link></div></div>
     </section>
+
+    <FlowConnector variant="cta-faq"/>
 
     <section className={styles.faq}>
       <div className={styles.sectionIntro} data-reveal><p className={styles.sectionCode}>12 · Antes de decidir</p><h2>Perguntas que também fazem parte do projeto.</h2></div>
       <div className={styles.faqList}>{faqItems.slice(0,5).map((item,i)=><details key={item.question} data-reveal><summary><span>0{i+1}</span>{item.question}<i>+</i></summary><p>{item.answer}</p></details>)}</div>
       <div className={styles.faqActions}><Link href="/faq">Ver todas as dúvidas ↗</Link><Link href="/contato">Falar com a BUMP ↗</Link></div>
     </section>
+
+    <FlowConnector variant="faq-footer"/>
 
     {!definitive && <footer className={styles.conceptFooter}><Image src="/brand/bump-logo.png" alt="BUMP Amortecedores" width={180} height={53} className={styles.footerLogo}/><span>DO CHÃO AO CORPO · CONCEITO V0.2</span><Link href="/">Voltar ao site atual ↗</Link></footer>}
   </div>;
