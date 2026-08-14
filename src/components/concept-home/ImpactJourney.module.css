@@ -469,6 +469,243 @@
   box-shadow: 0 0 14px rgb(211 255 26 / 55%);
 }
 
+.journeyExit {
+  position: absolute;
+  z-index: 45;
+  bottom: -1px;
+  left: 49%;
+  width: 2px;
+  height: 30vh;
+  opacity: clamp(0, calc((var(--journey) - .82) * 5.56), 1);
+  transform: translate3d(-50%, calc((1 - var(--journey)) * 18vh), 0);
+  pointer-events: none;
+}
+
+.journeyExit i {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(transparent, var(--citrus) 28%, var(--citrus));
+  box-shadow: 0 0 24px rgb(211 255 26 / 58%);
+}
+
+.journeyExit span {
+  position: absolute;
+  right: 1rem;
+  bottom: 2rem;
+  color: var(--citrus);
+  font-size: .52rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+  white-space: nowrap;
+}
+
+.energyBridge {
+  --bridge: 0;
+  --bridge-reveal: clamp(0, calc((var(--bridge) - .28) * 1.39), 1);
+  position: relative;
+  z-index: 5;
+  min-height: 82svh;
+  overflow: hidden;
+  isolation: isolate;
+  background: #020202;
+  color: #fff;
+}
+
+.bridgeGrid,
+.bridgeSurface,
+.bridgeBeam,
+.bridgeWave,
+.bridgeTransfer {
+  position: absolute;
+}
+
+.bridgeGrid {
+  z-index: 1;
+  inset: 0;
+  opacity: calc((1 - var(--bridge-reveal)) * .2);
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 12%) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 9%) 1px, transparent 1px);
+  background-size: 20vw 100%, 100% 25%;
+  mask-image: linear-gradient(to bottom, #000, transparent 88%);
+}
+
+.bridgeSurface {
+  z-index: 2;
+  inset: -12% -8% -2%;
+  border-radius: 50% 50% 0 0 / 9% 9% 0 0;
+  background: #fff;
+  transform: translate3d(0, calc((1 - var(--bridge-reveal)) * 110%), 0);
+  will-change: auto;
+}
+
+.bridgeBeam {
+  z-index: 6;
+  top: 0;
+  left: 49%;
+  width: 2px;
+  height: 69%;
+  transform: translateX(-50%) scaleY(clamp(0, calc(var(--bridge) * 1.9), 1));
+  transform-origin: top;
+  background: linear-gradient(var(--citrus), rgb(211 255 26 / 35%));
+  box-shadow: 0 0 28px rgb(211 255 26 / 62%);
+  will-change: auto;
+}
+
+.bridgeBeam i,
+.bridgeBeam span {
+  position: absolute;
+  left: 50%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.bridgeBeam i {
+  top: 0;
+  width: 9px;
+  height: 9px;
+  background: var(--citrus);
+  box-shadow: 0 0 26px var(--citrus);
+}
+
+.bridgeBeam span {
+  top: calc(var(--bridge) * 100%);
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--citrus);
+  background: #020202;
+  box-shadow: 0 0 32px rgb(211 255 26 / 78%);
+}
+
+.energyBridge[data-active="true"] .bridgeSurface,
+.energyBridge[data-active="true"] .bridgeBeam {
+  will-change: transform;
+}
+
+.bridgeWave {
+  z-index: 5;
+  left: -10%;
+  bottom: -2%;
+  width: 120%;
+  height: 48%;
+  overflow: visible;
+  opacity: clamp(0, calc((var(--bridge) - .34) * 2.4), 1);
+  transform: translate3d(0, calc((1 - var(--bridge)) * 8vh), 0);
+}
+
+.bridgeWaveGhost,
+.bridgeWaveEnergy {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.bridgeWaveGhost {
+  stroke: rgb(0 0 0 / 82%);
+  stroke-width: 28;
+}
+
+.bridgeWaveEnergy {
+  stroke: var(--citrus);
+  stroke-width: 3;
+  stroke-dasharray: 13 11;
+  stroke-dashoffset: calc(700 - var(--bridge) * 700);
+}
+
+.bridgeTransfer {
+  z-index: 8;
+  top: 16%;
+  left: max(5vw, calc((100vw - 1320px) / 2));
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #fff;
+  font-size: .58rem;
+  font-weight: 800;
+  letter-spacing: .15em;
+  mix-blend-mode: difference;
+}
+
+.bridgeTransfer span {
+  opacity: clamp(0, calc(1 - var(--bridge) * 2.5), 1);
+}
+
+.bridgeTransfer i {
+  width: clamp(2rem, calc(var(--bridge) * 18vw), 16rem);
+  height: 1px;
+  background: currentColor;
+}
+
+.bridgeTransfer strong {
+  opacity: clamp(0, calc((var(--bridge) - .48) * 3), 1);
+}
+
+.promiseEntry {
+  position: absolute;
+  z-index: 4;
+  top: 0;
+  left: 49%;
+  height: clamp(4rem, 8vw, 7rem);
+  pointer-events: none;
+}
+
+.promiseEntry i {
+  display: block;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(var(--citrus), #000);
+}
+
+.promiseEntry span {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 40vw;
+  height: 1px;
+  background: #000;
+}
+
+.promiseEntry span::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #000;
+  transform: translate(-50%, -50%);
+}
+
+@media (max-width: 900px) {
+  .journeyExit { left: 67%; height: 24vh; }
+  .journeyExit span { display: none; }
+  .energyBridge { min-height: 68svh; }
+  .bridgeGrid { background-size: 50vw 100%, 100% 25%; }
+  .bridgeBeam { left: 67%; height: 65%; }
+  .bridgeWave { left: -70%; width: 210%; height: 43%; }
+  .bridgeTransfer { top: 18%; left: 1.25rem; right: 1.25rem; gap: .65rem; font-size: .5rem; }
+  .bridgeTransfer i { flex: 1; width: auto; }
+  .promiseEntry { left: 67%; height: 5rem; }
+  .promiseEntry span { width: calc(67vw - 1.25rem); }
+}
+
+.experience[data-motion="reduced"] .energyBridge {
+  min-height: clamp(13rem, 34vw, 18rem);
+}
+
+.experience[data-motion="reduced"] .journeyExit {
+  display: none;
+}
+
+.experience[data-motion="reduced"] .bridgeGrid {
+  opacity: .08;
+}
+
+.experience[data-motion="reduced"] .bridgeBeam span {
+  display: none;
+}
+
  .respite {
   position: relative;
   z-index: 3;
@@ -683,6 +920,7 @@
 .experience [data-reveal][data-visible] { opacity:1; transform:none; }
 
 .promise { position:relative; padding:clamp(7rem,13vw,13rem) max(5vw,calc((100vw - 1320px)/2)); overflow:hidden; background:#fff; color:#000; }
+.promiseLead { position:relative; }
 .promise::before { content:"CORPO"; position:absolute; right:-.06em; top:-.24em; color:rgb(0 0 0 / 3.5%); font-size:32vw; line-height:1; font-weight:900; letter-spacing:-.1em; }
 .promise .sectionCode { color:#647800; }
 .promise h2 { position:relative; max-width:11ch; margin-top:1.5rem; font-size:clamp(3.5rem,8.5vw,9.5rem); line-height:.84; font-weight:900; letter-spacing:-.075em; text-transform:uppercase; }

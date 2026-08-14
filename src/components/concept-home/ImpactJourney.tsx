@@ -38,7 +38,9 @@ function stageFromProgress(progress: number) {
 
 export function ImpactJourney({ definitive = false }: { definitive?: boolean }) {
   const journeyRef = useRef<HTMLElement>(null);
+  const bridgeRef = useRef<HTMLElement>(null);
   const frameRef = useRef<number | null>(null);
+  const bridgeFrameRef = useRef<number | null>(null);
   const forceMotionRef = useRef(false);
   const [motionReduced, setMotionReduced] = useState(false);
   const [useId, setUseId] = useState<(typeof useCases)[number]["id"]>(useCases[0].id);
@@ -187,6 +189,115 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
     };
   }, [definitive]);
 
+  useEffect(() => {
+    const bridge = bridgeRef.current;
+    if (!bridge) return;
+
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const explicitReduced = new URLSearchParams(window.location.search).get("motion") === "reduce";
+    const prefersReduced = () => !forceMotionRef.current && (explicitReduced || media.matches);
+    let currentProgress = 0;
+    let targetProgress = 0;
+    let previousTime = performance.now();
+    let initialized = false;
+    let bridgeVisible = false;
+    let needsMeasure = true;
+    let lastRendered = -1;
+
+    const render = (progress: number) => {
+      if (Math.abs(progress - lastRendered) < .0005) return;
+      bridge.style.setProperty("--bridge", progress.toFixed(4));
+      lastRendered = progress;
+    };
+
+    const measure = () => {
+      const rect = bridge.getBoundingClientRect();
+      const distance = Math.max(bridge.offsetHeight + window.innerHeight, 1);
+      targetProgress = Math.min(1, Math.max(0, (window.innerHeight - rect.top) / distance));
+    };
+
+    const tick = (time: number) => {
+      bridgeFrameRef.current = null;
+
+      if (prefersReduced()) {
+        currentProgress = .72;
+        targetProgress = .72;
+        render(.72);
+        return;
+      }
+
+      if (needsMeasure) {
+        measure();
+        needsMeasure = false;
+        if (!initialized) {
+          currentProgress = targetProgress;
+          initialized = true;
+        }
+      }
+
+      const delta = Math.min(Math.max(time - previousTime, 0), 64);
+      previousTime = time;
+      const alpha = 1 - Math.exp(-delta / 90);
+      currentProgress += (targetProgress - currentProgress) * alpha;
+
+      if (Math.abs(targetProgress - currentProgress) < .0007) currentProgress = targetProgress;
+      render(currentProgress);
+
+      if (bridgeVisible && Math.abs(targetProgress - currentProgress) >= .0007) {
+        bridgeFrameRef.current = requestAnimationFrame(tick);
+      }
+    };
+
+    const schedule = () => {
+      if (bridgeFrameRef.current !== null) return;
+      previousTime = performance.now();
+      bridgeFrameRef.current = requestAnimationFrame(tick);
+    };
+
+    const requestUpdate = () => {
+      if (!bridgeVisible) return;
+      needsMeasure = true;
+      schedule();
+    };
+
+    const syncPreference = () => {
+      initialized = false;
+      needsMeasure = true;
+      schedule();
+    };
+
+    const observer = new IntersectionObserver(([entry]) => {
+      bridgeVisible = entry.isIntersecting;
+      if (bridgeVisible) {
+        bridge.dataset.active = "true";
+        needsMeasure = true;
+        schedule();
+      } else {
+        bridge.removeAttribute("data-active");
+        const restingProgress = entry.boundingClientRect.top < 0 ? 1 : 0;
+        currentProgress = restingProgress;
+        targetProgress = restingProgress;
+        initialized = false;
+        render(prefersReduced() ? .72 : restingProgress);
+      }
+    }, { rootMargin: "120px 0px", threshold: 0 });
+
+    observer.observe(bridge);
+    syncPreference();
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
+    media.addEventListener("change", syncPreference);
+
+    return () => {
+      window.removeEventListener("scroll", requestUpdate);
+      window.removeEventListener("resize", requestUpdate);
+      media.removeEventListener("change", syncPreference);
+      observer.disconnect();
+      bridge.removeAttribute("data-active");
+      if (bridgeFrameRef.current !== null) cancelAnimationFrame(bridgeFrameRef.current);
+    };
+  }, []);
+
   return <div className={styles.experience} data-motion={motionReduced ? "reduced" : "full"}>
     {definitive && motionReduced && <button type="button" className={styles.motionToggleStandalone} onClick={enableMotion}>Ativar movimento</button>}
     {!definitive && <header className={styles.topbar}>
@@ -205,14 +316,27 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
         <div className={styles.energyPath}><span/><span/><span/></div>
         <nav className={styles.stageRail}>{stages.map((stage) => <div key={stage.key} className={styles.railItem} data-key={stage.key}><span>{stage.number}</span><i/><strong>{stage.label}</strong></div>)}</nav>
         <div className={styles.chapters}>{stages.map((stage) => <article key={stage.key} className={styles.chapter} data-key={stage.key}><p className={styles.eyebrow}>{stage.number} · {stage.label}</p><h1>{stage.title}</h1><p className={styles.description}>{stage.text}</p>{stage.key === "hero" && <div className={styles.heroActions}><a href="#rotina" className={styles.primaryAction}>Acompanhar a força</a><a href="#linhas" className={styles.heroSecondaryAction}>Ver as linhas</a><span>Role para entrar no sistema</span></div>}</article>)}</div>
+        <div className={styles.journeyExit} aria-hidden="true"><i/><span>ENERGIA CONTROLADA</span></div>
         <div className={styles.progress}><span/></div>
       </div>
     </section>
 
-    <section className={styles.promise} data-reveal>
-      <p className={styles.sectionCode}>05 · O corpo</p><h2>A última peça do sistema não é de metal.</h2>
-      <div className={styles.bodyGrid}><p><strong>A BUMP não vende amortecedor de prateleira.</strong> É o corpo de quem dirige. Conforto não é adorno: é reduzir o impacto acumulado sem tirar controle da ferramenta. Fluido, pressurização e curso são definidos pela engenharia para cada aplicação.</p><div className={styles.wave}><i/><i/><i/><span>IMPACTO ENTRA</span><b>ENERGIA CONTROLADA</b></div></div>
-      <div className={styles.trust}>{[["13+","anos de fábrica"],["2 anos","contra vazamento"],["Sob medida","veículo e uso"],["Brasil","produção própria"],["Envio","nacional"]].map(([a,b])=><div key={b}><strong>{a}</strong><span>{b}</span></div>)}</div>
+    <section ref={bridgeRef} className={styles.energyBridge} aria-hidden="true">
+      <div className={styles.bridgeGrid}/>
+      <div className={styles.bridgeSurface}/>
+      <div className={styles.bridgeBeam}><i/><span/></div>
+      <svg className={styles.bridgeWave} viewBox="0 0 1600 260" preserveAspectRatio="none">
+        <path className={styles.bridgeWaveGhost} d="M0 150 C180 65 330 235 520 145 S850 60 1040 155 S1390 230 1600 120"/>
+        <path className={styles.bridgeWaveEnergy} d="M0 150 C180 65 330 235 520 145 S850 60 1040 155 S1390 230 1600 120"/>
+      </svg>
+      <div className={styles.bridgeTransfer}><span>04 · CONTROLE</span><i/><strong>05 · O CORPO</strong></div>
+    </section>
+
+    <section className={styles.promise}>
+      <div className={styles.promiseEntry} aria-hidden="true"><i/><span/></div>
+      <div className={styles.promiseLead} data-reveal><p className={styles.sectionCode}>05 · O corpo</p><h2>A última peça do sistema não é de metal.</h2></div>
+      <div className={styles.bodyGrid} data-reveal><p><strong>A BUMP não vende amortecedor de prateleira.</strong> É o corpo de quem dirige. Conforto não é adorno: é reduzir o impacto acumulado sem tirar controle da ferramenta. Fluido, pressurização e curso são definidos pela engenharia para cada aplicação.</p><div className={styles.wave}><i/><i/><i/><span>IMPACTO ENTRA</span><b>ENERGIA CONTROLADA</b></div></div>
+      <div className={styles.trust} data-reveal>{[["13+","anos de fábrica"],["2 anos","contra vazamento"],["Sob medida","veículo e uso"],["Brasil","produção própria"],["Envio","nacional"]].map(([a,b])=><div key={b}><strong>{a}</strong><span>{b}</span></div>)}</div>
     </section>
 
     <section id="rotina" className={styles.uses}>
