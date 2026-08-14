@@ -860,3 +860,164 @@
   :global(body:not(.concept-force-motion)) .chapter[data-key="control"] h1 { max-width: 13ch; font-size: clamp(2.55rem,11vw,4.6rem); }
   :global(body:not(.concept-force-motion)) .heroActions { align-items: stretch; }
 }
+
+/* Official BUMP identity and local vehicle-brand marks */
+.brand {
+  display: inline-flex;
+  align-items: center;
+}
+
+.brandLogo {
+  display: block;
+  width: clamp(112px, 10vw, 155px);
+  height: auto;
+}
+
+.marquee .brandMark {
+  display: inline-flex;
+  flex: 0 0 260px;
+  align-items: center;
+  justify-content: center;
+  gap: 1.15rem;
+  min-width: 260px;
+  padding: 1.25rem 2.5rem;
+  text-align: left;
+}
+
+.brandMarkLogo {
+  width: 54px;
+  height: 38px;
+  object-fit: contain;
+}
+
+.brandMark b {
+  font-size: 1rem;
+  letter-spacing: -.02em;
+}
+
+.footerLogo {
+  display: block;
+  width: clamp(130px, 12vw, 180px);
+  height: auto;
+}
+
+@media (max-width: 900px) {
+  .brandLogo { width: 112px; }
+  .marquee .brandMark { flex-basis: 215px; min-width: 215px; gap: .8rem; padding-inline: 1.25rem; }
+  .brandMarkLogo { width: 44px; height: 32px; }
+  .brandMark b { font-size: .84rem; }
+  .footerLogo { width: 125px; }
+}
+
+/* Final editorial polish · calmer rhythm and more readable type */
+.chapter h1,
+.sectionIntro h2,
+.promise h2,
+.useCopy h3,
+.lineCopy h3,
+.durabilityCopy h2,
+.authorityGrid h3,
+.finalCopy h2 {
+  text-wrap: balance;
+}
+
+.chapter h1 {
+  line-height: .91;
+  letter-spacing: -.055em;
+}
+
+.description {
+  max-width: 38rem;
+  margin-top: 1.65rem;
+  color: rgb(255 255 255 / 78%);
+  line-height: 1.72;
+}
+
+.sectionIntro { gap: 1.45rem; }
+.sectionIntro h2 { line-height: .93; letter-spacing: -.055em; }
+.sectionIntro > p:last-child { color: rgb(255 255 255 / 72%); line-height: 1.75; }
+.promise h2 { line-height: .9; letter-spacing: -.06em; }
+.bodyGrid { margin-top: clamp(4rem, 6vw, 6rem); }
+.bodyGrid > p { max-width: 31rem; line-height: 1.72; }
+.useCopy h3 { line-height: .89; letter-spacing: -.055em; }
+.useCopy > span { color: rgb(255 255 255 / 78%); line-height: 1.72; }
+.engineeringCopy h3 { line-height: 1.08; letter-spacing: -.03em; }
+.engineeringCopy article p { color: rgb(255 255 255 / 70%); line-height: 1.72; }
+.lineCopy h3 { line-height: .9; letter-spacing: -.06em; }
+.lineCopy strong { line-height: 1.42; }
+.lineCopy > span { color: rgb(0 0 0 / 68%); line-height: 1.7; }
+.durabilityCopy h2 { line-height: .95; letter-spacing: -.05em; }
+.durabilityCopy > p:not(.sectionCode) { line-height: 1.75; }
+.authorityGrid h3 { line-height: .98; letter-spacing: -.04em; }
+.authorityGrid p { line-height: 1.75; }
+.finalCopy h2 { line-height: .9; letter-spacing: -.055em; }
+.finalCopy > p:not(.sectionCode) { color: rgb(255 255 255 / 78%); line-height: 1.72; }
+.faqList summary { line-height: 1.16; }
+.faqList details p { color: rgb(0 0 0 / 70%); line-height: 1.75; }
+
+@media (max-width: 900px) {
+  .sectionIntro { gap: 1.25rem; }
+  .sectionIntro h2,
+  .engineeringCopy .sectionIntro h2 {
+    max-width: 12ch;
+    font-size: clamp(2.5rem, 10.5vw, 4.35rem);
+    line-height: .97;
+    letter-spacing: -.045em;
+  }
+
+  .promise,
+  .uses,
+  .lines,
+  .durability,
+  .authority,
+  .faq { padding-block: clamp(6.5rem, 20vw, 8rem); }
+
+  .promise h2 {
+    max-width: 11ch;
+    font-size: clamp(2.8rem, 11.5vw, 4.8rem);
+    line-height: .95;
+    letter-spacing: -.05em;
+  }
+
+  .bodyGrid { margin-top: 3.5rem; }
+  .bodyGrid > p { font-size: 1.05rem; line-height: 1.75; }
+  .useCopy { bottom: 2.5rem; }
+  .useCopy h3 { max-width: 100%; font-size: clamp(2rem, 8.5vw, 2.8rem); line-height: .96; letter-spacing: -.04em; }
+  .useCopy > span { margin-top: 1.25rem; font-size: .98rem; line-height: 1.72; }
+  .lineCopy h3 { font-size: clamp(2.15rem, 8.8vw, 3.75rem); line-height: .96; letter-spacing: -.045em; }
+  .durabilityCopy h2 { font-size: clamp(2.6rem, 11vw, 4rem); line-height: .98; }
+  .authorityGrid h3 { margin-top: 2.25rem; font-size: clamp(2.2rem, 10vw, 3.5rem); line-height: 1; }
+  .finalCopy h2 { font-size: clamp(2.8rem, 11.5vw, 4.7rem); line-height: .95; letter-spacing: -.045em; }
+  .faqList { margin-top: 3.5rem; }
+  .faqList summary { padding-block: 1.65rem; font-size: clamp(1.08rem, 5vw, 1.45rem); line-height: 1.25; }
+  .faqList details p { padding-left: 0; font-size: .98rem; }
+
+  :global(body.concept-force-motion) .chapter h1,
+  :global(body.concept-force-motion) .chapter[data-key="hero"] h1,
+  :global(body.concept-force-motion) .chapter[data-key="terrain"] h1,
+  :global(body.concept-force-motion) .chapter[data-key="compression"] h1,
+  :global(body.concept-force-motion) .chapter[data-key="control"] h1,
+  :global(body:not(.concept-force-motion)) .chapter h1,
+  :global(body:not(.concept-force-motion)) .chapter[data-key="terrain"] h1,
+  :global(body:not(.concept-force-motion)) .chapter[data-key="compression"] h1,
+  :global(body:not(.concept-force-motion)) .chapter[data-key="control"] h1 {
+    max-width: 13ch;
+    font-size: clamp(2.3rem, 10.5vw, 4.35rem);
+    line-height: .95;
+    letter-spacing: -.045em;
+  }
+}
+
+/* Long product names keep the editorial weight without clipping */
+.useCopy h3.compactProductName {
+  font-size: clamp(3rem, 5vw, 5rem);
+}
+
+.lineCopy h3.compactProductName {
+  font-size: clamp(2.7rem, 3.4vw, 3rem);
+}
+
+@media (max-width: 900px) {
+  .useCopy h3.compactProductName { font-size: clamp(2rem, 8.5vw, 2.8rem); }
+  .lineCopy h3.compactProductName { font-size: clamp(2.15rem, 8.8vw, 3rem); }
+}

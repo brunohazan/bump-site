@@ -9,6 +9,16 @@
 
 Este PDF passa a ser a fonte oficial disponível para cores e tipografia. Decisões anteriores do protótipo devem ser consideradas provisórias quando divergirem deste documento.
 
+## Logo oficial recebido
+
+- Arquivo publicado: `public/brand/bump-logo.png`
+- Origem: `logo bump.png`, fornecido pelo cliente via Desktop em 13/08/2026
+- Tratamento: recorte exclusivo da área transparente excedente e redução proporcional, sem alteração do desenho
+- Dimensões publicadas: `1400 × 415 px`, PNG RGBA
+- SHA-256: `c457185e8fa843d046629689509b6d7682e507d16fb36d67805148e52232db6b`
+
+O PNG é o logo oficial disponível para uso imediato na Home. O arquivo original fornecido permanece fora do repositório; ainda é desejável receber a matriz vetorial para futuras aplicações em grandes formatos.
+
 ## Tokens oficiais extraídos
 
 ### Cores

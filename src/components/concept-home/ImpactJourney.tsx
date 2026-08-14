@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { ASSET_BASE, faqItems, getProductLine, productLines, useCases, vehicleBrands } from "@/lib/site-data";
+import { ASSET_BASE, faqItems, getProductLine, productLines, useCases } from "@/lib/site-data";
 import styles from "./ImpactJourney.module.css";
 
 const stages = [
@@ -24,6 +24,11 @@ const technology = [
   ["04", "Recuperável", "O equipamento pode voltar à fábrica para desmontagem, inspeção e recuperação."],
 ] as const;
 
+const brandMarks = [
+  ["Toyota", "toyota"], ["Ford", "ford"], ["Chevrolet", "chevrolet"], ["Mitsubishi", "mitsubishi"],
+  ["Nissan", "nissan"], ["Volkswagen", "volkswagen"], ["RAM", "ram"], ["Jeep", "jeep"],
+] as const;
+
 function stageFromProgress(progress: number) {
   if (progress >= .79) return "control";
   if (progress >= .53) return "compression";
@@ -31,7 +36,7 @@ function stageFromProgress(progress: number) {
   return "hero";
 }
 
-export function ImpactJourney() {
+export function ImpactJourney({ definitive = false }: { definitive?: boolean }) {
   const journeyRef = useRef<HTMLElement>(null);
   const frameRef = useRef<number | null>(null);
   const forceMotionRef = useRef(false);
@@ -83,9 +88,9 @@ export function ImpactJourney() {
 
   return <div className={styles.experience} data-motion={motionReduced ? "reduced" : "full"}>
     <header className={styles.topbar}>
-      <Link href="/" className={styles.brand}>BUMP</Link>
+      <Link href="/" className={styles.brand} aria-label="BUMP Amortecedores"><Image src="/brand/bump-logo.png" alt="" width={180} height={53} priority className={styles.brandLogo}/></Link>
       <nav className={styles.miniNav}><a href="#rotina">Rotina</a><a href="#engenharia">Engenharia</a><a href="#linhas">Linhas</a><a href="#resultados">400 mil km</a></nav>
-      <div className={styles.topActions}>{motionReduced && <button type="button" className={styles.motionToggle} onClick={enableMotion}>Ativar movimento</button>}<Link href="/" className={styles.exit}>Sair ↗</Link></div>
+      <div className={styles.topActions}>{motionReduced && <button type="button" className={styles.motionToggle} onClick={enableMotion}>Ativar movimento</button>}{definitive ? <Link href="/configurador" className={styles.exit}>Montar ↗</Link> : <Link href="/" className={styles.exit}>Sair ↗</Link>}</div>
     </header>
 
     <section ref={journeyRef} className={styles.journey} data-stage="hero">
@@ -113,12 +118,12 @@ export function ImpactJourney() {
       <div className={styles.useTabs}>{useCases.map((item)=><button key={item.id} type="button" data-active={item.id===useId} onClick={()=>setUseId(item.id)}><span>{item.number}</span>{item.label}</button>)}<Link href="/configurador?uso=projeto"><span>05</span>Projeto especial ↗</Link></div>
       <article className={styles.useScene} key={useId}>
         <Image src={useImages[useId]} alt={`Picape em cenário de ${useCase.label.toLowerCase()}`} fill sizes="100vw" className={styles.useBackground}/><div className={styles.useShade}/>
-        <div className={styles.useCopy}><p>Recomendado para {useCase.label}</p><h3>{useLine.shortName}</h3><span>{useCase.description} {useLine.description}</span><div><Link className={styles.primaryAction} href={`/configurador?linha=${useLine.slug}&uso=${useId}`}>Montar essa linha</Link><Link href={`/linhas/${useLine.slug}`}>Ver detalhes ↗</Link></div></div>
+        <div className={styles.useCopy}><p>Recomendado para {useCase.label}</p><h3 className={useLine.shortName.length > 8 ? styles.compactProductName : undefined}>{useLine.shortName}</h3><span>{useCase.description} {useLine.description}</span><div><Link className={styles.primaryAction} href={`/configurador?linha=${useLine.slug}&uso=${useId}`}>Montar essa linha</Link><Link href={`/linhas/${useLine.slug}`}>Ver detalhes ↗</Link></div></div>
         <div className={styles.useProduct}><Image src={useLine.image} alt={useLine.name} fill sizes="(min-width:900px) 42vw,85vw"/></div>
       </article>
     </section>
 
-    <section className={styles.brands}><p>Picapes que encontram seu acerto</p><div className={styles.marquee}><div>{[...vehicleBrands,...vehicleBrands].map((brand,i)=><span key={`${brand}-${i}`}>{brand}</span>)}</div></div></section>
+    <section className={styles.brands}><p>Picapes que encontram seu acerto</p><div className={styles.marquee} aria-label={brandMarks.map(([name]) => name).join(", ")}><div>{[...brandMarks,...brandMarks].map(([name,slug],i)=><span className={styles.brandMark} key={`${slug}-${i}`}><Image src={`/brands/${slug}.svg`} alt="" width={72} height={44} loading="eager" unoptimized className={styles.brandMarkLogo}/><b>{name}</b></span>)}</div></div></section>
 
     <section id="engenharia" className={styles.engineering}>
       <div className={styles.engineeringVisual}><div className={styles.fluid}><i/><i/><i/><i/><i/></div><Image src={productLines[2].image} alt="Vista técnica do amortecedor BUMP" fill sizes="50vw"/><span>PRESSÃO → FLUIDO → RETORNO</span></div>
@@ -130,7 +135,7 @@ export function ImpactJourney() {
       <div className={styles.lineStage}>
         <button type="button" onClick={()=>setLineIndex((lineIndex+productLines.length-1)%productLines.length)} aria-label="Linha anterior">←</button>
         <div className={styles.lineProduct} key={activeLine.slug}><span>{activeLine.code}</span><Image src={activeLine.image} alt={activeLine.name} fill sizes="(min-width:900px) 48vw,90vw"/></div>
-        <div className={styles.lineCopy}><p>{activeLine.badge}</p><h3>{activeLine.shortName}</h3><strong>{activeLine.headline}</strong><span>{activeLine.description}</span><Link href={`/linhas/${activeLine.slug}`}>Explorar a linha ↗</Link></div>
+        <div className={styles.lineCopy}><p>{activeLine.badge}</p><h3 className={activeLine.shortName.length > 8 ? styles.compactProductName : undefined}>{activeLine.shortName}</h3><strong>{activeLine.headline}</strong><span>{activeLine.description}</span><Link href={`/linhas/${activeLine.slug}`}>Explorar a linha ↗</Link></div>
         <button type="button" onClick={()=>setLineIndex((lineIndex+1)%productLines.length)} aria-label="Próxima linha">→</button>
       </div>
       <div className={styles.lineIndex}>{productLines.map((line,i)=><button type="button" data-active={i===lineIndex} onClick={()=>setLineIndex(i)} key={line.slug}>{line.code}<strong>{line.shortName}</strong></button>)}</div>
@@ -157,6 +162,6 @@ export function ImpactJourney() {
       <div className={styles.faqActions}><Link href="/faq">Ver todas as dúvidas ↗</Link><Link href="/contato">Falar com a BUMP ↗</Link></div>
     </section>
 
-    <footer className={styles.conceptFooter}><strong>BUMP</strong><span>DO CHÃO AO CORPO · CONCEITO V0.2</span><Link href="/">Voltar ao site atual ↗</Link></footer>
+    <footer className={styles.conceptFooter}><Image src="/brand/bump-logo.png" alt="BUMP Amortecedores" width={180} height={53} className={styles.footerLogo}/><span>{definitive ? "DO CHÃO AO CORPO · BUMP AMORTECEDORES" : "DO CHÃO AO CORPO · CONCEITO V0.2"}</span><Link href={definitive ? "/configurador" : "/"}>{definitive ? "Montar meu amortecedor ↗" : "Voltar ao site atual ↗"}</Link></footer>
   </div>;
 }
