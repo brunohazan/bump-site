@@ -9,6 +9,7 @@ const contentSecurityPolicy = [
   "img-src 'self' data: blob: https://pub-8f0b05c2503f42609136a4e1e55a9242.r2.dev",
   "font-src 'self' data:",
   `connect-src 'self'${isDevelopment ? " ws: wss:" : ""}`,
+  "frame-src https://www.youtube-nocookie.com",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
@@ -31,6 +32,10 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "pub-8f0b05c2503f42609136a4e1e55a9242.r2.dev",
+      },
+      {
+        protocol: "https",
+        hostname: "i.ytimg.com",
       },
     ],
   },

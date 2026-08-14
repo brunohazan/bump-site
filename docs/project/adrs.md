@@ -95,3 +95,23 @@ ou repetição de palavra-chave.
 arquitetura principal.
 
 **Data:** 2026-08-14.
+
+## ADR-008 · Vídeo institucional com carregamento sob clique
+
+**Decisão:** hospedar o vídeo institucional em `/quem-somos` por meio de um player que só carrega o
+YouTube após interação do usuário, usando `youtube-nocookie.com`. A miniatura é servida pela própria
+origem através do otimizador de imagens do Next. O CSP recebe apenas `frame-src` para
+`https://www.youtube-nocookie.com`; `img-src` permanece restrito a `'self'`, `data:`, `blob:` e ao
+bucket R2.
+
+**Motivo:** dar autoria real e verificável à autoridade da marca sem depender de retrato estático,
+preservando LCP, evitando requisições e cookies de terceiros na primeira visita e mantendo a
+superfície do CSP mínima.
+
+**Alternativas:** iframe carregado de imediato; `youtube.com` padrão com cookies; hospedar o arquivo
+de vídeo no próprio bucket; usar um frame do vídeo como fotografia estática.
+
+**Consequências:** o título do vídeo no YouTube aparece no player após o play. Títulos com alegações
+não sustentadas contradizem a disciplina de conteúdo do site e devem ser renomeados na origem.
+
+**Data:** 2026-08-14.

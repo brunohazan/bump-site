@@ -100,7 +100,9 @@ O CTA primário das superfícies de decisão é comercial. Ações narrativas fi
 
 - **Home:** gerar compreensão e desejo pela jornada “Do chão ao corpo”; apresentar autoria sem
   interromper a experiência.
-- **Quem somos:** consolidar Cristian, origem, especialização e processo sob medida.
+- **Quem somos:** consolidar Cristian, origem, especialização e processo sob medida. Hospeda o vídeo
+  institucional do canal oficial, com carregamento sob clique e legenda que limita a leitura de
+  compatibilidade automática.
 - **Tecnologia:** traduzir construção em efeito e oferecer comparação por critérios.
 - **Linhas:** orientar escolha por rotina, sem transformar o produto em commodity.
 - **Aplicações por modelo:** responder à busca específica, contextualizar usos e levar à confirmação

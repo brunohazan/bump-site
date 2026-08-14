@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Breadcrumb, CTASection, Eyebrow } from "@/components/site/Primitives";
+import { VideoEmbed } from "@/components/site/VideoEmbed";
 import { ASSET_BASE } from "@/lib/site-data";
 
 export const metadata: Metadata = {
@@ -69,9 +70,26 @@ export default function AboutPage() {
       </section>
 
       <section className="section-space border-y border-line-1 bg-ink-soft">
+        <div className="site-container grid gap-10 lg:grid-cols-[.62fr_1.38fr] lg:items-center">
+          <div>
+            <Eyebrow>02 · Vídeo institucional</Eyebrow>
+            <h2 data-reveal className="text-4xl font-black tracking-[-0.045em] md:text-5xl">O especialista, o produto e o terreno na mesma cena.</h2>
+            <p data-reveal data-delay="1" className="mt-6 max-w-md leading-relaxed text-mute-1">Cristian apresenta a aplicação em veículos reais, com a suspensão instalada e em uso. É o registro mais direto de como a BUMP trabalha: começa pela conversa sobre o veículo e termina no comportamento sentido no terreno.</p>
+          </div>
+          <div data-reveal="mask">
+            <VideoEmbed
+              videoId="AYLSZZo0-N8"
+              title="Vídeo institucional BUMP Amortecedores"
+              caption="Publicado no canal oficial da BUMP. As aplicações mostradas são exemplos reais e não representam compatibilidade automática com outros veículos ou versões."
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="section-space">
         <div className="site-container">
           <div className="grid gap-7 lg:grid-cols-[.75fr_1.25fr] lg:items-end">
-            <div><Eyebrow>02 · Princípios</Eyebrow><h2 data-reveal className="text-4xl font-black tracking-[-0.045em] md:text-6xl">Três decisões que orientam cada projeto.</h2></div>
+            <div><Eyebrow>03 · Princípios</Eyebrow><h2 data-reveal className="text-4xl font-black tracking-[-0.045em] md:text-6xl">Três decisões que orientam cada projeto.</h2></div>
             <p data-reveal data-delay="1" className="max-w-xl leading-relaxed text-mute-1 lg:justify-self-end">A marca não começa no acabamento. Começa no efeito que o conjunto precisa produzir no corpo, no veículo e no custo de manter a ferramenta trabalhando.</p>
           </div>
           <div className="mt-10 grid gap-px overflow-hidden border border-line-1 bg-line-1 md:grid-cols-3">
@@ -86,9 +104,9 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="section-space">
+      <section className="section-space border-y border-line-1 bg-ink-soft">
         <div className="site-container grid gap-12 lg:grid-cols-[.72fr_1.28fr]">
-          <div className="lg:sticky lg:top-28 lg:self-start"><Eyebrow>03 · Da conversa à fábrica</Eyebrow><h2 data-reveal className="text-4xl font-black tracking-[-0.045em] md:text-6xl">Sob medida é um processo, não um rótulo.</h2><p data-reveal data-delay="1" className="mt-6 max-w-md leading-relaxed text-mute-1">Sem fotografias documentais da fábrica nesta versão, o processo é apresentado de forma textual e verificável, sem simular bastidores inexistentes.</p></div>
+          <div className="lg:sticky lg:top-28 lg:self-start"><Eyebrow>04 · Da conversa à fábrica</Eyebrow><h2 data-reveal className="text-4xl font-black tracking-[-0.045em] md:text-6xl">Sob medida é um processo, não um rótulo.</h2><p data-reveal data-delay="1" className="mt-6 max-w-md leading-relaxed text-mute-1">Sem fotografias documentais da fábrica nesta versão, o processo é apresentado de forma textual e verificável, sem simular bastidores inexistentes.</p></div>
           <div className="divide-y divide-line-2 border-y border-line-2">
             {process.map(([number, title, text], index) => (
               <article key={number} data-reveal data-delay={`${Math.min(index, 3)}`} className="grid gap-4 py-8 sm:grid-cols-[52px_150px_1fr] sm:gap-6 md:py-10">
@@ -101,10 +119,10 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="section-space border-y border-line-1 bg-ink-soft">
+      <section className="section-space">
         <div className="site-container">
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-            <div><Eyebrow>04 · Veículos e aplicações</Eyebrow><h2 data-reveal className="max-w-4xl text-4xl font-black tracking-[-0.045em] md:text-6xl">O trabalho aparece no veículo. O acerto nasce no contexto.</h2></div>
+            <div><Eyebrow>05 · Veículos e aplicações</Eyebrow><h2 data-reveal className="max-w-4xl text-4xl font-black tracking-[-0.045em] md:text-6xl">O trabalho aparece no veículo. O acerto nasce no contexto.</h2></div>
             <Link href="/aplicacoes" className="button-secondary">Ver aplicações</Link>
           </div>
           <p className="mt-6 max-w-2xl leading-relaxed text-mute-2">As imagens abaixo representam aplicações e cenários de uso. Não são fotografias da fábrica, da equipe ou do fundador.</p>
