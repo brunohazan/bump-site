@@ -29,7 +29,7 @@ const usageOptions = [
   ["projeto", "Projeto especial"],
 ] as const;
 const goalOptions = ["Mais conforto", "Mais estabilidade", "Mais capacidade de carga", "Mais durabilidade"] as const;
-const colors = [["Preto", "#161616"], ["Verde BUMP", "#2fd35d"], ["Prata", "#bfc4bf"], ["Vermelho", "#c53a35"], ["Azul", "#245fa5"]] as const;
+const colors = [["Preto", "#161616"], ["Amarelo Citrus", "#d3ff1a"], ["Prata", "#bfc4bf"], ["Vermelho", "#c53a35"], ["Azul", "#245fa5"]] as const;
 const recommendedByUsage: Record<string, LineSlug> = { urbano: "performance", agro: "inox", trilha: "coilover", rally: "bypass", projeto: "premium" };
 
 export function Configurator({ initial }: { initial: { vehicle?: string; line?: string; usage?: string } }) {
@@ -181,7 +181,7 @@ export function Configurator({ initial }: { initial: { vehicle?: string; line?: 
 
       <aside className="relative hidden border-l border-line-2 bg-ink lg:block">
         <div className="sticky top-24">
-          <div className="relative min-h-80 overflow-hidden border-b border-line-2 bg-[radial-gradient(circle_at_50%_45%,rgba(47,211,93,.18),transparent_58%)]">
+          <div className="relative min-h-80 overflow-hidden border-b border-line-2 bg-[radial-gradient(circle_at_50%_45%,rgba(211,255,26,.18),transparent_58%)]">
             <span className="absolute top-5 left-5 z-10 font-mono text-[9px] tracking-[0.12em] text-accent uppercase">Recomendação atual</span>
             <Image key={recommended.slug} src={recommended.image} alt={recommended.name} fill sizes="380px" className="selector-panel-enter object-contain p-10" />
             <span className="absolute right-5 bottom-5 font-mono text-[9px] text-mute-3">{recommended.code}</span>

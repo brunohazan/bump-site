@@ -189,7 +189,7 @@ export function Header() {
           mobileOpen ? "visible translate-y-0 opacity-100" : "invisible -translate-y-3 opacity-0"
         }`}
       >
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_90%_10%,rgba(47,211,93,.16),transparent_32%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_90%_10%,rgba(211,255,26,.16),transparent_32%)]" />
         <div className="site-container relative flex min-h-full flex-col py-7">
           <div className="grid gap-0">
             {[

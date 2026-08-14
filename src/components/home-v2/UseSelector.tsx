@@ -52,7 +52,7 @@ export function UseSelector() {
         aria-live="polite"
         className="selector-panel-enter mt-3 grid min-h-[560px] overflow-hidden border border-line-2 bg-ink lg:grid-cols-[1.08fr_.92fr]"
       >
-        <div className="relative min-h-[390px] overflow-hidden bg-[radial-gradient(circle_at_50%_50%,rgba(47,211,93,.16),transparent_58%)] lg:min-h-[560px]">
+        <div className="relative min-h-[390px] overflow-hidden bg-[radial-gradient(circle_at_50%_50%,rgba(211,255,26,.16),transparent_58%)] lg:min-h-[560px]">
           <span className="absolute top-5 left-5 z-10 font-mono text-[10px] tracking-[0.15em] text-mute-3 uppercase">{line.code} · {line.badge}</span>
           <span className="pointer-events-none absolute -right-5 -bottom-16 text-[clamp(9rem,25vw,22rem)] leading-none font-black tracking-[-0.09em] text-paper/[0.025]">{selected.number}</span>
           <Image

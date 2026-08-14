@@ -68,7 +68,7 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
       body.classList.add("concept-force-motion");
       journey.setAttribute("data-force-motion", "true");
     }
-    const prefersReduced = () => media.matches && !forceMotionRef.current;
+    const prefersReduced = () => !forceMotionRef.current && (explicitReduced || media.matches);
     const update = () => {
       frameRef.current = null;
       if (prefersReduced()) { journey.style.setProperty("--journey", ".68"); journey.dataset.stage = "control"; return; }
@@ -88,6 +88,7 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
   }, [definitive]);
 
   return <div className={styles.experience} data-motion={motionReduced ? "reduced" : "full"}>
+    {definitive && motionReduced && <button type="button" className={styles.motionToggleStandalone} onClick={enableMotion}>Ativar movimento</button>}
     {!definitive && <header className={styles.topbar}>
       <Link href="/" className={styles.brand} aria-label="BUMP Amortecedores"><Image src="/brand/bump-logo.png" alt="" width={180} height={53} priority className={styles.brandLogo}/></Link>
       <nav className={styles.miniNav}><a href="#rotina">Rotina</a><a href="#engenharia">Engenharia</a><a href="#linhas">Linhas</a><a href="#resultados">400 mil km</a></nav>
@@ -103,15 +104,15 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
         <div className={styles.productStage}><div className={styles.productHalo}/><Image src={productLines[2].image} alt="Amortecedor BUMP Premium em visualização conceitual" fill sizes="(min-width:900px) 48vw,88vw" className={styles.productImage}/><div className={styles.compressionScale}><span>EXTENSÃO</span><i/><span>COMPRESSÃO</span></div></div>
         <div className={styles.energyPath}><span/><span/><span/></div>
         <nav className={styles.stageRail}>{stages.map((stage) => <div key={stage.key} className={styles.railItem} data-key={stage.key}><span>{stage.number}</span><i/><strong>{stage.label}</strong></div>)}</nav>
-        <div className={styles.chapters}>{stages.map((stage) => <article key={stage.key} className={styles.chapter} data-key={stage.key}><p className={styles.eyebrow}>{stage.number} · {stage.label}</p><h1>{stage.title}</h1><p className={styles.description}>{stage.text}</p>{stage.key === "hero" && <div className={styles.heroActions}><a href="#rotina" className={styles.primaryAction}>Acompanhar a força</a><span>Role para entrar no sistema</span></div>}</article>)}</div>
-        <div className={styles.progress}><span/></div><p className={styles.conceptNote}>Movimento conceitual · acerto sujeito à validação técnica</p>
+        <div className={styles.chapters}>{stages.map((stage) => <article key={stage.key} className={styles.chapter} data-key={stage.key}><p className={styles.eyebrow}>{stage.number} · {stage.label}</p><h1>{stage.title}</h1><p className={styles.description}>{stage.text}</p>{stage.key === "hero" && <div className={styles.heroActions}><a href="#rotina" className={styles.primaryAction}>Acompanhar a força</a><a href="#linhas" className={styles.heroSecondaryAction}>Ver as linhas</a><span>Role para entrar no sistema</span></div>}</article>)}</div>
+        <div className={styles.progress}><span/></div>
       </div>
     </section>
 
     <section className={styles.promise} data-reveal>
       <p className={styles.sectionCode}>05 · O corpo</p><h2>A última peça do sistema não é de metal.</h2>
-      <div className={styles.bodyGrid}><p>É o corpo de quem dirige. Conforto não é adorno: é reduzir o impacto acumulado sem tirar controle da ferramenta.</p><div className={styles.wave}><i/><i/><i/><span>IMPACTO ENTRA</span><b>ENERGIA CONTROLADA</b></div></div>
-      <div className={styles.trust}>{[["13+","anos de fábrica"],["2 anos","contra vazamento"],["Sob medida","veículo e uso"],["Brasil","produção própria"]].map(([a,b])=><div key={b}><strong>{a}</strong><span>{b}</span></div>)}</div>
+      <div className={styles.bodyGrid}><p><strong>A BUMP não vende amortecedor de prateleira.</strong> É o corpo de quem dirige. Conforto não é adorno: é reduzir o impacto acumulado sem tirar controle da ferramenta. Fluido, pressurização e curso são definidos pela engenharia para cada aplicação.</p><div className={styles.wave}><i/><i/><i/><span>IMPACTO ENTRA</span><b>ENERGIA CONTROLADA</b></div></div>
+      <div className={styles.trust}>{[["13+","anos de fábrica"],["2 anos","contra vazamento"],["Sob medida","veículo e uso"],["Brasil","produção própria"],["Envio","nacional"]].map(([a,b])=><div key={b}><strong>{a}</strong><span>{b}</span></div>)}</div>
     </section>
 
     <section id="rotina" className={styles.uses}>
@@ -119,7 +120,7 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
       <div className={styles.useTabs}>{useCases.map((item)=><button key={item.id} type="button" data-active={item.id===useId} onClick={()=>setUseId(item.id)}><span>{item.number}</span>{item.label}</button>)}<Link href="/configurador?uso=projeto"><span>05</span>Projeto especial ↗</Link></div>
       <article className={styles.useScene} key={useId}>
         <Image src={useImages[useId]} alt={`Picape em cenário de ${useCase.label.toLowerCase()}`} fill sizes="100vw" className={styles.useBackground}/><div className={styles.useShade}/>
-        <div className={styles.useCopy}><p>Recomendado para {useCase.label}</p><h3 className={useLine.shortName.length > 8 ? styles.compactProductName : undefined}>{useLine.shortName}</h3><span>{useCase.description} {useLine.description}</span><div><Link className={styles.primaryAction} href={`/configurador?linha=${useLine.slug}&uso=${useId}`}>Montar essa linha</Link><Link href={`/linhas/${useLine.slug}`}>Ver detalhes ↗</Link></div></div>
+        <div className={styles.useCopy}><p>Recomendado para {useCase.label}</p><h3 className={useLine.shortName.length > 8 ? styles.compactProductName : undefined}>{useLine.shortName}</h3><span>{useCase.description} {useLine.description}</span><small className={styles.investmentNote}>O investimento é definido após confirmar veículo, linha e configuração. O valor final é apresentado no orçamento técnico.</small><div><Link className={styles.primaryAction} href={`/configurador?linha=${useLine.slug}&uso=${useId}`}>Montar essa linha</Link><Link href={`/linhas/${useLine.slug}`}>Ver detalhes ↗</Link></div></div>
         <div className={styles.useProduct}><Image src={useLine.image} alt={useLine.name} fill sizes="(min-width:900px) 42vw,85vw"/></div>
       </article>
     </section>
@@ -154,7 +155,7 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
     </section>
 
     <section className={styles.finalCta}>
-      <Image src={`${ASSET_BASE}/banco_web_800/triton.webp`} alt="Picape pronta para o próximo terreno" fill sizes="100vw"/><div/><div className={styles.finalCopy} data-reveal><p className={styles.sectionCode}>11 · O próximo chão</p><h2>A estrada pode continuar ruim. Seu corpo não precisa repetir tudo.</h2><p>Conte o veículo, a carga e a rotina. A fábrica transforma contexto em um ponto de partida técnico.</p><Link href="/configurador" className={styles.primaryAction}>Montar para o meu chão</Link></div>
+      <Image src={`${ASSET_BASE}/banco_web_800/triton.webp`} alt="Picape pronta para o próximo terreno" fill sizes="100vw"/><div/><div className={styles.finalCopy} data-reveal><p className={styles.sectionCode}>11 · O próximo chão</p><h2>A estrada pode continuar ruim. Seu corpo não precisa repetir tudo.</h2><p>Conte o veículo, a carga e a rotina. A fábrica transforma contexto em um ponto de partida técnico.</p><div className={styles.finalActions}><Link href="/configurador" className={styles.primaryAction}>Montar para o meu chão</Link><Link href="/contato" className={styles.finalSecondaryAction}>Falar com a BUMP</Link></div></div>
     </section>
 
     <section className={styles.faq}>

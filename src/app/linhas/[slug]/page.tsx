@@ -59,7 +59,7 @@ export default async function ProductLinePage({ params }: LinePageProps) {
             </div>
           </div>
 
-          <div data-reveal="mask" className="relative min-h-[420px] overflow-hidden border border-line-2 bg-[radial-gradient(circle_at_50%_45%,rgba(47,211,93,.18),transparent_56%)] md:min-h-[580px] lg:min-h-[680px]">
+          <div data-reveal="mask" className="relative min-h-[420px] overflow-hidden border border-line-2 bg-[radial-gradient(circle_at_50%_45%,rgba(211,255,26,.18),transparent_56%)] md:min-h-[580px] lg:min-h-[680px]">
             <span className="pointer-events-none absolute -right-5 -bottom-12 text-[clamp(12rem,30vw,30rem)] leading-none font-black tracking-[-.1em] text-paper/[.025]">{lineNumber}</span>
             <span className="absolute top-5 left-5 z-10 font-mono text-[9px] tracking-[0.14em] text-accent uppercase">Produzido sob medida · Gravataí, RS</span>
             <Image src={line.image} alt={line.name} fill priority sizes="(min-width: 1024px) 58vw, 100vw" className="technology-product object-contain p-7 md:p-14 lg:p-16" />
@@ -97,7 +97,7 @@ export default async function ProductLinePage({ params }: LinePageProps) {
 
           <div className="grid gap-6 lg:grid-cols-[1.05fr_.95fr] lg:gap-12">
             <div data-reveal="mask" className="relative min-h-[480px] overflow-hidden border border-line-2 bg-ink lg:sticky lg:top-28 lg:min-h-[660px]">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(47,211,93,.14),transparent_58%)]" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(211,255,26,.14),transparent_58%)]" />
               <Image src={line.image} alt={`Detalhe técnico da ${line.name}`} fill sizes="(min-width: 1024px) 52vw, 100vw" className="selector-product object-contain p-10 md:p-16" />
               <span className="absolute top-5 left-5 font-mono text-[9px] tracking-[0.12em] text-accent">{line.code} · VISTA TÉCNICA</span>
             </div>

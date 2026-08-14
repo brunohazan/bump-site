@@ -33,7 +33,7 @@ export const metadata: Metadata = {
 
 const decisions = [
   { title: "Reposicionamento", text: "A comunicação sai de competição como centro e passa para conforto de quem usa a picape como ferramenta. Off-road continua como público secundário." },
-  { title: "Direção cinematográfica", text: "As referências orientam ritmo, recorte e comportamento sem copiar identidades. A BUMP mantém o sistema dark, verde e técnico." },
+  { title: "Direção cinematográfica", text: "As referências orientam ritmo, recorte e comportamento sem copiar identidades. A BUMP mantém o sistema preto, branco, Amarelo Citrus e técnico." },
   { title: "Arquitetura multipágina", text: "Rotas próprias para linhas, tecnologia, aplicações, resultados, dúvidas, contato e legais melhoram navegação, busca e evolução do conteúdo." },
   { title: "Conteúdo orientado a dados", text: "Linhas, aplicações, fichas técnicas e FAQs ficam tipadas em TypeScript. Uma alteração central atualiza cards, páginas e recomendações." },
   { title: "Conversão sem desvio", text: "CTAs de compra chegam ao configurador. Contexto de linha, veículo e uso acompanha a navegação por query string." },

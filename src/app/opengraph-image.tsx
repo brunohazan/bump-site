@@ -16,8 +16,8 @@ export default function OpenGraphImage() {
         width: "100%",
         height: "100%",
         overflow: "hidden",
-        background: "#080808",
-        color: "#f2f2ef",
+        background: "#000000",
+        color: "#ffffff",
         fontFamily: "Arial, Helvetica, sans-serif",
       }}
     >
@@ -63,7 +63,7 @@ export default function OpenGraphImage() {
           width: 12,
           height: "100%",
           display: "flex",
-          background: "#2fd35d",
+          background: "#d3ff1a",
         }}
       />
 
@@ -92,9 +92,9 @@ export default function OpenGraphImage() {
             style={{
               display: "flex",
               padding: "7px 12px",
-              border: "1px solid rgba(47,211,93,0.55)",
+              border: "1px solid rgba(211,255,26,0.55)",
               borderRadius: 999,
-              color: "#2fd35d",
+              color: "#d3ff1a",
               fontSize: 13,
               fontWeight: 700,
               letterSpacing: 1.4,
@@ -117,7 +117,7 @@ export default function OpenGraphImage() {
           }}
         >
           <div style={{ display: "flex" }}>Conforto que faz</div>
-          <div style={{ display: "flex", color: "#2fd35d" }}>o corpo</div>
+          <div style={{ display: "flex", color: "#d3ff1a" }}>o corpo</div>
           <div style={{ display: "flex" }}>chegar inteiro.</div>
         </div>
 
@@ -139,21 +139,21 @@ export default function OpenGraphImage() {
             display: "flex",
             gap: 24,
             marginTop: "auto",
-            color: "#f2f2ef",
+            color: "#ffffff",
             fontSize: 15,
             fontWeight: 700,
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ display: "flex", color: "#2fd35d" }}>●</span>
+            <span style={{ display: "flex", color: "#d3ff1a" }}>●</span>
             13+ anos de fábrica
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ display: "flex", color: "#2fd35d" }}>●</span>
+            <span style={{ display: "flex", color: "#d3ff1a" }}>●</span>
             2 anos de garantia
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ display: "flex", color: "#2fd35d" }}>●</span>
+            <span style={{ display: "flex", color: "#d3ff1a" }}>●</span>
             Feito no Brasil
           </div>
         </div>
@@ -169,7 +169,7 @@ export default function OpenGraphImage() {
           borderRadius: 4,
           background: "rgba(8,8,8,0.78)",
           border: "1px solid rgba(255,255,255,0.18)",
-          color: "#f2f2ef",
+          color: "#ffffff",
           fontSize: 14,
           fontWeight: 700,
           letterSpacing: 0.8,

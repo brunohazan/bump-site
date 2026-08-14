@@ -10,21 +10,21 @@
   --font-archivo: "Archivo Local", Arial, sans-serif;
   --font-plex-mono: "IBM Plex Mono Local", "Courier New", monospace;
   --font-concept: "Montserrat Local", Arial, sans-serif;
-  --color-ink: #080808;
-  --color-ink-soft: #0d0d0d;
-  --color-ink-card: #111311;
-  --color-ink-frame: #151815;
-  --color-paper: #f2f2ef;
-  --color-mute-1: #b9bdb9;
-  --color-mute-2: #8a8f8a;
-  --color-mute-3: #6a6f6a;
-  --color-mute-4: #4a4f4a;
-  --color-accent: #2fd35d;
-  --color-accent-soft: #173d22;
-  --color-line-1: #1e1e1e;
-  --color-line-2: #2a2f2a;
-  --color-line-3: #161616;
-  --color-line-4: #3a3f3a;
+  --color-ink: #000000;
+  --color-ink-soft: #050505;
+  --color-ink-card: #0b0b0b;
+  --color-ink-frame: #101010;
+  --color-paper: #ffffff;
+  --color-mute-1: #b8b8b8;
+  --color-mute-2: #8d8d8d;
+  --color-mute-3: #6f6f6f;
+  --color-mute-4: #4d4d4d;
+  --color-accent: #d3ff1a;
+  --color-accent-soft: #263000;
+  --color-line-1: #1f1f1f;
+  --color-line-2: #2b2b2b;
+  --color-line-3: #171717;
+  --color-line-4: #3b3b3b;
 }
 
 @theme inline {
@@ -43,7 +43,7 @@
   --color-line-2: var(--color-line-2);
   --color-line-3: var(--color-line-3);
   --color-line-4: var(--color-line-4);
-  --font-sans: var(--font-archivo);
+  --font-sans: var(--font-concept);
   --font-mono: var(--font-plex-mono);
 }
 
