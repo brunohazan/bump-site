@@ -59,8 +59,10 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
     const body = document.body;
     const journey = journeyRef.current;
     if (!journey) return;
+
     body.classList.add("concept-mode");
     if (definitive) body.classList.add("concept-definitive");
+
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     const explicitReduced = new URLSearchParams(window.location.search).get("motion") === "reduce";
     if (!explicitReduced) {
@@ -68,23 +70,121 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
       body.classList.add("concept-force-motion");
       journey.setAttribute("data-force-motion", "true");
     }
+
     const prefersReduced = () => !forceMotionRef.current && (explicitReduced || media.matches);
-    const update = () => {
-      frameRef.current = null;
-      if (prefersReduced()) { journey.style.setProperty("--journey", ".68"); journey.dataset.stage = "control"; return; }
+    let currentProgress = 0;
+    let targetProgress = 0;
+    let previousTime = performance.now();
+    let initialized = false;
+    let journeyVisible = true;
+    let needsMeasure = true;
+    let lastRendered = -1;
+    let lastStage = journey.dataset.stage ?? "hero";
+
+    const render = (progress: number, forcedStage?: (typeof stages)[number]["key"]) => {
+      if (Math.abs(progress - lastRendered) >= .0005) {
+        journey.style.setProperty("--journey", progress.toFixed(4));
+        lastRendered = progress;
+      }
+
+      const stage = forcedStage ?? stageFromProgress(progress);
+      if (stage !== lastStage) {
+        journey.dataset.stage = stage;
+        lastStage = stage;
+      }
+    };
+
+    const measure = () => {
       const rect = journey.getBoundingClientRect();
       const distance = Math.max(journey.offsetHeight - window.innerHeight, 1);
-      const progress = Math.min(1, Math.max(0, -rect.top / distance));
-      journey.style.setProperty("--journey", progress.toFixed(4));
-      journey.dataset.stage = stageFromProgress(progress);
+      targetProgress = Math.min(1, Math.max(0, -rect.top / distance));
     };
-    const requestUpdate = () => { if (frameRef.current === null) frameRef.current = requestAnimationFrame(update); };
-    const syncPreference = () => { setMotionReduced(prefersReduced()); requestUpdate(); };
-    const observer = new IntersectionObserver((entries) => entries.forEach((entry) => entry.target.toggleAttribute("data-visible", entry.isIntersecting)), { threshold: .12 });
-    document.querySelectorAll(`.${styles.experience} [data-reveal]`).forEach((node) => observer.observe(node));
+
+    const tick = (time: number) => {
+      frameRef.current = null;
+
+      if (prefersReduced()) {
+        currentProgress = .68;
+        targetProgress = .68;
+        render(.68, "control");
+        return;
+      }
+
+      if (needsMeasure) {
+        measure();
+        needsMeasure = false;
+        if (!initialized) {
+          currentProgress = targetProgress;
+          initialized = true;
+        }
+      }
+
+      const delta = Math.min(Math.max(time - previousTime, 0), 64);
+      previousTime = time;
+
+      if (!journeyVisible) {
+        currentProgress = targetProgress;
+      } else {
+        const alpha = 1 - Math.exp(-delta / 90);
+        currentProgress += (targetProgress - currentProgress) * alpha;
+      }
+
+      if (Math.abs(targetProgress - currentProgress) < .0007) currentProgress = targetProgress;
+      render(currentProgress);
+
+      if (journeyVisible && Math.abs(targetProgress - currentProgress) >= .0007) {
+        frameRef.current = requestAnimationFrame(tick);
+      }
+    };
+
+    const schedule = () => {
+      if (frameRef.current !== null) return;
+      previousTime = performance.now();
+      frameRef.current = requestAnimationFrame(tick);
+    };
+
+    const requestUpdate = () => {
+      needsMeasure = true;
+      if (journeyVisible) schedule();
+    };
+
+    const syncPreference = () => {
+      initialized = false;
+      needsMeasure = true;
+      setMotionReduced(prefersReduced());
+      schedule();
+    };
+
+    const journeyObserver = new IntersectionObserver(([entry]) => {
+      journeyVisible = entry.isIntersecting;
+      if (journeyVisible) journey.dataset.active = "true";
+      else journey.removeAttribute("data-active");
+      needsMeasure = true;
+      schedule();
+    }, { rootMargin: "160px 0px", threshold: 0 });
+    journeyObserver.observe(journey);
+
+    const revealObserver = new IntersectionObserver(
+      (entries) => entries.forEach((entry) => entry.target.toggleAttribute("data-visible", entry.isIntersecting)),
+      { threshold: .12 },
+    );
+    document.querySelectorAll(`.${styles.experience} [data-reveal]`).forEach((node) => revealObserver.observe(node));
+
     syncPreference();
-    addEventListener("scroll", requestUpdate, { passive: true }); addEventListener("resize", requestUpdate); media.addEventListener("change", syncPreference);
-    return () => { body.classList.remove("concept-mode", "concept-definitive", "concept-force-motion"); removeEventListener("scroll", requestUpdate); removeEventListener("resize", requestUpdate); media.removeEventListener("change", syncPreference); observer.disconnect(); if (frameRef.current !== null) cancelAnimationFrame(frameRef.current); };
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
+    media.addEventListener("change", syncPreference);
+
+    return () => {
+      body.classList.remove("concept-mode", "concept-definitive", "concept-force-motion");
+      window.removeEventListener("scroll", requestUpdate);
+      window.removeEventListener("resize", requestUpdate);
+      media.removeEventListener("change", syncPreference);
+      journeyObserver.disconnect();
+      revealObserver.disconnect();
+      journey.removeAttribute("data-active");
+      if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
+    };
   }, [definitive]);
 
   return <div className={styles.experience} data-motion={motionReduced ? "reduced" : "full"}>

@@ -89,6 +89,23 @@
   background: var(--black);
 }
 
+.journey .truckLayer,
+.journey .terrain,
+.journey .productStage,
+.journey .productImage {
+  will-change: auto;
+}
+
+.journey[data-active="true"] .truckLayer,
+.journey[data-active="true"] .productStage {
+  will-change: transform, opacity;
+}
+
+.journey[data-active="true"] .terrain,
+.journey[data-active="true"] .productImage {
+  will-change: transform;
+}
+
 .sticky {
   position: sticky;
   top: 0;
