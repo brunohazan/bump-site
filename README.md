@@ -1,6 +1,10 @@
 # BUMP Amortecedores
 
-Site institucional V2 da BUMP, construído com Next.js 16, React 19, TypeScript e Tailwind CSS v4.
+Site institucional da BUMP, construído com Next.js 16, React 19, TypeScript e Tailwind CSS v4.
+
+A Home definitiva em `/` usa a narrativa cinematográfica **“Do chão ao corpo”**: quatro estágios
+de impacto no Hero, uma ponte principal até a seção “O corpo” e conectores progressivos entre os
+demais capítulos. `/conceito-home` preserva a mesma experiência como preview `noindex,nofollow`.
 
 ## Desenvolvimento
 
@@ -17,27 +21,38 @@ Acesse `http://localhost:3000`.
 npm run lint
 npx tsc --noEmit
 npm run build
+git diff --check
 ```
 
-## Estrutura da V2
+## Estrutura
 
-- Home orientada a conforto e uso de trabalho
+- Home cinematográfica orientada a conforto, trabalho e engenharia aplicada
 - Seis linhas com template dinâmico em `/linhas/[slug]`
 - Configurador de nove passos em `/configurador`
-- Páginas institucionais, aplicações, resultados, FAQ, contato e legais
-- Header, Footer e ação de contato persistentes
-- Página temporária de apresentação técnica em `/projeto-v2` (`noindex`)
+- Páginas de tecnologia, aplicações, resultados, FAQ, contato e institucionais
+- Header, Footer e ação de WhatsApp persistentes
+- SEO/AEO com canonical, sitemap, `llms.txt`, robots e JSON-LD
 
-Conteúdo e decisões do redesenho: `_local/plano-v2-site.md`.
+## Documentação
+
+A documentação canônica versionada começa em [`docs/README.md`](docs/README.md):
+
+- direção criativa: [`docs/creative/home-do-chao-ao-corpo.md`](docs/creative/home-do-chao-ao-corpo.md)
+- arquitetura do motion: [`docs/project/home-motion-system.md`](docs/project/home-motion-system.md)
+- decisões de arquitetura: [`docs/project/adrs.md`](docs/project/adrs.md)
+- marca e ativos: [`docs/brand/README.md`](docs/brand/README.md)
+
+`CLAUDE.md`, quando presente no ambiente local, é apenas um mapa mental operacional. Ele não é
+fonte de verdade, repositório de conhecimento, changelog ou substituto de `docs/`.
 
 ## Estado dos formulários
 
 Configurador e Contato estão em modo local simulado. Não enviam nem persistem dados. A conexão
-com backend depende do hardening de validação, rate limit, consentimento LGPD e revisão de segurança.
+com backend depende de validação, rate limit, consentimento LGPD e revisão de segurança.
 
+## Produção
 
-## SEO/AEO e segurança
+Deploy atual: [bump-weld.vercel.app](https://bump-weld.vercel.app).
 
-A V2 inclui canonical por rota, `robots.txt`, `sitemap.xml`, `llms.txt`, JSON-LD de organização,
-produto, FAQ e breadcrumbs, além de CSP, HSTS e headers defensivos. Redirects de domínio,
-Cloudflare, analytics e medição de LCP dependem do ambiente de produção.
+Redirects do domínio final, Cloudflare, analytics e medição de LCP dependem do ambiente de
+produção definitivo.

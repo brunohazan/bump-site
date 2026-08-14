@@ -5,8 +5,8 @@ import { Breadcrumb, CTASection, Eyebrow } from "@/components/site/Primitives";
 import { ASSET_BASE } from "@/lib/site-data";
 
 export const metadata: Metadata = {
-  title: "Quem somos",
-  description: "Conheça a origem, a fábrica em Gravataí e os princípios de engenharia da BUMP Amortecedores.",
+  title: "Cristian e a história da BUMP",
+  description: "Conheça Cristian, a origem da BUMP e a fábrica brasileira especializada em amortecedores sob medida para picapes.",
   alternates: { canonical: "/quem-somos" },
 };
 
@@ -38,9 +38,9 @@ export default function AboutPage() {
         <div className="pointer-events-none absolute inset-0 opacity-20 [background-image:linear-gradient(to_right,rgba(255,255,255,.07)_1px,transparent_1px)] [background-size:25%_100%]" />
         <div className="site-container relative grid min-h-[760px] items-center gap-10 py-14 lg:grid-cols-[.9fr_1.1fr] lg:py-20">
           <div className="relative z-10">
-            <Eyebrow>Origem, fábrica e propósito</Eyebrow>
+            <Eyebrow>Cristian · origem, fábrica e propósito</Eyebrow>
             <h1 data-reveal className="max-w-[10ch] text-[clamp(2.2rem,11vw,3.25rem)] leading-[.88] font-black tracking-[-0.065em] uppercase md:text-[clamp(3.5rem,8vw,8.5rem)] md:leading-[.84]">Piloto antes de fabricante.</h1>
-            <p data-reveal data-delay="1" className="mt-7 max-w-xl text-lg leading-relaxed text-mute-1">A BUMP nasceu de uma pergunta sentida no volante: por que aceitar uma suspensão que castiga o corpo e perde comportamento quando o terreno exige mais?</p>
+            <p data-reveal data-delay="1" className="mt-7 max-w-xl text-lg leading-relaxed text-mute-1">Cristian transformou uma pergunta sentida no volante em método de engenharia: por que aceitar uma suspensão que castiga o corpo e perde comportamento quando o terreno exige mais?</p>
             <div data-reveal data-delay="2" className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link href="#historia" className="button-primary">Conhecer a origem</Link>
               <Link href="/tecnologia" className="button-secondary">Ver a engenharia</Link>
@@ -57,10 +57,10 @@ export default function AboutPage() {
       <section id="historia" className="section-space relative overflow-hidden">
         <span className="pointer-events-none absolute -top-16 right-0 text-[clamp(15rem,35vw,38rem)] leading-none font-black tracking-[-.1em] text-paper/[.018]">13</span>
         <div className="site-container relative grid gap-12 lg:grid-cols-[.72fr_1.28fr]">
-          <div><Eyebrow>01 · História do fundador</Eyebrow><h2 data-reveal className="text-balance text-[clamp(2.8rem,6vw,6rem)] leading-[.9] font-black tracking-[-0.055em]">Formação na Itália. Experiência no volante. Fábrica em Gravataí.</h2></div>
+          <div><Eyebrow>01 · História do fundador</Eyebrow><h2 data-reveal className="text-balance text-[clamp(2.8rem,6vw,6rem)] leading-[.9] font-black tracking-[-0.055em]">Experiência no volante. Engenharia aplicada. Fábrica em Gravataí.</h2></div>
           <div data-reveal data-delay="1" className="lg:border-l lg:border-accent lg:pl-10">
-            <p className="text-xl leading-relaxed text-mute-1">A experiência como piloto colocou o problema no corpo. A formação técnica transformou percepção em método. A fábrica transformou o método em amortecedores feitos para cada aplicação.</p>
-            <p className="mt-6 leading-relaxed text-mute-1">Hoje o ponto de partida continua sendo a rotina real: qual veículo, quanto peso, que altura, qual terreno e o que precisa mudar para quem dirige.</p>
+            <p className="text-xl leading-relaxed text-mute-1">A experiência de Cristian como piloto colocou o problema no corpo. A observação virou método. A fábrica transformou esse método em amortecedores desenvolvidos para cada aplicação.</p>
+            <p className="mt-6 leading-relaxed text-mute-1">É daí que vem a especialização da BUMP: entender primeiro qual veículo, quanto peso, que altura, qual terreno e o que precisa mudar para quem dirige — só depois definir a peça.</p>
             <div className="mt-9 grid gap-px overflow-hidden border border-line-1 bg-line-1 sm:grid-cols-3">
               {[["13+", "anos de fábrica"], ["Brasil", "produção própria"], ["2 anos", "contra vazamento"]].map(([value, label]) => <div key={label} className="bg-ink-card p-5"><strong className="block text-2xl font-black text-accent">{value}</strong><span className="mt-2 block font-mono text-[9px] tracking-[0.08em] text-mute-3 uppercase">{label}</span></div>)}
             </div>

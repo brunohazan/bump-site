@@ -4,6 +4,7 @@ import { productLines } from "@/lib/site-data";
 const company = [
   ["Quem somos", "/quem-somos"],
   ["Tecnologia", "/tecnologia"],
+  ["Nacional ou importado", "/tecnologia/nacional-ou-importado"],
   ["Resultados", "/resultados"],
 ] as const;
 

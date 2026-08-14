@@ -482,7 +482,7 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
     <section className={styles.promise}>
       <div className={styles.promiseEntry} aria-hidden="true"><i/><span/></div>
       <div className={styles.promiseLead} data-reveal><p className={styles.sectionCode}>05 · O corpo</p><h2>A última peça do sistema não é de metal.</h2></div>
-      <div className={styles.bodyGrid} data-reveal><p><strong>A BUMP não vende amortecedor de prateleira.</strong> É o corpo de quem dirige. Conforto não é adorno: é reduzir o impacto acumulado sem tirar controle da ferramenta. Fluido, pressurização e curso são definidos pela engenharia para cada aplicação.</p><div className={styles.wave}><i/><i/><i/><span>IMPACTO ENTRA</span><b>ENERGIA CONTROLADA</b></div></div>
+      <div className={styles.bodyGrid} data-reveal><p><strong>A BUMP não começa pela prateleira.</strong> Começa por quem dirige, pelo veículo e pelo chão que se repete todos os dias. Como especialista em suspensão de picapes, transforma carga, altura e rotina em um acerto que busca reduzir impacto sem tirar controle da ferramenta.</p><div className={styles.wave}><i/><i/><i/><span>IMPACTO ENTRA</span><b>ENERGIA CONTROLADA</b></div></div>
       <div className={styles.trust} data-reveal>{[["13+","anos de fábrica"],["2 anos","contra vazamento"],["Sob medida","veículo e uso"],["Brasil","produção própria"],["Envio","nacional"]].map(([a,b])=><div key={b}><strong>{a}</strong><span>{b}</span></div>)}</div>
     </section>
 
@@ -531,8 +531,8 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
     <FlowConnector variant="results-authority"/>
 
     <section className={styles.authority}>
-      <div className={styles.sectionIntro} data-reveal><p className={styles.sectionCode}>10 · Autoridade sem personagem</p><h2>Fábrica própria. Engenharia que começa no volante.</h2></div>
-      <div className={styles.authorityGrid}><article data-reveal><span>CENÁRIO DE APLICAÇÃO · IMAGEM TEMPORÁRIA</span><h3>Piloto antes de fabricante.</h3><p>A experiência no terreno virou método técnico e produção sob medida. A imagem ilustra o tipo de aplicação; não representa fundador ou fábrica.</p><Link href="/quem-somos">Conhecer a história ↗</Link></article><article data-reveal><span>EVIDÊNCIA DECLARADA · CENÁRIO TEMPORÁRIO</span><h3>O que afirmamos tem limite.</h3><p>13+ anos de fábrica, produção própria no Brasil, 2 anos contra vazamento e o caso factual de 400 mil km.</p><Link href="/resultados">Ver evidências ↗</Link></article></div>
+      <div className={styles.sectionIntro} data-reveal><p className={styles.sectionCode}>10 · Autoridade com autoria</p><h2>Cristian: piloto antes de fabricante, especialista à frente do projeto.</h2></div>
+      <div className={styles.authorityGrid}><article data-reveal><span>ORIGEM REAL · IMAGEM DE CENÁRIO TEMPORÁRIA</span><h3>Experiência que virou método.</h3><p>Cristian levou o que sentia no volante para a engenharia e para a fábrica. A imagem ilustra o contexto de aplicação; não representa o fundador, a equipe ou uma instalação real.</p><Link href="/quem-somos">Conhecer a história ↗</Link></article><article data-reveal><span>EVIDÊNCIA DECLARADA · LIMITES EXPLÍCITOS</span><h3>A fábrica continua depois da escolha.</h3><p>Produção própria no Brasil, projeto sob medida, 2 anos contra vazamento e construção que pode voltar à fábrica para recuperação.</p><Link href="/resultados">Ver evidências ↗</Link></article></div>
     </section>
 
     <FlowConnector variant="authority-cta"/>

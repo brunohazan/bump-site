@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { ImpactJourney } from "@/components/concept-home/ImpactJourney";
 
 export const metadata: Metadata = {
-  title: "BUMP Amortecedores | Conforto feito para o seu chão",
+  title: "BUMP Amortecedores | Especialista em suspensão de picapes",
   description:
-    "Amortecedores sob medida para sua picape, seu trabalho e seu chão. Engenharia própria e fabricação no Brasil.",
+    "Amortecedores sob medida para picapes, feitos no Brasil por quem entende de suspensão. Conforto, controle e suporte para trabalho, estrada e terreno real.",
   alternates: { canonical: "/" },
 };
 

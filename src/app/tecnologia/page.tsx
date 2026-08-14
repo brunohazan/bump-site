@@ -5,8 +5,8 @@ import { Breadcrumb, CTASection, Eyebrow } from "@/components/site/Primitives";
 import { ASSET_BASE } from "@/lib/site-data";
 
 export const metadata: Metadata = {
-  title: "Tecnologia",
-  description: "Entenda a engenharia de conforto, controle térmico e durabilidade dos amortecedores BUMP.",
+  title: "Tecnologia de amortecedores sob medida",
+  description: "Entenda como a BUMP transforma veículo, carga e uso em acerto, controle térmico, conforto e construção recuperável.",
   alternates: { canonical: "/tecnologia" },
 };
 
@@ -80,7 +80,7 @@ export default function TechnologyPage() {
         <div className="site-container">
           <div className="mb-12 grid gap-7 lg:grid-cols-[.75fr_1.25fr] lg:items-end">
             <div><Eyebrow>01 · Do componente ao resultado</Eyebrow><h2 data-reveal className="text-balance text-[clamp(2.8rem,6vw,6rem)] leading-[.9] font-black tracking-[-0.055em]">A engenharia só termina quando chega ao corpo.</h2></div>
-            <p data-reveal data-delay="1" className="max-w-xl leading-relaxed text-mute-1 lg:justify-self-end">No desktop, o produto permanece em cena enquanto cada capítulo explica uma decisão. No mobile, a mesma história aparece em etapas diretas e sem sticky prolongado.</p>
+            <p data-reveal data-delay="1" className="max-w-xl leading-relaxed text-mute-1 lg:justify-self-end">O especialista não escolhe um componente isolado. Lê o sistema: veículo, peso, altura, frequência de impacto e efeito esperado em quem dirige.</p>
           </div>
 
           <div className="grid gap-8 lg:grid-cols-[1.05fr_.95fr] lg:gap-14">
@@ -113,8 +113,8 @@ export default function TechnologyPage() {
       <section className="section-space border-y border-line-1 bg-ink-soft">
         <div className="site-container">
           <div className="grid gap-8 lg:grid-cols-[.7fr_1.3fr] lg:items-end">
-            <div><Eyebrow>02 · BUMP versus solução comum</Eyebrow><h2 data-reveal className="text-4xl font-black tracking-[-0.045em] md:text-6xl">Compare a lógica, não só a aparência.</h2></div>
-            <p data-reveal data-delay="1" className="max-w-xl leading-relaxed text-mute-1 lg:justify-self-end">A comparação descreve princípios de construção e serviço. O comportamento final depende da aplicação e do acerto confirmado pela fábrica.</p>
+            <div><Eyebrow>02 · Compare antes de escolher</Eyebrow><h2 data-reveal className="text-4xl font-black tracking-[-0.045em] md:text-6xl">Nacional ou importado? Compare a lógica, não o rótulo.</h2></div>
+            <div data-reveal data-delay="1" className="max-w-xl lg:justify-self-end"><p className="leading-relaxed text-mute-1">A comparação descreve princípios de construção e serviço. Origem, aparência ou preço isolados não garantem o comportamento final.</p><Link href="/tecnologia/nacional-ou-importado" className="mt-5 inline-flex font-mono text-[11px] text-paper hover:text-accent">Ver o guia completo ↗</Link></div>
           </div>
 
           <div className="mt-10 grid gap-px overflow-hidden border border-line-1 bg-line-1 md:grid-cols-2">

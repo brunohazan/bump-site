@@ -1,4 +1,4 @@
-import type { ProductLine } from "@/lib/site-data";
+import type { ProductLine, VehicleApplication } from "@/lib/site-data";
 
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://bump-weld.vercel.app";
 
@@ -10,7 +10,7 @@ export const organizationJsonLd = {
   url: SITE_URL,
   logo: `${SITE_URL}/icon.svg`,
   foundingDate: "2013",
-  description: "Fábrica brasileira de amortecedores sob medida para picapes, trabalho, agro e off-road.",
+  description: "Especialista brasileiro em amortecedores sob medida para picapes, com produção própria para trabalho, agro, estrada e off-road.",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Gravataí",
@@ -62,6 +62,36 @@ export function productJsonLd(line: ProductLine) {
     audience: { "@type": "Audience", audienceType: line.use },
   };
 }
+
+export function applicationJsonLd(application: VehicleApplication) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${SITE_URL}/aplicacoes/${application.slug}#service`,
+    name: `Amortecedor sob medida para ${application.model}`,
+    url: `${SITE_URL}/aplicacoes/${application.slug}`,
+    description: application.description,
+    serviceType: `Projeto e fabricação de amortecedor para ${application.brand} ${application.model}`,
+    provider: { "@id": `${SITE_URL}/#organization` },
+    areaServed: { "@type": "Country", name: "Brasil" },
+    audience: {
+      "@type": "Audience",
+      audienceType: application.contexts.map((context) => context.title).join(", "),
+    },
+  };
+}
+
+export const comparisonArticleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "@id": `${SITE_URL}/tecnologia/nacional-ou-importado#article`,
+  headline: "Amortecedor nacional ou importado: o que comparar antes de decidir",
+  description: "Guia técnico para comparar acerto, aplicação, suporte, manutenção e recuperabilidade.",
+  inLanguage: "pt-BR",
+  mainEntityOfPage: `${SITE_URL}/tecnologia/nacional-ou-importado`,
+  author: { "@id": `${SITE_URL}/#organization` },
+  publisher: { "@id": `${SITE_URL}/#organization` },
+};
 
 export function faqJsonLd(items: readonly { question: string; answer: string }[]) {
   return {

@@ -92,6 +92,7 @@ export function Header() {
             onOpen={() => setDesktopMenu("lines")}
             onToggle={() => setDesktopMenu((current) => current === "lines" ? null : "lines")}
           />
+          <NavLink href="/aplicacoes" label="Aplicações" active={pathname.startsWith("/aplicacoes")} onNavigate={closeAll} />
           <MenuButton
             label="A BUMP"
             active={pathname === "/quem-somos" || pathname === "/tecnologia"}
@@ -169,7 +170,7 @@ export function Header() {
                 <p className="font-mono text-[10px] font-semibold tracking-[0.12em] uppercase">Prova de campo</p>
                 <div>
                   <strong className="block text-4xl font-black tracking-[-0.05em]">400 mil km</strong>
-                  <p className="mt-2 text-sm">Recuperado e de volta ao trabalho.</p>
+                  <p className="mt-2 text-sm">Caso real recuperado e de volta ao trabalho.</p>
                 </div>
                 <Link href="/resultados" onClick={closeAll} className="font-mono text-[11px] font-semibold">Ver resultados ↗</Link>
               </div>
@@ -195,9 +196,10 @@ export function Header() {
             {[
               ["01", "Home", "/"],
               ["02", "Todas as linhas", "/linhas"],
-              ["03", "Quem somos", "/quem-somos"],
-              ["04", "Tecnologia", "/tecnologia"],
-              ["05", "Resultados", "/resultados"],
+              ["03", "Aplicações", "/aplicacoes"],
+              ["04", "Quem somos", "/quem-somos"],
+              ["05", "Tecnologia", "/tecnologia"],
+              ["06", "Resultados", "/resultados"],
             ].map(([number, label, href]) => (
               <Link key={href} href={href} className="group flex min-h-16 items-center gap-4 border-b border-line-1 py-3">
                 <span className="font-mono text-[10px] text-accent">{number}</span>

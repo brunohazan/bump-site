@@ -69,7 +69,7 @@ export function StatsStrip() {
     <div className="grid gap-px overflow-hidden rounded-sm border border-line-2 bg-line-2 sm:grid-cols-3">
       {[
         ["13+", "anos de fábrica"],
-        ["400 mil km", "em um amortecedor"],
+        ["400 mil km", "em um caso real"],
         ["Brasil", "produção própria"],
       ].map(([value, label]) => (
         <div key={label} className="bg-ink px-6 py-8 text-center">

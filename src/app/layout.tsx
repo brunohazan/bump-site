@@ -8,15 +8,15 @@ import { organizationJsonLd, websiteJsonLd } from "@/lib/structured-data";
 import "./globals.css";
 
 const description =
-  "Amortecedores sob medida para sua picape, seu trabalho e seu chão. Engenharia própria, fabricação no Brasil e 2 anos de garantia.";
+  "Especialista brasileiro em amortecedores sob medida para picapes. Projeto por veículo, carga e uso, produção própria e suporte de fábrica.";
 
-const shareTitle = "BUMP | Conforto que faz o corpo chegar inteiro";
+const shareTitle = "BUMP | Especialista em suspensão de picapes";
 const shareDescription =
-  "Mais conforto, controle e durabilidade para quem usa a picape como ferramenta de trabalho. Feito sob medida no Brasil.";
+  "Conforto e controle para quem trabalha, viaja e enfrenta terreno real. Amortecedores sob medida, feitos no Brasil.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://bump-weld.vercel.app"),
-  title: { default: "BUMP Amortecedores | Conforto feito para o seu chão", template: "%s | BUMP Amortecedores" },
+  title: { default: "BUMP Amortecedores | Especialista em suspensão de picapes", template: "%s | BUMP Amortecedores" },
   description,
   applicationName: "BUMP Amortecedores",
   openGraph: {

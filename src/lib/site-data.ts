@@ -242,6 +242,99 @@ export const vehicles = [
   { brand: "Jeep", model: "Gladiator", slug: "gladiator" },
 ] as const;
 
+export const applicationSlugs = ["hilux", "s10", "ranger", "l200-triton", "amarok"] as const;
+
+export type ApplicationSlug = (typeof applicationSlugs)[number];
+
+export type VehicleApplication = {
+  slug: ApplicationSlug;
+  brand: string;
+  model: string;
+  headline: string;
+  description: string;
+  contexts: readonly { title: string; text: string }[];
+  questions: readonly string[];
+  startingLines: readonly LineSlug[];
+};
+
+export const vehicleApplications: readonly VehicleApplication[] = [
+  {
+    slug: "hilux",
+    brand: "Toyota",
+    model: "Hilux",
+    headline: "O amortecedor para Hilux começa pelo que ela carrega — e por onde passa.",
+    description:
+      "A configuração BUMP para Hilux considera versão, carga, acessórios, altura e rotina antes de definir linha, pressão e curso.",
+    contexts: [
+      { title: "Agro e carga", text: "Para a Hilux que alterna peso na caçamba, poeira, barro e estrada irregular." },
+      { title: "Uso misto", text: "Para equilibrar conforto no deslocamento diário e controle quando o asfalto termina." },
+      { title: "Lift e expedição", text: "Para projetos com altura, pneus ou equipamentos que mudam o conjunto original." },
+    ],
+    questions: ["Qual é o ano e a versão da Hilux?", "Quanto peso ela leva e com que frequência?", "Há lift, acessórios ou alteração de pneus?"],
+    startingLines: ["performance", "inox", "coilover"],
+  },
+  {
+    slug: "s10",
+    brand: "Chevrolet",
+    model: "S10",
+    headline: "A S10 muda de rotina. O acerto precisa acompanhar.",
+    description:
+      "Trabalho, cidade, estrada e terra exigem respostas diferentes. A BUMP parte do uso real da S10 para preparar a configuração.",
+    contexts: [
+      { title: "Trabalho diário", text: "Para uso frequente, carga variável e a necessidade de chegar ao fim do dia com menos impacto acumulado." },
+      { title: "Estrada e viagem", text: "Para quem procura estabilidade sem transformar a picape vazia em um conjunto rígido." },
+      { title: "Terra e projeto", text: "Para rotinas fora do asfalto e alterações que precisam ser avaliadas como sistema." },
+    ],
+    questions: ["Qual é o ano e a versão da S10?", "A caçamba roda mais vazia ou carregada?", "O objetivo principal é conforto, carga, altura ou controle?"],
+    startingLines: ["performance", "inox", "coilover"],
+  },
+  {
+    slug: "ranger",
+    brand: "Ford",
+    model: "Ranger",
+    headline: "Na Ranger, conforto e trabalho precisam caber no mesmo projeto.",
+    description:
+      "A aplicação é definida conforme versão, peso constante, alternância de carga, altura e terreno percorrido pela Ranger.",
+    contexts: [
+      { title: "Uso misto", text: "Para a picape que trabalha durante a semana e percorre estrada ou terra sem uma rotina única." },
+      { title: "Jornada longa", text: "Para quem valoriza resposta consistente, estabilidade e menos fadiga depois de horas ao volante." },
+      { title: "Campo e carga", text: "Para operação com piso irregular, peso e necessidade de suporte técnico depois da instalação." },
+    ],
+    questions: ["Qual é o ano e a versão da Ranger?", "Existe peso permanente na caçamba ou em acessórios?", "Quais terrenos ocupam a maior parte da rotina?"],
+    startingLines: ["performance", "premium", "inox"],
+  },
+  {
+    slug: "l200-triton",
+    brand: "Mitsubishi",
+    model: "L200 Triton",
+    headline: "A L200 Triton pede um acerto tão específico quanto o caminho.",
+    description:
+      "A BUMP organiza o projeto da L200 Triton a partir do terreno, da carga, da altura e do nível de severidade informado.",
+    contexts: [
+      { title: "Terra e trilha", text: "Para buscar curso e controle sem tratar toda saída do asfalto como competição." },
+      { title: "Expedição", text: "Para considerar bagagem, acessórios e longas distâncias dentro do mesmo contexto de uso." },
+      { title: "Agro e rotina severa", text: "Para poeira, barro, carga e repetição diária em piso irregular." },
+    ],
+    questions: ["Qual é o ano e a versão da L200 Triton?", "Há peso permanente, bagagem ou acessórios?", "O uso é cotidiano, expedição, trilha ou competição?"],
+    startingLines: ["performance", "inox", "coilover"],
+  },
+  {
+    slug: "amarok",
+    brand: "Volkswagen",
+    model: "Amarok",
+    headline: "A Amarok não precisa escolher entre estrada e terreno real.",
+    description:
+      "A configuração considera como a Amarok roda de fato: distância, carga, altura, acessórios e frequência fora do asfalto.",
+    contexts: [
+      { title: "Estrada e viagem", text: "Para quem percorre longas distâncias e precisa preservar consistência e conforto." },
+      { title: "Trabalho e campo", text: "Para alternância entre asfalto, acesso rural e carga sem adotar uma calibração genérica." },
+      { title: "Lift e off-road", text: "Para projetos em que altura, pneus e acessórios precisam entrar na definição do conjunto." },
+    ],
+    questions: ["Qual é o ano e a versão da Amarok?", "A carga é eventual ou permanece na picape?", "Existem alterações de altura, pneus ou acessórios?"],
+    startingLines: ["performance", "premium", "coilover"],
+  },
+] as const;
+
 export const faqItems = [
   {
     category: "Compatibilidade",
@@ -280,6 +373,12 @@ export const faqItems = [
       "Condições, frete e início da produção são apresentados junto do orçamento técnico para você decidir com todas as informações.",
   },
   {
+    category: "Escolha",
+    question: "Amortecedor nacional ou importado: como comparar?",
+    answer:
+      "Compare o acerto para o seu uso, a possibilidade de manutenção, o suporte disponível e o que precisa ser confirmado para o veículo. A origem, sozinha, não garante o melhor resultado.",
+  },
+  {
     category: "Durabilidade",
     question: "O amortecedor é descartável?",
     answer:
@@ -289,4 +388,8 @@ export const faqItems = [
 
 export function getProductLine(slug: string) {
   return productLines.find((line) => line.slug === slug);
+}
+
+export function getVehicleApplication(slug: string) {
+  return vehicleApplications.find((application) => application.slug === slug);
 }

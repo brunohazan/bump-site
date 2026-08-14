@@ -1,297 +1,218 @@
-# BUMP Home — Direção criativa “Do chão ao corpo”
+# BUMP Home — direção criativa “Do chão ao corpo”
 
-Status: protótipo navegável v0.2 completo, ainda não aprovado para substituir a Home
-Data: 13/08/2026
-Entradas: vídeo de referência United Cargo + guia básico de estilo BUMP
-
-## Checkpoint navegável v0.2
-
-- Rota isolada: `/conceito-home`, com `noindex` e `nofollow`; `/` permanece intacta.
-- Narrativa completa: terreno → impacto → compressão → corpo → rotina → engenharia → seis linhas → recuperação → CTA → FAQ.
-- Wireframe contemplado: Hero, promessa, recomendação dinâmica por uso, marcas, tecnologia, prova/autoridade, CTA final e dúvidas.
-- Direção visual: preto, branco e Amarelo Citrus `#D3FF1A`, mudanças radicais de cenário, produto em escala, capítulos sticky e transições editoriais.
-- Interações: quatro estágios de impacto por scroll, seletor de rotina, troca das seis linhas, marquee e acordeões nativos.
-- Conteúdo factual: dados existentes de produto, 13+ anos, 2 anos contra vazamento, produção própria e caso real de 400 mil km com limite explícito.
-- Assets: somente imagens BUMP já hospedadas; nenhuma fotografia genérica representa fundador, fábrica, cliente ou depoimento.
-- Acessibilidade: mobile próprio e versão estática integral em `prefers-reduced-motion`; quando o Windows/Chrome ativa essa preferência, a interface informa o modo e oferece `Ativar movimento` para restaurar explicitamente a jornada cinematográfica.
-- Auditoria visual: desktop `1440×1000` (15.626 px de altura), mobile `390×844` (13.743 px) e reduced motion `390×844` (12.706 px), todos sem overflow horizontal e com shell global isolado.
-- Validação técnica: ESLint, TypeScript, build de produção e `git diff --check` aprovados.
-
-Limitações conhecidas: a compressão continua conceitual sobre um único asset; Horizon licenciada, logo vetorial, estados reais comprimido/estendido, fotos de instalação, fundador e fábrica continuam pendentes. A migração para `/` depende de aprovação explícita.
-
-### Passagem fotográfica
-
-- A seção `O corpo` usa a Ranger existente como máscara editorial.
-- O caso de durabilidade usa a RAM 1500 como cenário de aplicação, sem atribuí-la ao equipamento de 400 mil km.
-- Os cards de autoridade usam Ranger e Hilux com identificação explícita de imagem temporária; não representam fundador, fábrica ou depoimento.
-- Três candidatos Pexels para poeira, picape em trilha e estrada de cascalho foram verificados e registrados em `docs/assets/stock-manifest.csv` como `proposed`.
-- Nenhum candidato de banco foi baixado ou publicado neste checkpoint.
+Status: Home definitiva aprovada e ativa em produção
+Atualizado em: 13/08/2026
+Rotas: `/` (canônica) e `/conceito-home` (preview `noindex,nofollow`)
 
 ## Ideia central
 
 **Toda força procura um caminho. A BUMP decide quanto dela chega ao corpo.**
 
-A Home acompanha visualmente o impacto desde o terreno até a cabine. O amortecedor não aparece como produto isolado: ele é o protagonista que recebe, controla e devolve energia. A câmera muda de perspectiva a cada capítulo, mas a história permanece contínua.
+A Home acompanha o impacto desde o terreno até quem dirige. O amortecedor não aparece como produto
+isolado: ele recebe, controla e devolve energia. A câmera e a superfície mudam, mas a linha Citrus
+mantém todos os capítulos dentro da mesma história.
 
-O objetivo não é acumular efeitos. É fazer o usuário sentir que percorreu o sistema de suspensão e entendeu, sem aula técnica, por que o corpo chega diferente ao fim do dia.
+O objetivo não é acumular efeitos. A pessoa deve sentir que percorreu o sistema de suspensão e
+entender, sem uma aula técnica, por que o corpo chega diferente ao fim do dia.
 
-## O princípio aprendido com a referência
+## Estado aprovado
 
-O site United Cargo usa objetos da operação para conduzir o scroll: globo, guindaste, caminhão, navio e avião. A adaptação BUMP usa objetos e forças próprias do produto:
+- “Do chão ao corpo” é a Home definitiva em `/`.
+- `/conceito-home` preserva a experiência como preview técnico isolado.
+- O motion completo é o padrão; `?motion=reduce` fornece a versão reduzida explícita.
+- Header completo, Footer, menu mobile e WhatsApp persistente pertencem à Home definitiva.
+- A narrativa mantém conteúdo factual, limites de alegação e CTAs para Configurador/Contato.
+- O KV usa preto `#000`, branco `#FFF`, Citrus `#D3FF1A` e Montserrat.
+- Nenhuma fotografia temporária representa fundador, fábrica, cliente, instalação ou depoimento.
+
+## Princípio narrativo
+
+A referência de logística estudada conduzia o scroll por objetos da operação. A adaptação BUMP usa
+forças e elementos próprios:
 
 - terreno;
-- roda;
 - impacto;
-- haste;
-- pistão e fluido;
-- carroceria;
-- corpo;
-- recuperação do equipamento.
+- haste e amortecedor;
+- pressão, fluido e retorno;
+- carroceria e corpo;
+- uso real;
+- recuperação do equipamento;
+- próximo chão.
 
-Cada objeto deve conduzir ao próximo capítulo, e não apenas decorar a seção atual.
+Cada capítulo recebe energia do anterior e a entrega ao seguinte. O motivo visual recorrente é um
+**conduíte de energia**: linha, onda, eixo, órbita ou régua — nunca um efeito sem função narrativa.
 
-## Jornada proposta
+## Jornada em produção
 
-### 0. Prólogo — antes do impacto
+### 01 · O chão
 
-Tela quase preta. Uma linha Amarelo Citrus desenha o perfil do terreno. Som, se usado, deve ser opcional e nunca iniciar automaticamente.
+A picape e o terreno estabelecem contexto. A mensagem principal é:
 
-A câmera está baixa, próxima do chão. Conforme o usuário inicia o scroll, a textura do terreno ganha profundidade e a picape entra na cena.
+**Conforto que faz o corpo chegar inteiro.**
 
-Copy preservada:
+Os CTAs “Acompanhar a força” e “Ver as linhas” permanecem acessíveis sem depender da animação.
 
-- `Conforto que`
-- `faz o corpo`
-- `chegar inteiro.`
+### 02 · O terreno muda
 
-CTA continua visível sem depender da animação.
+A linha de terreno se desloca enquanto a força continua procurando caminho. A leitura é ambiental,
+não um catálogo de pisos.
 
-### 1. O terreno muda
+### 03 · Compressão
 
-A câmera acompanha a roda. Asfalto, costela de vaca, cascalho, barro e carga surgem como placas de cenário, não como carrossel tradicional.
+O amortecedor assume o centro. A compressão é conceitual, não uma simulação científica de curso,
+pressão ou dinâmica veicular.
 
-Frase de transição: **O chão muda. A força continua procurando caminho.**
+Mensagem: **O que para aqui não precisa chegar em você.**
 
-Interação:
+### 04 · Controle
 
-- desktop: deslocamento lateral do terreno enquanto a roda permanece no eixo;
-- mobile: cortes curtos entre três terrenos, sem parallax contínuo.
+Pressão, fluido e retorno convertem energia em controle. Este estágio entrega a linha Citrus à ponte
+principal.
 
-### 2. Compressão
+### 05 · O corpo
 
-A câmera entra na caixa de roda. O amortecedor assume o centro da tela e permanece pinned por um único capítulo.
+A energia sai do Hero, atravessa o preto, abre o branco e se transforma em onda. A mensagem deixa o
+produto e chega ao efeito humano:
 
-O scroll controla uma compressão visual limitada:
+**A última peça do sistema não é de metal.**
 
-1. roda sobe;
-2. haste entra;
-3. corpo da picape se desloca menos;
-4. onda de impacto perde amplitude.
+A seção explica que conforto reduz impacto acumulado sem tirar controle da ferramenta e reforça que
+o acerto depende de veículo, carga, altura e rotina.
 
-Copy: **O que para aqui não precisa chegar em você.**
+### 06 · O uso define o acerto
 
-Não representar medidas, curso ou dinâmica como simulação científica sem dados de engenharia. A cena é explicativa e deve ser identificada como visualização.
+A onda vira terreno. O usuário escolhe rotina, e cenário, produto recomendado e ponto de partida
+mudam juntos. O investimento só é apresentado depois da confirmação técnica.
 
-### 3. Dentro do amortecedor
+### Marcas → 07 · Dentro do amortecedor
 
-Mudança de perspectiva: macro lateral para corte técnico abstrato. Partículas ou linhas mostram o fluido atravessando o pistão. A cor Amarelo Citrus marca apenas energia, labels e pontos de decisão.
+O marquee de picapes funciona como passagem natural. Uma órbita curta transforma o eixo horizontal
+em fluido e leva à engenharia interna.
 
-Capítulos curtos:
+### 08 · Anatomia das linhas
 
-- pressão;
-- fluido;
-- dissipação térmica;
-- retorno.
+O eixo técnico abre uma superfície branca. Seis linhas aparecem como respostas diferentes para
+forças e usos diferentes, sem começar por um grid de catálogo.
 
-A estética deve ser mecânica e precisa, evitando interface de videogame ou hologramas genéricos.
+### 09 · O tempo volta para a fábrica
 
-### 4. O corpo sente o resultado
+A régua vira distância e chega ao caso factual de `400.000 km`. A ressalva permanece obrigatória:
+não é garantia universal de quilometragem.
 
-A câmera sai do produto e chega à cabine. Em vez de mostrar uma pessoa genérica sorrindo, usamos uma visualização de duas ondas:
+O percurso é: desmontar → inspecionar → recuperar → retornar.
 
-- impacto vindo do chão;
-- impacto reduzido depois do amortecimento.
+### 10 · Autoridade com autoria, sem encenação
 
-A headline da seção pode formar uma máscara pela qual a estrada continua passando.
+O pulso de energia sai do Citrus e entra no escuro. A autoridade ganha autoria real ao nomear
+Cristian como piloto, fundador e especialista à frente do projeto. Enquanto não houver fotografia
+oficial, imagens temporárias continuam sendo apenas cenários de aplicação e jamais representam
+Cristian, equipe, fábrica, cliente ou instalação.
 
-Mensagem: **Conforto também é produtividade, atenção e corpo inteiro no fim do dia.**
+A prova permanece ancorada em fabricação própria, experiência de uso, engenharia, atendimento
+técnico e limites explícitos — não em personagens inventados, depoimentos sem fonte ou superioridade
+não demonstrada.
 
-### 5. Um acerto para cada rotina
+### 11 · O próximo chão
 
-O amortecedor central se transforma conforme o usuário escolhe:
+A conexão é deliberadamente discreta. O cenário volta à picape e conduz aos CTAs “Montar para o meu
+chão” e “Falar com a BUMP”.
 
-- urbano e conforto;
-- carga e agro;
-- terra e trilha;
-- viagem longa;
-- projeto extremo.
+### 12 · Antes de decidir → Footer
 
-O cenário, a altura visual da carga e a textura do terreno mudam. O componente atual `UseSelector` fornece a lógica, mas a apresentação deve virar uma cena contínua.
+O escuro abre o branco da FAQ. Ao final, a linha volta ao preto e entrega o Footer, encerrando o
+percurso sem um corte seco.
 
-### 6. Anatomia das linhas
+## Hierarquia das transições
 
-As seis linhas surgem ao redor de um eixo comum, como respostas diferentes para forças diferentes. Não usar grid de catálogo como primeira leitura.
+1. **Hero → O corpo:** ponte cinematográfica principal, com maior duração e transformação.
+2. **Mudanças de capítulo:** conectores compactos de terreno, eixo, régua e pulso.
+3. **Blocos já contínuos:** o marquee de marcas e cenários fotográficos fazem parte da passagem.
+4. **CTA e Footer:** movimentos discretos para não competir com decisão e leitura.
 
-Interação desktop:
+Detalhes de altura, progresso, observers e reduced motion ficam em
+[`../project/home-motion-system.md`](../project/home-motion-system.md).
 
-- uma linha entra no centro;
-- as demais permanecem como silhuetas laterais;
-- benefício, uso e ficha mínima acompanham a troca.
-
-Mobile:
-
-- trilho horizontal com snap;
-- produto inteiro sempre visível;
-- sem rotação 3D obrigatória.
-
-### 7. O tempo volta para a fábrica
-
-A haste vira uma linha de tempo. O odômetro avança até o caso de `400 mil km` e então a câmera desmonta o produto em três etapas:
-
-1. inspeção;
-2. recuperação;
-3. retorno ao trabalho.
-
-Ressalva obrigatória: o caso é factual e não representa garantia universal de quilometragem.
-
-### 8. Epílogo — recompor e configurar
-
-As peças retornam ao conjunto completo. A câmera se afasta e revela novamente a picape, agora em outro terreno.
-
-CTA: **Montar para o meu chão.**
-
-O configurador recebe contexto de uso quando uma opção já foi escolhida durante a narrativa.
-
-## Linguagem visual do guia oficial
-
-- Base dominante: preto `#000000`.
-- Texto prioritário: branco `#FFFFFF`.
-- Amarelo Citrus `#D3FF1A`: energia, labels, curso, foco e CTA; nunca como preenchimento constante de toda cena.
-- Seções brancas: usadas como “clarão” ou respiro entre capítulos densos, seguindo o manual.
-- Títulos: Horizon quando o arquivo licenciado estiver disponível.
-- Subtítulos e corpo: Montserrat.
-
-A passagem preto → branco → Amarelo Citrus pode cumprir a função de mudança radical de cenário observada na referência, sem copiar sua identidade azul/logística.
-
-## Uso de imagens de banco free
-
-Aprovado para **concept art e cenários ambientais**, com estas regras:
-
-### Pode usar
-
-- macro de asfalto, cascalho, barro e poeira;
-- estradas e paisagens sem marca concorrente evidente;
-- chuva, partículas, fumaça e placas de textura;
-- interiores e silhuetas usados apenas como atmosfera;
-- elementos que serão substituídos na produção final.
-
-### Não pode representar como real
-
-- fábrica BUMP;
-- fundador, equipe ou cliente;
-- instalação do produto;
-- produto BUMP;
-- depoimento ou caso de uso atribuído;
-- teste técnico, certificação ou resultado medido.
-
-### Controle de licença
-
-Para cada asset, registrar em um manifesto:
-
-- arquivo local;
-- autor;
-- plataforma;
-- URL original;
-- licença na data do download;
-- data de download;
-- necessidade de crédito;
-- uso temporário ou final.
-
-Fontes preferenciais para pesquisa: Unsplash, Pexels, Pixabay e Wikimedia Commons. A licença deve ser verificada no item específico; o nome da plataforma sozinho não basta.
-
-## Estratégia técnica
-
-### Protótipo 1 — animatic sem dependência nova
-
-- imagens em camadas;
-- produto PNG/WebP recortado;
-- CSS transforms e `IntersectionObserver`;
-- SVG para ondas, labels e curso;
-- uma única cena sticky longa: compressão/retorno;
-- trocas de perspectiva por cortes e máscaras.
-
-Objetivo: validar narrativa, timing e sensação antes de investir em 3D.
-
-### Protótipo 2 — produção avançada
-
-Somente após aprovação do animatic e recebimento de assets:
-
-- sequência renderizada ou vídeo curto para compressão;
-- Canvas para partículas do fluido, se necessário;
-- WebGL/3D apenas se houver modelo confiável do amortecedor e ganho visual comprovado;
-- nenhuma técnica avançada pode bloquear conteúdo, CTA ou scroll normal.
+## Linguagem visual
+
+- Preto é profundidade, mecânica e cena.
+- Branco é clarão, corpo, anatomia e leitura.
+- Citrus representa energia, foco, curso e ação; não preenche tudo sem função.
+- Linhas cinza/preto funcionam como estrutura física da onda.
+- Grid, régua e labels são técnicos, mas não devem parecer HUD de videogame.
+- Produto mantém escala e reconhecimento; nenhuma rotação 3D é requisito.
+- Mudanças de cor acontecem por superfícies contínuas, não por cortes retangulares secos.
+
+## Conteúdo e verdade visual
+
+### Alegações permitidas no estado atual
+
+- 13+ anos de fábrica;
+- produção própria no Brasil;
+- 2 anos contra vazamento;
+- construção recuperável;
+- caso factual de 400 mil km, sempre com contexto e ressalva;
+- acerto por veículo, carga, altura e uso.
+
+### Imagens temporárias
+
+- A seção “O corpo” usa uma Ranger existente como máscara editorial.
+- Resultados usa a RAM 1500 como cenário de aplicação, sem atribuí-la ao equipamento do caso.
+- Cards de autoridade usam Ranger/Hilux como cenário, identificados como temporários.
+- Imagens não podem representar fundador, fábrica, cliente, depoimento ou teste real sem evidência.
+
+Assets externos avaliados devem ser registrados em `docs/assets/stock-manifest.csv` antes de uso.
 
 ## Mobile
 
-Mobile não será uma redução da cena desktop.
+Mobile usa a mesma narrativa, não uma miniatura do desktop:
 
-- máximo de uma cena pinned curta;
-- cortes de câmera em vez de parallax longo;
-- produto sempre reconhecível;
-- nenhum texto dependente de posição absoluta frágil;
-- preload mínimo;
-- imagem estática completa em `prefers-reduced-motion`;
-- CTA e conteúdo disponíveis sem JavaScript.
+- Hero mais curto e composição ajustada para o eixo em 67%;
+- títulos e CTAs permanecem legíveis sem depender de coordenadas frágeis;
+- ponte principal e conectores têm alturas próprias;
+- produto permanece reconhecível;
+- nenhum texto depende de hover;
+- menu e WhatsApp permanecem acima das cenas.
 
-## Orçamento de performance inicial
+## Movimento reduzido
 
-- poster do Hero: até aproximadamente 250 KB em mobile;
-- mídia animada acima da dobra: evitar; quando aprovada, oferecer formatos modernos e fallback;
-- sequência principal: preferir vídeo/WebM a dezenas de PNGs;
-- não carregar cenas abaixo da dobra antes da proximidade do viewport;
-- manter LCP abaixo de 2,5 s e CLS abaixo de 0,1 como gates de produção.
+`?motion=reduce` mantém a composição narrativa em estado estático:
 
-## Assets necessários para o protótipo convincente
+- Hero no capítulo Controle;
+- ponte e conectores em progresso intermediário;
+- alturas reduzidas;
+- conteúdo e CTAs completos;
+- botão `Ativar movimento` para restaurar a experiência.
 
-Prioridade alta:
+A versão reduzida não exibe textos explicativos sobre preferência do sistema.
 
-1. amortecedor isolado em alta resolução, estendido;
-2. amortecedor isolado comprimido ou sequência de compressão;
-3. detalhe da haste, reservatório e fixações;
-4. roda/caixa de roda com BUMP instalado;
-5. picape em pelo menos três terrenos;
-6. arquivo e licença da Horizon;
-7. logo vetorial oficial.
+## Performance e acessibilidade
 
-Prioridade posterior:
+- Scroll nativo, sem scroll-snap.
+- `requestAnimationFrame` coalesce medições e escritas.
+- `IntersectionObserver` restringe trabalho à proximidade da viewport.
+- `will-change` só fica ativo durante a passagem relevante.
+- Elementos decorativos de conexão usam `aria-hidden`.
+- Nenhum conteúdo obrigatório vive dentro das pontes.
+- Desktop e mobile não podem criar overflow horizontal.
 
-- fábrica;
-- fundador e equipe;
-- processo de desmontagem e recuperação;
-- áudio mecânico opcional;
-- modelo 3D ou render técnico.
+## Arquivos de referência
 
-## Direções alternativas
+| Caminho | Papel |
+|---|---|
+| `src/components/concept-home/ImpactJourney.tsx` | Estrutura, progressos e interações |
+| `src/components/concept-home/ImpactJourney.module.css` | Cena, ponte e conectores |
+| `src/lib/site-data.ts` | Linhas, usos e conteúdo estruturado |
+| `docs/project/home-motion-system.md` | Arquitetura técnica do motion |
+| `docs/project/adrs.md` | Decisões duráveis |
+| `docs/brand/README.md` | Marca e ativos oficiais |
 
-### Anatomia do impacto
+## Evoluções futuras
 
-Mais técnica e abstrata. Foco em corte do amortecedor, ondas e engenharia. Menor dependência de fotografia de campo.
+Não bloqueiam o estado aprovado:
 
-### O chão muda
-
-Mais cinematográfica e ambiental. Foco em terrenos, câmera e picape. Exige fotografia ou vídeo muito melhor.
-
-### Recomendação
-
-Usar **Do chão ao corpo** como direção principal, combinando ambiente e engenharia. Ela conecta diretamente produto, terreno, conforto e a headline já aprovada, sem transformar a BUMP em marca genérica de aventura.
-
-## Próximo gate
-
-Antes de implementar a nova Home em produção:
-
-1. receber ou definir os assets prioritários;
-2. confirmar Horizon e licença;
-3. montar storyboard de 8 cenas;
-4. produzir animatic navegável de Hero + Terreno + Compressão;
-5. validar com o cliente a intensidade de movimento;
-6. somente então expandir o sistema para a Home completa.
+1. receber fotos oficiais de fábrica, equipe e instalação;
+2. receber assets do amortecedor comprimido/estendido ou sequência confiável;
+3. confirmar arquivo/licença da Horizon, se a marca decidir usá-la;
+4. substituir cenários temporários sem alterar a narrativa;
+5. medir LCP e ajustar mídia no domínio final;
+6. considerar vídeo/Canvas/3D somente se houver ganho comprovado e fallback completo.
