@@ -122,6 +122,21 @@ chão” e “Falar com a BUMP”.
 O escuro abre o branco da FAQ. Ao final, a linha volta ao preto e entrega o Footer, encerrando o
 percurso sem um corte seco.
 
+## Camada de copy comercial
+
+A narrativa carrega o conceito, mas nenhuma headline conceitual deve ficar sozinha. A regra vigente é:
+
+- **headline:** conceito, com a força editorial da narrativa;
+- **subheadline:** benefício concreto e verificável para quem dirige;
+- **corpo:** prova técnica, com limites explícitos.
+
+A tese comercial da marca é **“não existe uma pressão única para toda picape”**, seguida da versão
+orientada ao leitor: seu uso não é igual ao de outra picape, e seu amortecedor também não deveria
+ser. Ela abre a seção “O corpo” e se repete na entrada das linhas.
+
+O CTA primário do Hero é comercial (`Montar meu amortecedor`); a entrada narrativa permanece como
+ação secundária.
+
 ## Hierarquia das transições
 
 1. **Hero → O corpo:** ponte cinematográfica principal, com maior duração e transformação.
@@ -157,7 +172,7 @@ Detalhes de altura, progresso, observers e reduced motion ficam em
 
 - A seção “O corpo” usa uma Ranger existente como máscara editorial.
 - Resultados usa a RAM 1500 como cenário de aplicação, sem atribuí-la ao equipamento do caso.
-- Cards de autoridade usam Ranger/Hilux como cenário, identificados como temporários.
+- Cards de autoridade usam Ranger/Hilux como cenário de aplicação, sem representar pessoas.
 - Imagens não podem representar fundador, fábrica, cliente, depoimento ou teste real sem evidência.
 
 Assets externos avaliados devem ser registrados em `docs/assets/stock-manifest.csv` antes de uso.

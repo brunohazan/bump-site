@@ -69,6 +69,22 @@ prova oferece e qual é o próximo passo?
 Esses perfis não devem ser atacados ou ridicularizados no site. A exclusão acontece pela clareza:
 processo consultivo, limites técnicos, preço apenas após configuração e escolha por adequação.
 
+## Camada de copy comercial
+
+Conceito e benefício não competem: eles se empilham. Toda peça relevante segue três níveis.
+
+| Nível | Papel | Exemplo vigente |
+|---|---|---|
+| Headline | conceito e força editorial | “Conforto que faz o corpo chegar inteiro.” |
+| Subheadline | benefício concreto | “Menos impacto acumulado, mais estabilidade com peso e mais controle onde o asfalto termina.” |
+| Corpo | prova técnica com limite | construção, pressão e curso definidos por veículo, carga, altura e rotina |
+
+A tese comercial é **“não existe uma pressão única para toda picape”**, complementada por “seu uso não
+é igual ao de outra picape, e seu amortecedor também não deveria ser”. Ela responde, em uma linha, por
+que a BUMP não concorre como prateleira.
+
+O CTA primário das superfícies de decisão é comercial. Ações narrativas ficam em posição secundária.
+
 ## Voz e escolha de palavras
 
 - Técnica, direta, segura e humana.

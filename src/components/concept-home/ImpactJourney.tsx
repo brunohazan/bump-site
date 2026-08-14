@@ -7,10 +7,10 @@ import { ASSET_BASE, faqItems, getProductLine, productLines, useCases } from "@/
 import styles from "./ImpactJourney.module.css";
 
 const stages = [
-  { key: "hero", number: "01", label: "O chão", title: "Conforto que faz o corpo chegar inteiro.", text: "Toda força começa no terreno. A jornada acompanha o caminho que ela percorre antes de chegar em quem dirige." },
+  { key: "hero", number: "01", label: "O chão", title: "Conforto que faz o corpo chegar inteiro.", text: "Amortecedores desenvolvidos para a sua picape, a sua carga e o seu terreno. Menos impacto acumulado, mais estabilidade com peso e mais controle onde o asfalto termina." },
   { key: "terrain", number: "02", label: "O terreno muda", title: "O chão muda. A força continua.", text: "Asfalto, cascalho, barro e carga alteram a frequência do impacto. O amortecedor precisa responder ao uso real." },
   { key: "compression", number: "03", label: "Compressão", title: "O que para aqui não precisa chegar em você.", text: "A roda sobe, a haste entra e o conjunto controla a energia antes que a carroceria repita todo o movimento." },
-  { key: "control", number: "04", label: "Controle", title: "Pressão, fluido e retorno viram conforto.", text: "Visualização conceitual. O acerto final considera veículo, carga, altura e rotina antes da produção." },
+  { key: "control", number: "04", label: "Controle", title: "Pressão, fluido e retorno viram conforto.", text: "Cada conjunto é calibrado para o peso e o uso reais da picape, não para uma média de catálogo. Visualização conceitual; o acerto é confirmado antes da produção." },
 ] as const;
 
 const useImages: Record<string, string> = {
@@ -462,7 +462,7 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
         <div className={styles.productStage}><div className={styles.productHalo}/><Image src={productLines[2].image} alt="Amortecedor BUMP Premium em visualização conceitual" fill sizes="(min-width:900px) 48vw,88vw" className={styles.productImage}/><div className={styles.compressionScale}><span>EXTENSÃO</span><i/><span>COMPRESSÃO</span></div></div>
         <div className={styles.energyPath}><span/><span/><span/></div>
         <nav className={styles.stageRail}>{stages.map((stage) => <div key={stage.key} className={styles.railItem} data-key={stage.key}><span>{stage.number}</span><i/><strong>{stage.label}</strong></div>)}</nav>
-        <div className={styles.chapters}>{stages.map((stage) => <article key={stage.key} className={styles.chapter} data-key={stage.key}><p className={styles.eyebrow}>{stage.number} · {stage.label}</p><h1>{stage.title}</h1><p className={styles.description}>{stage.text}</p>{stage.key === "hero" && <div className={styles.heroActions}><a href="#rotina" className={styles.primaryAction}>Acompanhar a força</a><a href="#linhas" className={styles.heroSecondaryAction}>Ver as linhas</a><span>Role para entrar no sistema</span></div>}</article>)}</div>
+        <div className={styles.chapters}>{stages.map((stage) => <article key={stage.key} className={styles.chapter} data-key={stage.key}><p className={styles.eyebrow}>{stage.number} · {stage.label}</p><h1>{stage.title}</h1><p className={styles.description}>{stage.text}</p>{stage.key === "hero" && <div className={styles.heroActions}><Link href="/configurador" className={styles.primaryAction}>Montar meu amortecedor</Link><a href="#rotina" className={styles.heroSecondaryAction}>Acompanhar a força</a><span>Role para entrar no sistema</span></div>}</article>)}</div>
         <div className={styles.journeyExit} aria-hidden="true"><i/><span>ENERGIA CONTROLADA</span></div>
         <div className={styles.progress}><span/></div>
       </div>
@@ -482,7 +482,7 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
     <section className={styles.promise}>
       <div className={styles.promiseEntry} aria-hidden="true"><i/><span/></div>
       <div className={styles.promiseLead} data-reveal><p className={styles.sectionCode}>05 · O corpo</p><h2>A última peça do sistema não é de metal.</h2></div>
-      <div className={styles.bodyGrid} data-reveal><p><strong>A BUMP não começa pela prateleira.</strong> Começa por quem dirige, pelo veículo e pelo chão que se repete todos os dias. Como especialista em suspensão de picapes, transforma carga, altura e rotina em um acerto que busca reduzir impacto sem tirar controle da ferramenta.</p><div className={styles.wave}><i/><i/><i/><span>IMPACTO ENTRA</span><b>ENERGIA CONTROLADA</b></div></div>
+      <div className={styles.bodyGrid} data-reveal><p><strong>Não existe uma pressão única para toda picape.</strong> Seu uso não é igual ao de outra picape, e seu amortecedor também não deveria ser. A BUMP calibra construção, pressão e curso para o peso, a altura e a rotina reais: menos impacto acumulado no corpo, mais estabilidade com carga e mais controle quando o asfalto termina.</p><div className={styles.wave}><i/><i/><i/><span>IMPACTO ENTRA</span><b>ENERGIA CONTROLADA</b></div></div>
       <div className={styles.trust} data-reveal>{[["13+","anos de fábrica"],["2 anos","contra vazamento"],["Sob medida","veículo e uso"],["Brasil","produção própria"],["Envio","nacional"]].map(([a,b])=><div key={b}><strong>{a}</strong><span>{b}</span></div>)}</div>
     </section>
 
@@ -532,7 +532,7 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
 
     <section className={styles.authority}>
       <div className={styles.sectionIntro} data-reveal><p className={styles.sectionCode}>10 · Autoridade com autoria</p><h2>Cristian: piloto antes de fabricante, especialista à frente do projeto.</h2></div>
-      <div className={styles.authorityGrid}><article data-reveal><span>ORIGEM REAL · IMAGEM DE CENÁRIO TEMPORÁRIA</span><h3>Experiência que virou método.</h3><p>Cristian levou o que sentia no volante para a engenharia e para a fábrica. A imagem ilustra o contexto de aplicação; não representa o fundador, a equipe ou uma instalação real.</p><Link href="/quem-somos">Conhecer a história ↗</Link></article><article data-reveal><span>EVIDÊNCIA DECLARADA · LIMITES EXPLÍCITOS</span><h3>A fábrica continua depois da escolha.</h3><p>Produção própria no Brasil, projeto sob medida, 2 anos contra vazamento e construção que pode voltar à fábrica para recuperação.</p><Link href="/resultados">Ver evidências ↗</Link></article></div>
+      <div className={styles.authorityGrid}><article data-reveal><span>CENÁRIO DE APLICAÇÃO</span><h3>Experiência que virou método.</h3><p>Cristian levou o que sentia no volante para a engenharia e para a fábrica. É ele quem define como cada conjunto responde ao peso, à altura e ao terreno informados.</p><Link href="/quem-somos">Conhecer a história ↗</Link></article><article data-reveal><span>EVIDÊNCIA DECLARADA · LIMITES EXPLÍCITOS</span><h3>A fábrica continua depois da escolha.</h3><p>Produção própria no Brasil, projeto sob medida, 2 anos contra vazamento e construção que pode voltar à fábrica para recuperação.</p><Link href="/resultados">Ver evidências ↗</Link></article></div>
     </section>
 
     <FlowConnector variant="authority-cta"/>

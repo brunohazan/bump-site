@@ -9,7 +9,7 @@ export default function LinesPage() {
   return (
     <>
       <Breadcrumb items={[{ label: "Home", href: "/" }, { label: "Linhas" }]} />
-      <PageHero eyebrow="Seis linhas. Um acerto para cada rotina." title="Feito para o seu uso, não para uma prateleira." description="Compare o ponto de partida de cada linha. A configuração final considera seu veículo, peso, altura e chão." />
+      <PageHero eyebrow="Seis linhas. Um acerto para cada rotina." title="Feito para o seu uso, não para uma prateleira." description="Não existe uma pressão única para toda picape. Compare o ponto de partida de cada linha — a configuração final considera veículo, peso, altura e rotina." />
       <section className="section-space">
         <div className="site-container grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {productLines.map((line) => <ProductLineCard key={line.slug} line={line} />)}
