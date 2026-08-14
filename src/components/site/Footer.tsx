@@ -36,7 +36,9 @@ export function Footer() {
           <div>
             <FooterTitle>Contato</FooterTitle>
             <div className="flex flex-col gap-3 text-sm leading-relaxed text-mute-2">
-              <Link href="/contato" className="transition-colors hover:text-accent">WhatsApp, telefone e e-mail</Link>
+              <FooterLink href="/contato?canal=whatsapp">WhatsApp</FooterLink>
+              <FooterLink href="/contato?canal=telefone">Telefone</FooterLink>
+              <FooterLink href="/contato?canal=email">E-mail</FooterLink>
               <span>Segunda a sexta, 8h às 18h</span>
               <span>Gravataí, RS</span>
               <a href="https://www.instagram.com/bumpamortecedores" target="_blank" rel="noreferrer" className="transition-colors hover:text-accent">Instagram</a>
@@ -45,7 +47,6 @@ export function Footer() {
         </div>
         <div className="mt-14 flex flex-col gap-4 border-t border-line-1 pt-7 font-mono text-[11px] leading-relaxed tracking-[0.04em] text-mute-4 md:flex-row md:items-center md:justify-between">
           <div className="flex flex-wrap gap-x-5 gap-y-2">
-            <Link href="/projeto-v2" className="text-accent hover:text-paper">Projeto V2</Link>
             <Link href="/politica-de-privacidade" className="hover:text-accent">Política de Privacidade</Link>
             <Link href="/termos-de-uso" className="hover:text-accent">Termos de Uso</Link>
           </div>

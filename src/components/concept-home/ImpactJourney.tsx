@@ -60,6 +60,7 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
     const journey = journeyRef.current;
     if (!journey) return;
     body.classList.add("concept-mode");
+    if (definitive) body.classList.add("concept-definitive");
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     const explicitReduced = new URLSearchParams(window.location.search).get("motion") === "reduce";
     if (!explicitReduced) {
@@ -83,15 +84,15 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
     document.querySelectorAll(`.${styles.experience} [data-reveal]`).forEach((node) => observer.observe(node));
     syncPreference();
     addEventListener("scroll", requestUpdate, { passive: true }); addEventListener("resize", requestUpdate); media.addEventListener("change", syncPreference);
-    return () => { body.classList.remove("concept-mode", "concept-force-motion"); removeEventListener("scroll", requestUpdate); removeEventListener("resize", requestUpdate); media.removeEventListener("change", syncPreference); observer.disconnect(); if (frameRef.current !== null) cancelAnimationFrame(frameRef.current); };
-  }, []);
+    return () => { body.classList.remove("concept-mode", "concept-definitive", "concept-force-motion"); removeEventListener("scroll", requestUpdate); removeEventListener("resize", requestUpdate); media.removeEventListener("change", syncPreference); observer.disconnect(); if (frameRef.current !== null) cancelAnimationFrame(frameRef.current); };
+  }, [definitive]);
 
   return <div className={styles.experience} data-motion={motionReduced ? "reduced" : "full"}>
-    <header className={styles.topbar}>
+    {!definitive && <header className={styles.topbar}>
       <Link href="/" className={styles.brand} aria-label="BUMP Amortecedores"><Image src="/brand/bump-logo.png" alt="" width={180} height={53} priority className={styles.brandLogo}/></Link>
       <nav className={styles.miniNav}><a href="#rotina">Rotina</a><a href="#engenharia">Engenharia</a><a href="#linhas">Linhas</a><a href="#resultados">400 mil km</a></nav>
-      <div className={styles.topActions}>{motionReduced && <button type="button" className={styles.motionToggle} onClick={enableMotion}>Ativar movimento</button>}{definitive ? <Link href="/configurador" className={styles.exit}>Montar ↗</Link> : <Link href="/" className={styles.exit}>Sair ↗</Link>}</div>
-    </header>
+      <div className={styles.topActions}>{motionReduced && <button type="button" className={styles.motionToggle} onClick={enableMotion}>Ativar movimento</button>}<Link href="/" className={styles.exit}>Sair ↗</Link></div>
+    </header>}
 
     <section ref={journeyRef} className={styles.journey} data-stage="hero">
       <div className={styles.sticky}>
@@ -162,6 +163,6 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
       <div className={styles.faqActions}><Link href="/faq">Ver todas as dúvidas ↗</Link><Link href="/contato">Falar com a BUMP ↗</Link></div>
     </section>
 
-    <footer className={styles.conceptFooter}><Image src="/brand/bump-logo.png" alt="BUMP Amortecedores" width={180} height={53} className={styles.footerLogo}/><span>{definitive ? "DO CHÃO AO CORPO · BUMP AMORTECEDORES" : "DO CHÃO AO CORPO · CONCEITO V0.2"}</span><Link href={definitive ? "/configurador" : "/"}>{definitive ? "Montar meu amortecedor ↗" : "Voltar ao site atual ↗"}</Link></footer>
+    {!definitive && <footer className={styles.conceptFooter}><Image src="/brand/bump-logo.png" alt="BUMP Amortecedores" width={180} height={53} className={styles.footerLogo}/><span>DO CHÃO AO CORPO · CONCEITO V0.2</span><Link href="/">Voltar ao site atual ↗</Link></footer>}
   </div>;
 }

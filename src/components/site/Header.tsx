@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -59,7 +60,7 @@ export function Header() {
   return (
     <header
       onMouseLeave={() => setDesktopMenu(null)}
-      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-300 ${
+      className={`fixed inset-x-0 top-0 z-[100] transition-[background-color,border-color,backdrop-filter] duration-300 ${
         transparent
           ? "border-b border-transparent bg-gradient-to-b from-ink/80 to-transparent"
           : "border-b border-line-1 bg-ink/92 backdrop-blur-xl"
@@ -69,16 +70,17 @@ export function Header() {
         <Link
           href="/"
           onClick={closeAll}
-          aria-label="BUMP, ir para a página inicial"
-          className="group flex shrink-0 items-center gap-3"
+          aria-label="BUMP Amortecedores, ir para a página inicial"
+          className="group flex shrink-0 items-center"
         >
-          <span className="text-[22px] font-black tracking-[-0.055em] transition-colors group-hover:text-accent">
-            BUMP
-          </span>
-          <span className="hidden h-5 w-px bg-line-4 sm:block" />
-          <span className="hidden font-mono text-[9px] leading-tight tracking-[0.16em] text-mute-2 sm:block">
-            SUSPENSION<br />SYSTEMS
-          </span>
+          <Image
+            src="/brand/bump-logo.png"
+            alt=""
+            width={180}
+            height={53}
+            priority
+            className="h-auto w-[132px] transition-transform duration-300 group-hover:scale-[1.03] sm:w-[148px]"
+          />
         </Link>
 
         <nav aria-label="Navegação principal" className="hidden h-full items-stretch lg:flex">
@@ -105,7 +107,7 @@ export function Header() {
             Contato
           </Link>
           <Link href="/configurador" onClick={closeAll} className="button-primary button-sm gap-2">
-            Montar o meu <span aria-hidden="true">↗</span>
+            Montar meu amortecedor <span aria-hidden="true">↗</span>
           </Link>
         </div>
 
@@ -183,7 +185,7 @@ export function Header() {
         onClick={(event) => {
           if ((event.target as HTMLElement).closest("a")) closeAll();
         }}
-        className={`fixed inset-x-0 top-[72px] bottom-0 overflow-y-auto bg-ink transition-[opacity,transform,visibility] duration-300 lg:hidden ${
+        className={`fixed inset-x-0 top-[72px] z-10 h-[calc(100dvh-72px)] overflow-y-auto bg-ink transition-[opacity,transform,visibility] duration-300 lg:hidden ${
           mobileOpen ? "visible translate-y-0 opacity-100" : "invisible -translate-y-3 opacity-0"
         }`}
       >

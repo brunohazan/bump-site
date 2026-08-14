@@ -3,9 +3,14 @@
   overflow-x: clip;
 }
 
-:global(body.concept-mode > header),
-:global(body.concept-mode > footer),
-:global(body.concept-mode > a[href^="/contato?canal=whatsapp"]) {
+:global(body.concept-definitive) {
+  --color-accent: #d3ff1a;
+  --color-accent-soft: #263000;
+}
+
+:global(body.concept-mode:not(.concept-definitive) > header),
+:global(body.concept-mode:not(.concept-definitive) > footer),
+:global(body.concept-mode:not(.concept-definitive) > a[href^="/contato?canal=whatsapp"]) {
   display: none !important;
 }
 
