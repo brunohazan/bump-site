@@ -1699,8 +1699,7 @@
 .heroRoadShoulder,
 .heroRoadBed,
 .heroRoadMarkings,
-.flowRoadWorld,
-.flowPickup {
+.flowRoadWorld {
   display: none;
 }
 
@@ -1758,75 +1757,6 @@
     transform-origin: 50% 55%;
     pointer-events: none;
   }
-
-  .flowPickup {
-    position: absolute;
-    z-index: 5;
-    display: block;
-    width: clamp(88px, 8.8vw, 136px);
-    aspect-ratio: 1200 / 542;
-    background: url("/media/pickup-top.webp") center / contain no-repeat;
-    transform-origin: 50% 50%;
-    isolation: isolate;
-    pointer-events: none;
-  }
-
-  .flowPickup[data-pickup-motion="exit"] {
-    top: 38%;
-    left: 42%;
-    opacity: clamp(0, calc((1.02 - var(--flow)) * 2.2), .96);
-    transform: translate3d(calc(var(--flow) * 55vw), calc(var(--flow) * -5vh), 0)
-      rotate(calc(-8deg - var(--flow) * 7deg)) scale(.82);
-  }
-
-  .flowPickup[data-pickup-motion="exit"] i { display: none; }
-
-  .flowPickup[data-pickup-motion="cross"] {
-    --pickup-rise: min(calc(var(--flow) * 18vh), calc((1 - var(--flow)) * 18vh));
-    top: 42%;
-    left: 0;
-    opacity: clamp(0, calc(var(--flow) * 3), .95);
-    transform: translate3d(calc(-16vw + var(--flow) * 116vw), calc(9vh - var(--pickup-rise)), 0)
-      rotate(calc(-7deg + var(--flow) * 14deg)) scale(.78);
-  }
-
-  .flowPickup[data-pickup-motion="cross"] i {
-    position: absolute;
-    z-index: 0;
-    right: 70%;
-    top: 32%;
-    width: 66%;
-    height: 68%;
-    border-radius: 50%;
-    background: radial-gradient(ellipse, rgb(216 192 146 / 62%), transparent 70%);
-    mix-blend-mode: screen;
-    opacity: clamp(0, calc((var(--flow) - .08) * 1.5), .58);
-  }
-
-  .flowPickup[data-pickup-motion="cross"] i:nth-child(2) {
-    right: 91%;
-    top: 16%;
-    transform: scale(.68);
-    opacity: clamp(0, calc((var(--flow) - .15) * 1.1), .26);
-  }
-
-  .flowPickup[data-pickup-motion="cross"] i:nth-child(3) {
-    right: 108%;
-    top: 42%;
-    transform: scale(.46);
-    opacity: clamp(0, calc((var(--flow) - .24) * 1.1), .18);
-  }
-
-  .flowConnector[data-active="true"] .flowPickup { will-change: transform, opacity; }
-  .experience[data-motion="reduced"] .flowPickup { will-change: auto; }
-  .experience[data-motion="reduced"] .flowPickup[data-pickup-motion="exit"] { display: none; }
-  .experience[data-motion="reduced"] .flowPickup[data-pickup-motion="cross"] {
-    top: 42%;
-    left: 0;
-    opacity: .88;
-    transform: translate3d(42vw, 0, 0) rotate(0) scale(.78);
-  }
-  .experience[data-motion="reduced"] .flowPickup[data-pickup-motion="cross"] i { display: none; }
 
   .flowConnector[data-road-camera="tilt"] .flowRoadWorld {
     transform: translate3d(calc((.5 - var(--flow)) * 3vw), calc((1 - var(--flow)) * 2.5vh), 0)
@@ -2003,6 +1933,5 @@
 }
 
 @media (min-width: 901px) and (prefers-reduced-motion: reduce) {
-  :global(body:not(.concept-force-motion)) .flowConnector[data-road-surface] .flowRoadWorld,
-  :global(body:not(.concept-force-motion)) .flowPickup { will-change: auto; }
+  :global(body:not(.concept-force-motion)) .flowConnector[data-road-surface] .flowRoadWorld { will-change: auto; }
 }
