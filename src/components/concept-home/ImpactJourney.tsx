@@ -50,7 +50,6 @@ const roadSceneByFlow: Partial<Record<FlowVariant, RoadScene>> = {
 };
 const pickupSceneByFlow: Partial<Record<FlowVariant, PickupScene>> = {
   "body-use": { motion: "exit", width: 96 },
-  "authority-cta": { motion: "cross", width: 78 },
 };
 
 function FlowConnector({ variant }: { variant: FlowVariant }) {

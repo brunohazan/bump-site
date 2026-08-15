@@ -1922,7 +1922,26 @@
     background: #11130c;
     clip-path: polygon(48% 0, 68% 34%, 59% 34%, 84% 66%, 61% 66%, 61% 100%, 39% 100%, 39% 66%, 16% 66%, 41% 34%, 32% 34%);
   }
-  .flowConnector[data-road-surface="dirt"] .flowDetails { display: none; }
+  .flowConnector[data-road-surface="dirt"] .flowDetails {
+    z-index: 3;
+    display: block;
+    opacity: .88;
+  }
+  .flowConnector[data-road-surface="dirt"] .flowDetails i {
+    display: none;
+    background: #29321f;
+    transform-origin: 50% 100%;
+  }
+  .flowConnector[data-road-surface="dirt"] .flowDetails i:nth-child(1),
+  .flowConnector[data-road-surface="dirt"] .flowDetails i:nth-child(2),
+  .flowConnector[data-road-surface="dirt"] .flowDetails i:nth-child(7),
+  .flowConnector[data-road-surface="dirt"] .flowDetails i:nth-child(8) {
+    display: block;
+  }
+  .flowConnector[data-road-surface="dirt"] .flowDetails i:nth-child(1) { left: 10%; bottom: 76%; transform: scale(1.2); }
+  .flowConnector[data-road-surface="dirt"] .flowDetails i:nth-child(2) { left: 13%; bottom: 82%; transform: scale(.9); opacity: .74; }
+  .flowConnector[data-road-surface="dirt"] .flowDetails i:nth-child(7) { right: 13%; bottom: 80%; transform: scale(.9); opacity: .76; }
+  .flowConnector[data-road-surface="dirt"] .flowDetails i:nth-child(8) { right: 10%; bottom: 74%; transform: scale(1.2); }
   .flowConnector[data-road-surface="dirt"] .flowRoadNear i { width: clamp(38px, 4.5vw, 70px); height: clamp(58px, 7vw, 106px); }
   .flowConnector[data-road-surface="dirt"] .flowRoadNear i:nth-child(2),
   .flowConnector[data-road-surface="dirt"] .flowRoadNear i:nth-child(3),
