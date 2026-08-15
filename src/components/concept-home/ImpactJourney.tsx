@@ -37,25 +37,37 @@ function stageFromProgress(progress: number) {
 }
 
 type FlowVariant = "body-use" | "brands-engineering" | "engineering-lines" | "lines-results" | "results-authority" | "authority-cta" | "cta-faq" | "faq-footer";
-type RoadSurface = "dirt" | "gravel";
+type RoadSurface = "dirt" | "mud" | "gravel";
+type RoadCamera = "tilt" | "diagonal" | "low";
+type RoadScene = { surface: RoadSurface; camera: RoadCamera; path: string };
 
 const flowPath = "M-80 152 C170 38 340 230 545 142 S875 45 1080 154 S1395 230 1680 105";
-const roadSurfaceByFlow: Partial<Record<FlowVariant, RoadSurface>> = {
-  "body-use": "dirt",
-  "authority-cta": "gravel",
+const roadSceneByFlow: Partial<Record<FlowVariant, RoadScene>> = {
+  "body-use": { surface: "dirt", camera: "tilt", path: "M-180 238 C110 28 405 44 690 158 S1180 270 1780 64" },
+  "results-authority": { surface: "mud", camera: "diagonal", path: "M-190 286 C245 270 430 28 785 104 S1240 292 1790 8" },
+  "authority-cta": { surface: "gravel", camera: "low", path: "M-170 318 C330 244 560 58 815 48 S1280 214 1770 322" },
 };
 
 function FlowConnector({ variant }: { variant: FlowVariant }) {
-  const roadSurface = roadSurfaceByFlow[variant];
+  const roadScene = roadSceneByFlow[variant];
 
-  return <div className={styles.flowConnector} data-flow={variant} data-road-surface={roadSurface} aria-hidden="true">
+  return <div className={styles.flowConnector} data-flow={variant} data-road-surface={roadScene?.surface} data-road-camera={roadScene?.camera} aria-hidden="true">
     <div className={styles.flowSurface}/>
-    <div className={styles.flowDetails}>{Array.from({ length: 10 }, (_, index) => <i key={index}/>)}</div>
+    {roadScene && <div className={styles.flowRoadWorld}>
+      <div className={styles.flowRoadAtmosphere}/>
+      <div className={styles.flowRoadFar}>{Array.from({ length: 8 }, (_, index) => <i key={index}/>)}</div>
+      <svg className={styles.flowRoadScene} viewBox="0 0 1600 360" preserveAspectRatio="none">
+        <path className={styles.flowRoadShadow} d={roadScene.path}/>
+        <path className={styles.flowRoadShoulder} d={roadScene.path}/>
+        <path className={styles.flowRoadBed} d={roadScene.path}/>
+        <path className={styles.flowRoadRuts} d={roadScene.path}/>
+        <path className={styles.flowRoadTexture} d={roadScene.path}/>
+        <path className={styles.flowRoadEnergy} d={roadScene.path}/>
+      </svg>
+      <div className={styles.flowDetails}>{Array.from({ length: 12 }, (_, index) => <i key={index}/>)}</div>
+      <div className={styles.flowRoadNear}>{Array.from({ length: 7 }, (_, index) => <i key={index}/>)}</div>
+    </div>}
     <svg className={styles.flowTrace} viewBox="0 0 1600 260" preserveAspectRatio="none">
-      <path className={styles.flowRoadShadow} d={flowPath}/>
-      <path className={styles.flowRoadShoulder} d={flowPath}/>
-      <path className={styles.flowRoadBed} d={flowPath}/>
-      <path className={styles.flowRoadTexture} d={flowPath}/>
       <path className={styles.flowTraceBase} d={flowPath}/>
       <path className={styles.flowTraceEnergy} d={flowPath}/>
     </svg>
@@ -471,7 +483,7 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
       <div className={styles.sticky}>
         <div className={styles.grid}/><div className={styles.noise}/>
         <div className={styles.truckLayer}><Image src={`${ASSET_BASE}/amortecedores/hero.png`} alt="Picape atravessando terreno irregular" fill priority sizes="100vw" className={styles.truckImage}/><div className={styles.truckShade}/></div>
-        <svg className={styles.terrain} viewBox="0 0 1600 300" preserveAspectRatio="none" aria-hidden="true"><path className={styles.terrainGhost} d="M0 180 C150 120 250 235 390 175 S650 110 770 190 S1030 240 1160 150 S1430 100 1600 185"/><path className={styles.terrainLine} d="M0 180 C150 120 250 235 390 175 S650 110 770 190 S1030 240 1160 150 S1430 100 1600 185"/></svg>
+        <svg className={styles.terrain} viewBox="0 0 1600 300" preserveAspectRatio="none" aria-hidden="true"><path className={styles.heroRoadShadow} d="M0 180 C150 120 250 235 390 175 S650 110 770 190 S1030 240 1160 150 S1430 100 1600 185"/><path className={styles.heroRoadShoulder} d="M0 180 C150 120 250 235 390 175 S650 110 770 190 S1030 240 1160 150 S1430 100 1600 185"/><path className={styles.heroRoadBed} d="M0 180 C150 120 250 235 390 175 S650 110 770 190 S1030 240 1160 150 S1430 100 1600 185"/><path className={styles.heroRoadMarkings} d="M0 180 C150 120 250 235 390 175 S650 110 770 190 S1030 240 1160 150 S1430 100 1600 185"/><path className={styles.terrainGhost} d="M0 180 C150 120 250 235 390 175 S650 110 770 190 S1030 240 1160 150 S1430 100 1600 185"/><path className={styles.terrainLine} d="M0 180 C150 120 250 235 390 175 S650 110 770 190 S1030 240 1160 150 S1430 100 1600 185"/></svg>
         <div className={styles.impactPulse}><span/><span/><span/></div>
         <div className={styles.productStage}><div className={styles.productHalo}/><Image src={productLines[2].image} alt="Amortecedor BUMP Premium em visualização conceitual" fill sizes="(min-width:900px) 48vw,88vw" className={styles.productImage}/><div className={styles.compressionScale}><span>EXTENSÃO</span><i/><span>COMPRESSÃO</span></div></div>
         <div className={styles.energyPath}><span/><span/><span/></div>
