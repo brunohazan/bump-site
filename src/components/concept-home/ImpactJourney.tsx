@@ -45,8 +45,6 @@ type PickupScene = { motion: "exit" | "cross"; width: number };
 const flowPath = "M-80 152 C170 38 340 230 545 142 S875 45 1080 154 S1395 230 1680 105";
 const roadSceneByFlow: Partial<Record<FlowVariant, RoadScene>> = {
   "body-use": { surface: "dirt", camera: "tilt", path: "M-180 238 C110 28 405 44 690 158 S1180 270 1780 64" },
-  "results-authority": { surface: "mud", camera: "diagonal", path: "M-190 286 C245 270 430 28 785 104 S1240 292 1790 8" },
-  "authority-cta": { surface: "cobble", camera: "low", path: "M-170 318 C330 244 560 58 815 48 S1280 214 1770 322" },
 };
 const pickupSceneByFlow: Partial<Record<FlowVariant, PickupScene>> = {
   "body-use": { motion: "exit", width: 96 },

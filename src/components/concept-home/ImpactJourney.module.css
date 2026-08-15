@@ -1730,8 +1730,6 @@
 
   /* Shorter scenes close inside their own section instead of overlapping the next chapter. */
   .flowConnector[data-flow="body-use"] { --flow-height: 38svh; }
-  .flowConnector[data-flow="results-authority"] { --flow-height: 38svh; }
-  .flowConnector[data-flow="authority-cta"] { --flow-height: 38svh; }
 
   .flowConnector[data-road-surface] {
     contain: layout paint style;
