@@ -467,7 +467,7 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
       if (state.pickup && state.pickupBody && state.pickupPath && state.pickupLength) {
         const exits = node.dataset.flow === "body-use";
         const rawPhase = exits
-          ? (pickupProgress - .1) / .52
+          ? (pickupProgress - .08) / .62
           : (pickupProgress - .02) / .62;
         const phase = clamp01(rawPhase);
         const travel = exits ? .5 + phase * .5 : phase;
@@ -547,7 +547,7 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
       const delta = Math.min(Math.max(time - previousTime, 0), 64);
       previousTime = time;
       const alpha = 1 - Math.exp(-delta / 90);
-      const pickupAlpha = 1 - Math.exp(-delta / 220);
+      const pickupAlpha = 1 - Math.exp(-delta / 300);
       let keepAnimating = false;
 
       connectors.forEach((node) => {
