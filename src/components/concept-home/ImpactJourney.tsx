@@ -427,10 +427,12 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
       return [node, {
         current: 0,
         target: 0,
+        pickupCurrent: 0,
         visible: false,
         needsMeasure: true,
         initialized: false,
         lastRendered: -1,
+        lastPickupRendered: -1,
         pickupPath,
         pickupLength: pickupPath?.getTotalLength() ?? 0,
         pickup: node.querySelector<SVGGElement>("[data-road-pickup]"),
@@ -455,16 +457,18 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
       return clamped * clamped * (3 - 2 * clamped);
     };
 
-    const render = (node: HTMLElement, progress: number) => {
+    const render = (node: HTMLElement, progress: number, pickupProgress = progress) => {
       const state = states.get(node)!;
-      if (Math.abs(progress - state.lastRendered) < .0005) return;
-      node.style.setProperty("--flow", progress.toFixed(4));
+      const flowChanged = Math.abs(progress - state.lastRendered) >= .0005;
+      const pickupChanged = Math.abs(pickupProgress - state.lastPickupRendered) >= .0005;
+      if (!flowChanged && !pickupChanged) return;
+      if (flowChanged) node.style.setProperty("--flow", progress.toFixed(4));
 
       if (state.pickup && state.pickupBody && state.pickupPath && state.pickupLength) {
         const exits = node.dataset.flow === "body-use";
         const rawPhase = exits
-          ? (progress - .1) / .52
-          : (progress - .02) / .62;
+          ? (pickupProgress - .1) / .52
+          : (pickupProgress - .02) / .62;
         const phase = clamp01(rawPhase);
         const travel = exits ? .5 + phase * .5 : phase;
         const distance = travel * state.pickupLength;
@@ -516,6 +520,7 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
       }
 
       state.lastRendered = progress;
+      state.lastPickupRendered = pickupProgress;
     };
 
     const measure = (node: HTMLElement) => {
@@ -533,7 +538,8 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
           const state = states.get(node)!;
           state.current = .72;
           state.target = .72;
-          render(node, .72);
+          state.pickupCurrent = .72;
+          render(node, .72, .72);
         });
         return;
       }
@@ -541,6 +547,7 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
       const delta = Math.min(Math.max(time - previousTime, 0), 64);
       previousTime = time;
       const alpha = 1 - Math.exp(-delta / 90);
+      const pickupAlpha = 1 - Math.exp(-delta / 220);
       let keepAnimating = false;
 
       connectors.forEach((node) => {
@@ -552,14 +559,25 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
           state.needsMeasure = false;
           if (!state.initialized) {
             state.current = state.target;
+            state.pickupCurrent = state.target;
             state.initialized = true;
           }
         }
 
         state.current += (state.target - state.current) * alpha;
         if (Math.abs(state.target - state.current) < .0007) state.current = state.target;
-        render(node, state.current);
-        if (Math.abs(state.target - state.current) >= .0007) keepAnimating = true;
+
+        if (state.pickup) {
+          state.pickupCurrent += (state.current - state.pickupCurrent) * pickupAlpha;
+          if (Math.abs(state.current - state.pickupCurrent) < .0007) state.pickupCurrent = state.current;
+        } else {
+          state.pickupCurrent = state.current;
+        }
+
+        render(node, state.current, state.pickupCurrent);
+        const flowMoving = Math.abs(state.target - state.current) >= .0007;
+        const pickupMoving = Boolean(state.pickup) && Math.abs(state.current - state.pickupCurrent) >= .0007;
+        if (flowMoving || pickupMoving) keepAnimating = true;
       });
 
       if (keepAnimating) flowFrameRef.current = requestAnimationFrame(tick);
@@ -603,8 +621,10 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
           const restingProgress = entry.boundingClientRect.top < 0 ? 1 : 0;
           state.current = restingProgress;
           state.target = restingProgress;
+          state.pickupCurrent = restingProgress;
           state.initialized = false;
-          render(node, prefersReduced() ? .72 : restingProgress);
+          const restingRender = prefersReduced() ? .72 : restingProgress;
+          render(node, restingRender, restingRender);
         }
       });
     }, { rootMargin: "100px 0px", threshold: 0 });
