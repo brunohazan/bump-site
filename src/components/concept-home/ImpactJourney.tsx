@@ -51,6 +51,7 @@ const roadSceneByFlow: Partial<Record<FlowVariant, RoadScene>> = {
 function FlowConnector({ variant }: { variant: FlowVariant }) {
   const roadScene = roadSceneByFlow[variant];
   const textureId = `road-texture-${variant}`;
+  const pickupMotion = variant === "body-use" ? "exit" : variant === "authority-cta" ? "cross" : undefined;
 
   return <div className={styles.flowConnector} data-flow={variant} data-road-surface={roadScene?.surface} data-road-camera={roadScene?.camera} aria-hidden="true">
     <div className={styles.flowSurface}/>
@@ -100,6 +101,7 @@ function FlowConnector({ variant }: { variant: FlowVariant }) {
         <path className={styles.flowRoadTrack} data-track="right" d={roadScene.path} transform="translate(0 22)"/>
         <path className={styles.flowRoadEnergy} d={roadScene.path}/>
       </svg>
+      {pickupMotion && <div className={styles.flowPickup} data-pickup-motion={pickupMotion}><i/><i/><i/></div>}
       <div className={styles.flowDetails}>{Array.from({ length: 8 }, (_, index) => <i key={index}/>)}</div>
       <div className={styles.flowRoadNear}>{Array.from({ length: 5 }, (_, index) => <i key={index}/>)}</div>
     </div>}
