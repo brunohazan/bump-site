@@ -49,8 +49,8 @@ const roadSceneByFlow: Partial<Record<FlowVariant, RoadScene>> = {
   "authority-cta": { surface: "cobble", camera: "low", path: "M-170 318 C330 244 560 58 815 48 S1280 214 1770 322" },
 };
 const pickupSceneByFlow: Partial<Record<FlowVariant, PickupScene>> = {
-  "body-use": { motion: "exit", width: 78 },
-  "authority-cta": { motion: "cross", width: 66 },
+  "body-use": { motion: "exit", width: 96 },
+  "authority-cta": { motion: "cross", width: 78 },
 };
 
 function FlowConnector({ variant }: { variant: FlowVariant }) {
@@ -98,9 +98,9 @@ function FlowConnector({ variant }: { variant: FlowVariant }) {
               <path d="M13 11 34 9" stroke="#b8baad" strokeWidth="2" opacity=".3"/><path d="M91 45 113 43" stroke="#c5c6ba" strokeWidth="2" opacity=".25"/>
             </>}
           </pattern>
-          {pickupScene?.motion === "cross" && <radialGradient id={dustId}>
-            <stop offset="0" stopColor="#d8c092" stopOpacity=".42"/>
-            <stop offset=".52" stopColor="#b49a68" stopOpacity=".2"/>
+          {pickupScene && <radialGradient id={dustId}>
+            <stop offset="0" stopColor="#f0ddb5" stopOpacity=".9"/>
+            <stop offset=".52" stopColor="#cdb17c" stopOpacity=".5"/>
             <stop offset="1" stopColor="#8e784f" stopOpacity="0"/>
           </radialGradient>}
         </defs>
@@ -117,11 +117,11 @@ function FlowConnector({ variant }: { variant: FlowVariant }) {
           data-pickup-motion={pickupScene.motion}
           opacity="0"
         >
-          {pickupScene.motion === "cross" && <g className={styles.flowPickupDust} data-road-pickup-dust>
-            <ellipse cx="-28" cy="-9" rx="18" ry="10" fill={`url(#${dustId})`}/>
-            <ellipse cx="-32" cy="9" rx="14" ry="8" fill={`url(#${dustId})`}/>
-            <ellipse cx="-43" cy="1" rx="11" ry="7" fill={`url(#${dustId})`}/>
-          </g>}
+          <g className={styles.flowPickupDust} data-road-pickup-dust>
+            <ellipse cx="-34" cy="-11" rx="30" ry="18" fill={`url(#${dustId})`}/>
+            <ellipse cx="-44" cy="11" rx="24" ry="14" fill={`url(#${dustId})`}/>
+            <ellipse cx="-58" cy="1" rx="18" ry="11" fill={`url(#${dustId})`}/>
+          </g>
           <ellipse
             className={styles.flowPickupShadow}
             cx="-2"
@@ -130,15 +130,15 @@ function FlowConnector({ variant }: { variant: FlowVariant }) {
             ry={pickupScene.width * .16}
           />
           <g className={styles.flowPickupBody} data-road-pickup-body>
-            <foreignObject
+            <image
               className={styles.flowPickupImage}
+              data-road-pickup-image
               x={-pickupScene.width / 2}
               y={-(pickupScene.width / (1200 / 542)) / 2}
               width={pickupScene.width}
               height={pickupScene.width / (1200 / 542)}
-            >
-              <div className={styles.flowPickupAsset}/>
-            </foreignObject>
+              preserveAspectRatio="xMidYMid meet"
+            />
           </g>
         </g>}
       </svg>
@@ -438,9 +438,19 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
         pickupLength: pickupPath?.getTotalLength() ?? 0,
         pickup: node.querySelector<SVGGElement>("[data-road-pickup]"),
         pickupBody: node.querySelector<SVGGElement>("[data-road-pickup-body]"),
+        pickupImage: node.querySelector<SVGImageElement>("[data-road-pickup-image]"),
         pickupDust: Array.from(node.querySelectorAll<SVGEllipseElement>("[data-road-pickup-dust] ellipse")),
       }];
     }));
+    const desktopMedia = window.matchMedia("(min-width: 901px)");
+    const syncPickupAssets = () => {
+      states.forEach((state) => {
+        if (!state.pickupImage) return;
+        if (desktopMedia.matches) state.pickupImage.setAttribute("href", "/media/pickup-top.webp");
+        else state.pickupImage.removeAttribute("href");
+      });
+    };
+    syncPickupAssets();
     let previousTime = performance.now();
     const clamp01 = (value: number) => Math.min(1, Math.max(0, value));
     const smoothstep = (value: number) => {
@@ -456,8 +466,8 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
       if (state.pickup && state.pickupBody && state.pickupPath && state.pickupLength) {
         const exits = node.dataset.flow === "body-use";
         const rawPhase = exits
-          ? (progress - .08) / .82
-          : (progress - .02) / .92;
+          ? (progress - .1) / .52
+          : (progress - .02) / .62;
         const phase = clamp01(rawPhase);
         const travel = exits ? .5 + phase * .5 : phase;
         const distance = travel * state.pickupLength;
@@ -467,7 +477,9 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
         const after = state.pickupPath.getPointAtLength(Math.min(state.pickupLength, distance + tangentDelta));
         const tangent = Math.atan2(after.y - before.y, after.x - before.x) * 180 / Math.PI;
         const tangentRadians = tangent * Math.PI / 180;
-        const laneOffset = exits ? -16 : -720;
+        const laneOffset = exits
+          ? -16
+          : -55 + smoothstep((phase - .25) / .45) * 150;
         const vehicleX = point.x - Math.sin(tangentRadians) * laneOffset;
         const vehicleY = point.y + Math.cos(tangentRadians) * laneOffset;
         const fadeIn = smoothstep(phase / .11);
@@ -494,9 +506,10 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
           const drift = 5 + puffPhase * 42;
           const spread = .62 + puffPhase * .92;
           const crosswind = Math.sin((phase + index * .31) * Math.PI * 4) * (3 + index);
-          const puffOpacity = exits
-            ? 0
-            : opacity * Math.pow(1 - puffPhase, 1.35) * (.3 - index * .035);
+          const dustStrength = exits ? .62 : .64;
+          const puffOpacity = opacity
+            * Math.pow(1 - puffPhase, 1.2)
+            * (dustStrength - index * .045);
           puff.setAttribute(
             "transform",
             `translate(${-drift.toFixed(2)} ${crosswind.toFixed(2)}) scale(${spread.toFixed(3)})`,
@@ -604,11 +617,13 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
     window.addEventListener("scroll", requestUpdate, { passive: true });
     window.addEventListener("resize", requestUpdate);
     media.addEventListener("change", syncPreference);
+    desktopMedia.addEventListener("change", syncPickupAssets);
 
     return () => {
       window.removeEventListener("scroll", requestUpdate);
       window.removeEventListener("resize", requestUpdate);
       media.removeEventListener("change", syncPreference);
+      desktopMedia.removeEventListener("change", syncPickupAssets);
       observer.disconnect();
       connectors.forEach((node) => node.removeAttribute("data-active"));
       if (flowFrameRef.current !== null) cancelAnimationFrame(flowFrameRef.current);
