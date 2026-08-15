@@ -50,22 +50,41 @@ const roadSceneByFlow: Partial<Record<FlowVariant, RoadScene>> = {
 
 function FlowConnector({ variant }: { variant: FlowVariant }) {
   const roadScene = roadSceneByFlow[variant];
+  const textureId = `road-texture-${variant}`;
 
   return <div className={styles.flowConnector} data-flow={variant} data-road-surface={roadScene?.surface} data-road-camera={roadScene?.camera} aria-hidden="true">
     <div className={styles.flowSurface}/>
     {roadScene && <div className={styles.flowRoadWorld}>
       <div className={styles.flowRoadAtmosphere}/>
-      <div className={styles.flowRoadFar}>{Array.from({ length: 8 }, (_, index) => <i key={index}/>)}</div>
+      <div className={styles.flowRoadFar}/>
       <svg className={styles.flowRoadScene} viewBox="0 0 1600 360" preserveAspectRatio="none">
+        <defs>
+          <pattern id={textureId} width="52" height="52" patternUnits="userSpaceOnUse" patternTransform={roadScene.surface === "gravel" ? "rotate(11)" : undefined}>
+            {roadScene.surface === "dirt" && <>
+              <circle cx="5" cy="9" r="2.2" fill="#c49555"/><circle cx="31" cy="17" r="1.4" fill="#3f2b18"/>
+              <circle cx="44" cy="42" r="2.8" fill="#9a6e39"/><path d="M-4 38 L22 31 M28 52 L57 43" stroke="#d0a365" strokeWidth="2" opacity=".48"/>
+            </>}
+            {roadScene.surface === "mud" && <>
+              <ellipse cx="13" cy="12" rx="10" ry="2.5" fill="#7e8f89" opacity=".42"/><ellipse cx="41" cy="37" rx="13" ry="3" fill="#0b0c0b" opacity=".68"/>
+              <path d="M-8 28 C8 22 19 33 35 26 S52 20 61 25" fill="none" stroke="#9eb0aa" strokeWidth="1.5" opacity=".38"/>
+            </>}
+            {roadScene.surface === "gravel" && <>
+              <path d="M3 8 9 3 15 7 12 14 5 15Z" fill="#c9cbbd"/><path d="M25 4 33 7 31 14 22 12Z" fill="#55594f"/>
+              <path d="M40 18 49 15 54 22 46 28 38 24Z" fill="#a4a89a"/><path d="M11 31 19 27 24 34 17 40 8 38Z" fill="#6b6f64"/>
+              <path d="M31 38 39 33 47 39 43 48 34 49 28 44Z" fill="#d6d8ca"/>
+            </>}
+          </pattern>
+        </defs>
         <path className={styles.flowRoadShadow} d={roadScene.path}/>
         <path className={styles.flowRoadShoulder} d={roadScene.path}/>
         <path className={styles.flowRoadBed} d={roadScene.path}/>
-        <path className={styles.flowRoadRuts} d={roadScene.path}/>
-        <path className={styles.flowRoadTexture} d={roadScene.path}/>
+        <path className={styles.flowRoadTexture} d={roadScene.path} stroke={`url(#${textureId})`}/>
+        <path className={styles.flowRoadTrack} data-track="left" d={roadScene.path} transform="translate(0 -22)"/>
+        <path className={styles.flowRoadTrack} data-track="right" d={roadScene.path} transform="translate(0 22)"/>
         <path className={styles.flowRoadEnergy} d={roadScene.path}/>
       </svg>
-      <div className={styles.flowDetails}>{Array.from({ length: 12 }, (_, index) => <i key={index}/>)}</div>
-      <div className={styles.flowRoadNear}>{Array.from({ length: 7 }, (_, index) => <i key={index}/>)}</div>
+      <div className={styles.flowDetails}>{Array.from({ length: 8 }, (_, index) => <i key={index}/>)}</div>
+      <div className={styles.flowRoadNear}>{Array.from({ length: 5 }, (_, index) => <i key={index}/>)}</div>
     </div>}
     <svg className={styles.flowTrace} viewBox="0 0 1600 260" preserveAspectRatio="none">
       <path className={styles.flowTraceBase} d={flowPath}/>
