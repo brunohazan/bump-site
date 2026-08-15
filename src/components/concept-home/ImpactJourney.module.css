@@ -1692,3 +1692,213 @@
     opacity: clamp(0, calc((var(--journey) - .43) * 6), .8);
   }
 }
+
+
+/* Desktop road interludes · recurring terrain with scroll-driven camera pullback */
+.flowRoadShadow,
+.flowRoadShoulder,
+.flowRoadBed,
+.flowRoadTexture,
+.flowDetails {
+  display: none;
+}
+
+@media (min-width: 901px) {
+  .flowConnector[data-flow="body-use"] {
+    --flow-height: 32svh;
+  }
+
+  .flowConnector[data-flow="authority-cta"] {
+    --flow-height: 19svh;
+  }
+
+  .flowConnector[data-road-surface] .flowTrace {
+    top: -14%;
+    left: -16%;
+    width: 132%;
+    height: 128%;
+    opacity: clamp(.42, calc(.42 + var(--flow) * .58), 1);
+    transform: translate3d(calc((.54 - var(--flow)) * 14vw), calc((1 - var(--flow)) * 9%), 0) scale(calc(1.42 - var(--flow) * .46));
+    transform-origin: 50% 72%;
+    filter: drop-shadow(0 22px 22px rgb(0 0 0 / 34%));
+  }
+
+  .flowConnector[data-road-surface] .flowRoadShadow,
+  .flowConnector[data-road-surface] .flowRoadShoulder,
+  .flowConnector[data-road-surface] .flowRoadBed,
+  .flowConnector[data-road-surface] .flowRoadTexture {
+    display: block;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .flowConnector[data-road-surface] .flowRoadShadow {
+    stroke: rgb(0 0 0 / 48%);
+    stroke-width: 126;
+  }
+
+  .flowConnector[data-road-surface] .flowRoadShoulder {
+    stroke-width: 104;
+  }
+
+  .flowConnector[data-road-surface] .flowRoadBed {
+    stroke-width: 78;
+  }
+
+  .flowConnector[data-road-surface] .flowRoadTexture {
+    stroke-width: 56;
+  }
+
+  .flowConnector[data-road-surface] .flowTraceBase {
+    stroke: rgb(255 255 255 / 18%);
+    stroke-width: 3;
+  }
+
+  .flowConnector[data-road-surface] .flowTraceEnergy {
+    stroke-width: 3.5;
+    stroke-dasharray: 14 12;
+    filter: drop-shadow(0 0 7px rgb(211 255 26 / 72%));
+  }
+
+  .flowConnector[data-road-surface="dirt"] .flowRoadShoulder {
+    stroke: #211d15;
+  }
+
+  .flowConnector[data-road-surface="dirt"] .flowRoadBed {
+    stroke: #4b412f;
+  }
+
+  .flowConnector[data-road-surface="dirt"] .flowRoadTexture {
+    stroke: rgb(137 122 88 / 58%);
+    stroke-dasharray: 34 13 5 11 18 16;
+  }
+
+  .flowConnector[data-road-surface="gravel"] .flowRoadShoulder {
+    stroke: #252722;
+  }
+
+  .flowConnector[data-road-surface="gravel"] .flowRoadBed {
+    stroke: #55594f;
+  }
+
+  .flowConnector[data-road-surface="gravel"] .flowRoadTexture {
+    stroke: rgb(180 184 168 / 72%);
+    stroke-dasharray: 1 10 1 7 2 13;
+    stroke-linecap: round;
+  }
+
+  .flowConnector[data-road-surface] .flowDetails {
+    position: absolute;
+    z-index: 4;
+    inset: 0;
+    display: block;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: clamp(.28, calc(.28 + var(--flow) * .7), .92);
+    transform: translate3d(calc((.48 - var(--flow)) * 5vw), calc((1 - var(--flow)) * 7%), 0) scale(calc(1.18 - var(--flow) * .18));
+    transform-origin: 50% 100%;
+    will-change: auto;
+  }
+
+  .flowConnector[data-active="true"][data-road-surface] .flowDetails {
+    will-change: transform, opacity;
+  }
+
+  .flowConnector[data-road-surface="dirt"] .flowDetails::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 54%;
+    background: linear-gradient(to top, rgb(87 73 46 / 24%), transparent);
+    mix-blend-mode: screen;
+  }
+
+  .flowConnector[data-road-surface="dirt"] .flowDetails i {
+    position: absolute;
+    bottom: -8%;
+    width: 12px;
+    height: 42%;
+    transform: rotate(-2deg);
+    transform-origin: bottom;
+  }
+
+  .flowConnector[data-road-surface="dirt"] .flowDetails i::before,
+  .flowConnector[data-road-surface="dirt"] .flowDetails i::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .flowConnector[data-road-surface="dirt"] .flowDetails i::before {
+    z-index: 2;
+    bottom: 28%;
+    width: 64px;
+    height: 76%;
+    background: #10120b;
+    clip-path: polygon(50% 0, 64% 22%, 58% 22%, 78% 48%, 68% 48%, 93% 80%, 60% 80%, 60% 100%, 40% 100%, 40% 80%, 7% 80%, 32% 48%, 22% 48%, 42% 22%, 36% 22%);
+    filter: drop-shadow(0 10px 12px rgb(0 0 0 / 35%));
+  }
+
+  .flowConnector[data-road-surface="dirt"] .flowDetails i::after {
+    bottom: 0;
+    width: 7px;
+    height: 34%;
+    background: #17150e;
+  }
+
+  .flowConnector[data-road-surface="dirt"] .flowDetails i:nth-child(1) { left: 1%; height: 64%; }
+  .flowConnector[data-road-surface="dirt"] .flowDetails i:nth-child(2) { left: 7%; height: 51%; }
+  .flowConnector[data-road-surface="dirt"] .flowDetails i:nth-child(3) { left: 14%; height: 43%; }
+  .flowConnector[data-road-surface="dirt"] .flowDetails i:nth-child(4) { left: 22%; height: 33%; }
+  .flowConnector[data-road-surface="dirt"] .flowDetails i:nth-child(5) { left: 30%; height: 24%; }
+  .flowConnector[data-road-surface="dirt"] .flowDetails i:nth-child(6) { right: 30%; height: 25%; }
+  .flowConnector[data-road-surface="dirt"] .flowDetails i:nth-child(7) { right: 22%; height: 34%; }
+  .flowConnector[data-road-surface="dirt"] .flowDetails i:nth-child(8) { right: 14%; height: 44%; }
+  .flowConnector[data-road-surface="dirt"] .flowDetails i:nth-child(9) { right: 7%; height: 53%; }
+  .flowConnector[data-road-surface="dirt"] .flowDetails i:nth-child(10) { right: 1%; height: 66%; }
+
+  .flowConnector[data-road-surface="gravel"] .flowDetails {
+    opacity: clamp(.32, calc(.32 + var(--flow) * .5), .76);
+  }
+
+  .flowConnector[data-road-surface="gravel"] .flowDetails i {
+    position: absolute;
+    bottom: 14%;
+    width: clamp(12px, 1.4vw, 25px);
+    height: clamp(6px, .65vw, 12px);
+    border: 1px solid rgb(255 255 255 / 10%);
+    border-radius: 46% 54% 38% 62%;
+    background: #777b70;
+    box-shadow: 0 9px 13px rgb(0 0 0 / 34%);
+    transform: rotate(18deg);
+  }
+
+  .flowConnector[data-road-surface="gravel"] .flowDetails i:nth-child(1) { left: 3%; bottom: 12%; transform: rotate(-16deg) scale(1.5); }
+  .flowConnector[data-road-surface="gravel"] .flowDetails i:nth-child(2) { left: 10%; bottom: 32%; transform: rotate(24deg) scale(.85); }
+  .flowConnector[data-road-surface="gravel"] .flowDetails i:nth-child(3) { left: 18%; bottom: 6%; transform: rotate(8deg) scale(1.2); }
+  .flowConnector[data-road-surface="gravel"] .flowDetails i:nth-child(4) { left: 27%; bottom: 42%; transform: rotate(-10deg) scale(.7); }
+  .flowConnector[data-road-surface="gravel"] .flowDetails i:nth-child(5) { left: 38%; bottom: 9%; transform: rotate(31deg) scale(.6); }
+  .flowConnector[data-road-surface="gravel"] .flowDetails i:nth-child(6) { right: 38%; bottom: 40%; transform: rotate(-22deg) scale(.7); }
+  .flowConnector[data-road-surface="gravel"] .flowDetails i:nth-child(7) { right: 27%; bottom: 8%; transform: rotate(14deg) scale(1.1); }
+  .flowConnector[data-road-surface="gravel"] .flowDetails i:nth-child(8) { right: 18%; bottom: 37%; transform: rotate(28deg) scale(.8); }
+  .flowConnector[data-road-surface="gravel"] .flowDetails i:nth-child(9) { right: 10%; bottom: 10%; transform: rotate(-18deg) scale(1.35); }
+  .flowConnector[data-road-surface="gravel"] .flowDetails i:nth-child(10) { right: 3%; bottom: 30%; transform: rotate(9deg) scale(.95); }
+}
+
+.experience[data-motion="reduced"] .flowConnector[data-road-surface] .flowTrace,
+.experience[data-motion="reduced"] .flowConnector[data-road-surface] .flowDetails {
+  transform: none;
+  will-change: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :global(body:not(.concept-force-motion)) .flowConnector[data-road-surface] .flowTrace,
+  :global(body:not(.concept-force-motion)) .flowConnector[data-road-surface] .flowDetails {
+    transform: none;
+    will-change: auto;
+  }
+}

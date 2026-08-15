@@ -37,13 +37,27 @@ function stageFromProgress(progress: number) {
 }
 
 type FlowVariant = "body-use" | "brands-engineering" | "engineering-lines" | "lines-results" | "results-authority" | "authority-cta" | "cta-faq" | "faq-footer";
+type RoadSurface = "dirt" | "gravel";
+
+const flowPath = "M-80 152 C170 38 340 230 545 142 S875 45 1080 154 S1395 230 1680 105";
+const roadSurfaceByFlow: Partial<Record<FlowVariant, RoadSurface>> = {
+  "body-use": "dirt",
+  "authority-cta": "gravel",
+};
 
 function FlowConnector({ variant }: { variant: FlowVariant }) {
-  return <div className={styles.flowConnector} data-flow={variant} aria-hidden="true">
+  const roadSurface = roadSurfaceByFlow[variant];
+
+  return <div className={styles.flowConnector} data-flow={variant} data-road-surface={roadSurface} aria-hidden="true">
     <div className={styles.flowSurface}/>
+    <div className={styles.flowDetails}>{Array.from({ length: 10 }, (_, index) => <i key={index}/>)}</div>
     <svg className={styles.flowTrace} viewBox="0 0 1600 260" preserveAspectRatio="none">
-      <path className={styles.flowTraceBase} d="M-80 152 C170 38 340 230 545 142 S875 45 1080 154 S1395 230 1680 105"/>
-      <path className={styles.flowTraceEnergy} d="M-80 152 C170 38 340 230 545 142 S875 45 1080 154 S1395 230 1680 105"/>
+      <path className={styles.flowRoadShadow} d={flowPath}/>
+      <path className={styles.flowRoadShoulder} d={flowPath}/>
+      <path className={styles.flowRoadBed} d={flowPath}/>
+      <path className={styles.flowRoadTexture} d={flowPath}/>
+      <path className={styles.flowTraceBase} d={flowPath}/>
+      <path className={styles.flowTraceEnergy} d={flowPath}/>
     </svg>
     <div className={styles.flowAxis}><i/><span/></div>
     <div className={styles.flowOrbit}><i/><i/><i/></div>

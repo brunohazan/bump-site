@@ -79,14 +79,29 @@ decorativa (`aria-hidden`) e altera apenas `--flow`.
 
 | Variante | Ligação | Forma | Desktop | Mobile |
 |---|---|---|---:|---:|
-| `body-use` | O corpo → Rotina | terreno | `26svh` | `20svh` |
+| `body-use` | O corpo → Rotina | terra batida/vegetação | `32svh` | `20svh` |
 | `brands-engineering` | Marcas → Engenharia | órbita/fluido | `16svh` | `12svh` |
 | `engineering-lines` | Engenharia → Linhas | eixo técnico | `24svh` | `20svh` |
 | `lines-results` | Linhas → Resultados | régua | `18svh` | `16svh` |
 | `results-authority` | Resultados → Autoridade | pulso/órbita | `22svh` | `18svh` |
-| `authority-cta` | Autoridade → CTA | onda discreta | `14svh` | `12svh` |
+| `authority-cta` | Autoridade → CTA | brita/cascalho | `19svh` | `12svh` |
 | `cta-faq` | CTA → FAQ | abertura clara | `24svh` | `20svh` |
 | `faq-footer` | FAQ → Footer | fechamento escuro | `16svh` | `14svh` |
+
+### Interlúdios de estrada no desktop
+
+`body-use` e `authority-cta` reutilizam o mesmo SVG de percurso, mas recebem materiais distintos por
+`data-road-surface`. O primeiro usa leito de terra, sulcos e árvores abstratas nas bordas; o segundo
+usa brita e fragmentos laterais. São camadas procedurais de SVG/CSS, sem mídia externa.
+
+O próprio `--flow` controla a câmera: cada estrada entra ampliada e recua até revelar mais do
+percurso, enquanto cenário lateral e leito usam deslocamentos diferentes para sugerir parallax. A
+linha Citrus permanece sobre o centro do leito como conduíte de energia. Não há novo observer, loop
+de animação ou leitura de layout.
+
+As camadas de material são habilitadas apenas a partir de `901px`. Mobile mantém o enquadramento
+amplo já aprovado. Em movimento reduzido, estrada e cenário usam o quadro intermediário estático,
+sem transformação ou `will-change` ativo.
 
 No modo reduzido, conectores usam `7rem`; `brands-engineering` e `authority-cta` usam `5rem`.
 Todos renderizam `--flow: 0.72` sem acompanhar o scroll.

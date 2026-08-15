@@ -144,6 +144,16 @@ ação secundária.
 3. **Blocos já contínuos:** o marquee de marcas e cenários fotográficos fazem parte da passagem.
 4. **CTA e Footer:** movimentos discretos para não competir com decisão e leitura.
 
+No desktop, dois conectores de terreno formam **interlúdios de estrada** sem alterar essa hierarquia:
+
+- **O corpo → Rotina:** terra batida, sulcos e vegetação lateral em silhueta;
+- **Autoridade → O próximo chão:** brita/cascalho, curto e mais contido.
+
+A estrada entra próxima da câmera e recua com o scroll. O leito, a textura e os elementos laterais
+perdem escala enquanto a linha Citrus continua avançando. Órbita, eixo técnico, régua, abertura da
+FAQ e fechamento do Footer não recebem materiais de estrada: cada um preserva sua função narrativa.
+A ponte Hero → O corpo continua sendo o momento de maior intensidade.
+
 Detalhes de altura, progresso, observers e reduced motion ficam em
 [`../project/home-motion-system.md`](../project/home-motion-system.md).
 

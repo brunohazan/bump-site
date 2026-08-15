@@ -115,3 +115,25 @@ de vídeo no próprio bucket; usar um frame do vídeo como fotografia estática.
 não sustentadas contradizem a disciplina de conteúdo do site e devem ser renomeados na origem.
 
 **Data:** 2026-08-14.
+
+
+## ADR-009 · Interlúdios de estrada procedurais no sistema de conectores
+
+**Decisão:** ampliar no desktop os conectores `body-use` e `authority-cta` como interlúdios de
+estrada com zoom regressivo orientado por `--flow`. `body-use` representa terra batida com vegetação
+lateral; `authority-cta` representa brita/cascalho. Leito, texturas e cenário são SVG/CSS e reutilizam
+o observer e o loop compartilhado de `FlowConnector`. Mobile mantém a composição anterior e
+movimento reduzido recebe um quadro estático.
+
+**Motivo:** aproximar o impacto visual do desktop da personalidade já percebida no mobile e fazer o
+terreno evoluir junto com a narrativa, sem introduzir vídeo, Canvas, WebGL, mídia adicional ou um
+novo controlador de scroll.
+
+**Alternativas:** apenas engrossar a linha existente; aplicar estrada a todos os conectores; usar
+imagens ou vídeo; criar novas cenas sticky; alterar também a composição mobile.
+
+**Consequências:** a ponte Hero → O corpo continua sendo a transição principal; conectores de
+órbita, eixo, régua, FAQ e Footer preservam suas formas sem material rodoviário. As duas estradas
+recebem alturas desktop próprias e exigem smoke em desktop, mobile e `?motion=reduce`.
+
+**Data:** 2026-08-14.
