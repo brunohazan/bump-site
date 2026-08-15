@@ -1699,7 +1699,8 @@
 .heroRoadShoulder,
 .heroRoadBed,
 .heroRoadMarkings,
-.flowRoadWorld {
+.flowRoadWorld,
+.flowPickupMotion {
   display: none;
 }
 
@@ -1841,6 +1842,44 @@
   .flowRoadTrack { stroke-width: 9; opacity: .34; }
   .flowRoadEnergy { display: none; }
 
+  .flowPickupMotion {
+    display: block;
+    pointer-events: none;
+  }
+
+  .flowPickupBody {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .flowPickupImage {
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .flowPickupAsset {
+    width: 100%;
+    height: 100%;
+    background: url("/media/pickup-top.webp") center / contain no-repeat;
+  }
+
+  .flowPickupShadow {
+    fill: rgb(0 0 0 / 34%);
+    transform: translateY(3px) scale(.92 .72);
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .flowPickupDust {
+    pointer-events: none;
+  }
+
+  .flowConnector[data-active="true"] .flowPickupMotion,
+  .flowConnector[data-active="true"] .flowPickupBody,
+  .flowConnector[data-active="true"] .flowPickupDust ellipse {
+    will-change: transform, opacity;
+  }
+
   /* Dry dirt: broad organic patches and softly compacted, continuous wheel channels. */
   .flowConnector[data-road-surface="dirt"] .flowRoadShoulder { stroke: #5d4328; }
   .flowConnector[data-road-surface="dirt"] .flowRoadBed { stroke: #6c4d2e; }
@@ -1933,5 +1972,20 @@
 }
 
 @media (min-width: 901px) and (prefers-reduced-motion: reduce) {
-  :global(body:not(.concept-force-motion)) .flowConnector[data-road-surface] .flowRoadWorld { will-change: auto; }
+  :global(body:not(.concept-force-motion)) .flowConnector[data-road-surface] .flowRoadWorld,
+  :global(body:not(.concept-force-motion)) .flowConnector[data-road-surface] .flowPickupMotion,
+  :global(body:not(.concept-force-motion)) .flowConnector[data-road-surface] .flowPickupBody,
+  :global(body:not(.concept-force-motion)) .flowConnector[data-road-surface] .flowPickupDust ellipse {
+    will-change: auto;
+  }
+
+  :global(body:not(.concept-force-motion)) .flowConnector[data-flow="body-use"] .flowPickupMotion,
+  :global(body:not(.concept-force-motion)) .flowPickupDust {
+    display: none;
+  }
+}
+
+.experience[data-motion="reduced"] .flowConnector[data-flow="body-use"] .flowPickupMotion,
+.experience[data-motion="reduced"] .flowPickupDust {
+  display: none;
 }

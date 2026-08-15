@@ -40,6 +40,7 @@ type FlowVariant = "body-use" | "brands-engineering" | "engineering-lines" | "li
 type RoadSurface = "dirt" | "mud" | "cobble";
 type RoadCamera = "tilt" | "diagonal" | "low";
 type RoadScene = { surface: RoadSurface; camera: RoadCamera; path: string };
+type PickupScene = { motion: "exit" | "cross"; width: number };
 
 const flowPath = "M-80 152 C170 38 340 230 545 142 S875 45 1080 154 S1395 230 1680 105";
 const roadSceneByFlow: Partial<Record<FlowVariant, RoadScene>> = {
@@ -47,10 +48,16 @@ const roadSceneByFlow: Partial<Record<FlowVariant, RoadScene>> = {
   "results-authority": { surface: "mud", camera: "diagonal", path: "M-190 286 C245 270 430 28 785 104 S1240 292 1790 8" },
   "authority-cta": { surface: "cobble", camera: "low", path: "M-170 318 C330 244 560 58 815 48 S1280 214 1770 322" },
 };
+const pickupSceneByFlow: Partial<Record<FlowVariant, PickupScene>> = {
+  "body-use": { motion: "exit", width: 78 },
+  "authority-cta": { motion: "cross", width: 66 },
+};
 
 function FlowConnector({ variant }: { variant: FlowVariant }) {
   const roadScene = roadSceneByFlow[variant];
+  const pickupScene = pickupSceneByFlow[variant];
   const textureId = `road-texture-${variant}`;
+  const dustId = `road-dust-${variant}`;
 
   return <div className={styles.flowConnector} data-flow={variant} data-road-surface={roadScene?.surface} data-road-camera={roadScene?.camera} aria-hidden="true">
     <div className={styles.flowSurface}/>
@@ -91,14 +98,49 @@ function FlowConnector({ variant }: { variant: FlowVariant }) {
               <path d="M13 11 34 9" stroke="#b8baad" strokeWidth="2" opacity=".3"/><path d="M91 45 113 43" stroke="#c5c6ba" strokeWidth="2" opacity=".25"/>
             </>}
           </pattern>
+          {pickupScene?.motion === "cross" && <radialGradient id={dustId}>
+            <stop offset="0" stopColor="#d8c092" stopOpacity=".42"/>
+            <stop offset=".52" stopColor="#b49a68" stopOpacity=".2"/>
+            <stop offset="1" stopColor="#8e784f" stopOpacity="0"/>
+          </radialGradient>}
         </defs>
         <path className={styles.flowRoadShadow} d={roadScene.path}/>
         <path className={styles.flowRoadShoulder} d={roadScene.path}/>
-        <path className={styles.flowRoadBed} d={roadScene.path}/>
+        <path className={styles.flowRoadBed} data-road-path d={roadScene.path}/>
         <path className={styles.flowRoadTexture} d={roadScene.path} stroke={`url(#${textureId})`}/>
         <path className={styles.flowRoadTrack} data-track="left" d={roadScene.path} transform="translate(0 -22)"/>
         <path className={styles.flowRoadTrack} data-track="right" d={roadScene.path} transform="translate(0 22)"/>
         <path className={styles.flowRoadEnergy} d={roadScene.path}/>
+        {pickupScene && <g
+          className={styles.flowPickupMotion}
+          data-road-pickup
+          data-pickup-motion={pickupScene.motion}
+          opacity="0"
+        >
+          {pickupScene.motion === "cross" && <g className={styles.flowPickupDust} data-road-pickup-dust>
+            <ellipse cx="-28" cy="-9" rx="18" ry="10" fill={`url(#${dustId})`}/>
+            <ellipse cx="-32" cy="9" rx="14" ry="8" fill={`url(#${dustId})`}/>
+            <ellipse cx="-43" cy="1" rx="11" ry="7" fill={`url(#${dustId})`}/>
+          </g>}
+          <ellipse
+            className={styles.flowPickupShadow}
+            cx="-2"
+            cy="3"
+            rx={pickupScene.width * .43}
+            ry={pickupScene.width * .16}
+          />
+          <g className={styles.flowPickupBody} data-road-pickup-body>
+            <foreignObject
+              className={styles.flowPickupImage}
+              x={-pickupScene.width / 2}
+              y={-(pickupScene.width / (1200 / 542)) / 2}
+              width={pickupScene.width}
+              height={pickupScene.width / (1200 / 542)}
+            >
+              <div className={styles.flowPickupAsset}/>
+            </foreignObject>
+          </g>
+        </g>}
       </svg>
       <div className={styles.flowDetails}>{Array.from({ length: 8 }, (_, index) => <i key={index}/>)}</div>
       <div className={styles.flowRoadNear}>{Array.from({ length: 5 }, (_, index) => <i key={index}/>)}</div>
@@ -383,20 +425,86 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     const explicitReduced = new URLSearchParams(window.location.search).get("motion") === "reduce";
     const prefersReduced = () => !forceMotionRef.current && (explicitReduced || media.matches);
-    const states = new Map(connectors.map((node) => [node, {
-      current: 0,
-      target: 0,
-      visible: false,
-      needsMeasure: true,
-      initialized: false,
-      lastRendered: -1,
-    }]));
+    const states = new Map(connectors.map((node) => {
+      const pickupPath = node.querySelector<SVGPathElement>("[data-road-path]");
+      return [node, {
+        current: 0,
+        target: 0,
+        visible: false,
+        needsMeasure: true,
+        initialized: false,
+        lastRendered: -1,
+        pickupPath,
+        pickupLength: pickupPath?.getTotalLength() ?? 0,
+        pickup: node.querySelector<SVGGElement>("[data-road-pickup]"),
+        pickupBody: node.querySelector<SVGGElement>("[data-road-pickup-body]"),
+        pickupDust: Array.from(node.querySelectorAll<SVGEllipseElement>("[data-road-pickup-dust] ellipse")),
+      }];
+    }));
     let previousTime = performance.now();
+    const clamp01 = (value: number) => Math.min(1, Math.max(0, value));
+    const smoothstep = (value: number) => {
+      const clamped = clamp01(value);
+      return clamped * clamped * (3 - 2 * clamped);
+    };
 
     const render = (node: HTMLElement, progress: number) => {
       const state = states.get(node)!;
       if (Math.abs(progress - state.lastRendered) < .0005) return;
       node.style.setProperty("--flow", progress.toFixed(4));
+
+      if (state.pickup && state.pickupBody && state.pickupPath && state.pickupLength) {
+        const exits = node.dataset.flow === "body-use";
+        const rawPhase = exits
+          ? (progress - .08) / .82
+          : (progress - .02) / .92;
+        const phase = clamp01(rawPhase);
+        const travel = exits ? .5 + phase * .5 : phase;
+        const distance = travel * state.pickupLength;
+        const tangentDelta = Math.max(state.pickupLength * .003, 2);
+        const point = state.pickupPath.getPointAtLength(distance);
+        const before = state.pickupPath.getPointAtLength(Math.max(0, distance - tangentDelta));
+        const after = state.pickupPath.getPointAtLength(Math.min(state.pickupLength, distance + tangentDelta));
+        const tangent = Math.atan2(after.y - before.y, after.x - before.x) * 180 / Math.PI;
+        const tangentRadians = tangent * Math.PI / 180;
+        const laneOffset = exits ? -16 : -720;
+        const vehicleX = point.x - Math.sin(tangentRadians) * laneOffset;
+        const vehicleY = point.y + Math.cos(tangentRadians) * laneOffset;
+        const fadeIn = smoothstep(phase / .11);
+        const fadeOut = smoothstep((1 - phase) / (exits ? .15 : .1));
+        const opacity = fadeIn * fadeOut;
+        const terrainCycles = exits ? 8.5 : 11.5;
+        const wave = phase * Math.PI * 2 * terrainCycles;
+        const bob = Math.sin(wave) * (exits ? 1.05 : .72) + Math.sin(wave * .43 + .8) * .32;
+        const roll = Math.sin(wave * .72 + .35) * (exits ? 1.15 : .82);
+        const compression = Math.sin(wave * 1.18) * .008;
+
+        state.pickup.setAttribute(
+          "transform",
+          `translate(${vehicleX.toFixed(2)} ${vehicleY.toFixed(2)}) rotate(${tangent.toFixed(2)})`,
+        );
+        state.pickup.setAttribute("opacity", opacity.toFixed(3));
+        state.pickupBody.setAttribute(
+          "transform",
+          `translate(0 ${bob.toFixed(2)}) rotate(${roll.toFixed(2)}) scale(${(1 + compression).toFixed(4)} ${(1 - compression).toFixed(4)})`,
+        );
+
+        state.pickupDust.forEach((puff, index) => {
+          const puffPhase = (phase * 3.15 + index * .27) % 1;
+          const drift = 5 + puffPhase * 42;
+          const spread = .62 + puffPhase * .92;
+          const crosswind = Math.sin((phase + index * .31) * Math.PI * 4) * (3 + index);
+          const puffOpacity = exits
+            ? 0
+            : opacity * Math.pow(1 - puffPhase, 1.35) * (.3 - index * .035);
+          puff.setAttribute(
+            "transform",
+            `translate(${-drift.toFixed(2)} ${crosswind.toFixed(2)}) scale(${spread.toFixed(3)})`,
+          );
+          puff.setAttribute("opacity", puffOpacity.toFixed(3));
+        });
+      }
+
       state.lastRendered = progress;
     };
 
