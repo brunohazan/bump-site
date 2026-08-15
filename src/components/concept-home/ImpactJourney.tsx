@@ -100,7 +100,6 @@ function FlowConnector({ variant }: { variant: FlowVariant }) {
         <path className={styles.flowRoadTrack} data-track="right" d={roadScene.path} transform="translate(0 22)"/>
         <path className={styles.flowRoadEnergy} d={roadScene.path}/>
       </svg>
-      {roadScene.surface === "cobble" && <div className={styles.flowRoadPickup}><i/><i/></div>}
       <div className={styles.flowDetails}>{Array.from({ length: 8 }, (_, index) => <i key={index}/>)}</div>
       <div className={styles.flowRoadNear}>{Array.from({ length: 5 }, (_, index) => <i key={index}/>)}</div>
     </div>}

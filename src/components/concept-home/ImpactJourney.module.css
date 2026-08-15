@@ -1863,37 +1863,6 @@
   .flowDetails { z-index: 3; inset: 0; opacity: .82; }
   .flowRoadNear { z-index: 4; right: -2%; bottom: -4%; left: -2%; height: 43%; opacity: .88; }
 
-  .flowRoadPickup {
-    position: absolute;
-    z-index: 4;
-    top: 13%;
-    left: 4%;
-    width: clamp(210px, 24vw, 340px);
-    aspect-ratio: 16 / 9;
-    background: linear-gradient(135deg, rgb(8 10 8 / 12%), rgb(0 0 0 / 48%)), url("https://pub-8f0b05c2503f42609136a4e1e55a9242.r2.dev/banco_web_800/ranger.webp") 52% 58% / 122% auto no-repeat;
-    background-blend-mode: multiply;
-    mask-image: radial-gradient(ellipse 62% 56% at 49% 58%, #000 44%, transparent 69%);
-    clip-path: ellipse(47% 43% at 47% 60%);
-    opacity: clamp(0, calc(var(--flow) * 2.5), .86);
-    transform: translate3d(calc(var(--flow) * 38vw), calc((.55 - var(--flow)) * 3vh), 0) rotate(-5deg) scale(calc(.72 + var(--flow) * .15));
-    transform-origin: 50% 78%;
-    pointer-events: none;
-  }
-
-  .flowRoadPickup i {
-    position: absolute;
-    right: 72%;
-    bottom: 9%;
-    width: 42%;
-    height: 24%;
-    border-radius: 50%;
-    background: radial-gradient(ellipse, rgb(194 177 141 / 28%), transparent 68%);
-  }
-  .flowRoadPickup i:last-child { right: 82%; bottom: 20%; transform: scale(.68); opacity: .58; }
-
-  .flowConnector[data-active="true"][data-road-surface="cobble"] .flowRoadPickup { will-change: transform, opacity; }
-  .experience[data-motion="reduced"] .flowRoadPickup { will-change: auto; }
-
   .flowDetails i,
   .flowRoadNear i { position: absolute; }
 
