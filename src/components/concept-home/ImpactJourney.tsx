@@ -37,7 +37,7 @@ function stageFromProgress(progress: number) {
 }
 
 type FlowVariant = "body-use" | "brands-engineering" | "engineering-lines" | "lines-results" | "results-authority" | "authority-cta" | "cta-faq" | "faq-footer";
-type RoadSurface = "dirt" | "mud" | "gravel";
+type RoadSurface = "dirt" | "mud" | "cobble";
 type RoadCamera = "tilt" | "diagonal" | "low";
 type RoadScene = { surface: RoadSurface; camera: RoadCamera; path: string };
 
@@ -45,7 +45,7 @@ const flowPath = "M-80 152 C170 38 340 230 545 142 S875 45 1080 154 S1395 230 16
 const roadSceneByFlow: Partial<Record<FlowVariant, RoadScene>> = {
   "body-use": { surface: "dirt", camera: "tilt", path: "M-180 238 C110 28 405 44 690 158 S1180 270 1780 64" },
   "results-authority": { surface: "mud", camera: "diagonal", path: "M-190 286 C245 270 430 28 785 104 S1240 292 1790 8" },
-  "authority-cta": { surface: "gravel", camera: "low", path: "M-170 318 C330 244 560 58 815 48 S1280 214 1770 322" },
+  "authority-cta": { surface: "cobble", camera: "low", path: "M-170 318 C330 244 560 58 815 48 S1280 214 1770 322" },
 };
 
 function FlowConnector({ variant }: { variant: FlowVariant }) {
@@ -59,19 +59,36 @@ function FlowConnector({ variant }: { variant: FlowVariant }) {
       <div className={styles.flowRoadFar}/>
       <svg className={styles.flowRoadScene} viewBox="0 0 1600 360" preserveAspectRatio="none">
         <defs>
-          <pattern id={textureId} width="52" height="52" patternUnits="userSpaceOnUse" patternTransform={roadScene.surface === "gravel" ? "rotate(11)" : undefined}>
+          <pattern id={textureId} width={roadScene.surface === "cobble" ? 128 : 180} height={roadScene.surface === "cobble" ? 80 : 124} patternUnits="userSpaceOnUse" patternTransform={roadScene.surface === "cobble" ? "scale(.72)" : roadScene.surface === "dirt" ? "scale(.78) rotate(-2)" : "scale(.82)"}>
             {roadScene.surface === "dirt" && <>
-              <circle cx="5" cy="9" r="2.2" fill="#c49555"/><circle cx="31" cy="17" r="1.4" fill="#3f2b18"/>
-              <circle cx="44" cy="42" r="2.8" fill="#9a6e39"/><path d="M-4 38 L22 31 M28 52 L57 43" stroke="#d0a365" strokeWidth="2" opacity=".48"/>
+              <ellipse cx="24" cy="19" rx="24" ry="7" fill="#392619" opacity=".2" transform="rotate(-9 24 19)"/>
+              <ellipse cx="83" cy="43" rx="31" ry="9" fill="#9c7042" opacity=".18" transform="rotate(7 83 43)"/>
+              <ellipse cx="145" cy="22" rx="26" ry="8" fill="#402b1b" opacity=".17" transform="rotate(-5 145 22)"/>
+              <ellipse cx="41" cy="91" rx="34" ry="10" fill="#a67a49" opacity=".2" transform="rotate(4 41 91)"/>
+              <ellipse cx="130" cy="96" rx="37" ry="11" fill="#3a2718" opacity=".16" transform="rotate(-7 130 96)"/>
+              <path d="M99 13 C110 5 126 8 132 17 S126 34 111 33 91 23 99 13Z" fill="#b08350" opacity=".18"/>
+              <circle cx="18" cy="60" r="2.2" fill="#c19760" opacity=".38"/><circle cx="67" cy="17" r="1.6" fill="#2e1f13" opacity=".42"/>
+              <circle cx="105" cy="73" r="2.4" fill="#c69a61" opacity=".3"/><circle cx="163" cy="55" r="1.8" fill="#382516" opacity=".4"/>
+              <circle cx="74" cy="112" r="1.5" fill="#d0a46c" opacity=".32"/><circle cx="151" cy="116" r="2" fill="#2f2015" opacity=".38"/>
             </>}
             {roadScene.surface === "mud" && <>
-              <ellipse cx="13" cy="12" rx="10" ry="2.5" fill="#7e8f89" opacity=".42"/><ellipse cx="41" cy="37" rx="13" ry="3" fill="#0b0c0b" opacity=".68"/>
-              <path d="M-8 28 C8 22 19 33 35 26 S52 20 61 25" fill="none" stroke="#9eb0aa" strokeWidth="1.5" opacity=".38"/>
+              <ellipse cx="25" cy="22" rx="30" ry="8" fill="#10110e" opacity=".48" transform="rotate(-5 25 22)"/>
+              <ellipse cx="101" cy="19" rx="24" ry="6" fill="#67736e" opacity=".13" transform="rotate(4 101 19)"/>
+              <ellipse cx="151" cy="49" rx="38" ry="9" fill="#0b0c0a" opacity=".42" transform="rotate(-6 151 49)"/>
+              <ellipse cx="54" cy="72" rx="42" ry="10" fill="#87938e" opacity=".12" transform="rotate(3 54 72)"/>
+              <ellipse cx="122" cy="101" rx="46" ry="12" fill="#171713" opacity=".46" transform="rotate(-4 122 101)"/>
+              <path d="M4 104 C17 94 37 97 43 108 S33 125 17 122 0 114 4 104Z" fill="#554c3e" opacity=".3"/>
+              <circle cx="78" cy="45" r="2" fill="#9ca8a3" opacity=".18"/><circle cx="169" cy="91" r="1.8" fill="#aab5b1" opacity=".16"/>
             </>}
-            {roadScene.surface === "gravel" && <>
-              <path d="M3 8 9 3 15 7 12 14 5 15Z" fill="#c9cbbd"/><path d="M25 4 33 7 31 14 22 12Z" fill="#55594f"/>
-              <path d="M40 18 49 15 54 22 46 28 38 24Z" fill="#a4a89a"/><path d="M11 31 19 27 24 34 17 40 8 38Z" fill="#6b6f64"/>
-              <path d="M31 38 39 33 47 39 43 48 34 49 28 44Z" fill="#d6d8ca"/>
+            {roadScene.surface === "cobble" && <>
+              <path d="M3 5 38 3 43 29 7 32 1 23Z" fill="#777a70" stroke="#3e413b" strokeWidth="2"/>
+              <path d="M47 4 82 7 80 32 46 29 43 17Z" fill="#929488" stroke="#464942" strokeWidth="2"/>
+              <path d="M87 6 124 3 130 23 120 32 85 29Z" fill="#696c63" stroke="#383b35" strokeWidth="2"/>
+              <path d="M-17 40 20 36 29 61 19 72-15 68Z" fill="#898b80" stroke="#42453e" strokeWidth="2"/>
+              <path d="M33 38 70 35 76 61 66 72 29 68Z" fill="#686b62" stroke="#383b35" strokeWidth="2"/>
+              <path d="M80 38 116 36 126 57 116 71 79 68 73 51Z" fill="#a0a296" stroke="#4a4d45" strokeWidth="2"/>
+              <path d="M123 38 148 41 151 66 124 72 117 57Z" fill="#74776d" stroke="#3d4039" strokeWidth="2"/>
+              <path d="M13 11 34 9" stroke="#b8baad" strokeWidth="2" opacity=".3"/><path d="M91 45 113 43" stroke="#c5c6ba" strokeWidth="2" opacity=".25"/>
             </>}
           </pattern>
         </defs>
@@ -83,6 +100,7 @@ function FlowConnector({ variant }: { variant: FlowVariant }) {
         <path className={styles.flowRoadTrack} data-track="right" d={roadScene.path} transform="translate(0 22)"/>
         <path className={styles.flowRoadEnergy} d={roadScene.path}/>
       </svg>
+      {roadScene.surface === "cobble" && <div className={styles.flowRoadPickup}><i/><i/></div>}
       <div className={styles.flowDetails}>{Array.from({ length: 8 }, (_, index) => <i key={index}/>)}</div>
       <div className={styles.flowRoadNear}>{Array.from({ length: 5 }, (_, index) => <i key={index}/>)}</div>
     </div>}

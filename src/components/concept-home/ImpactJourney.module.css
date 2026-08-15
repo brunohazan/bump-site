@@ -1788,7 +1788,7 @@
   .flowConnector[data-road-surface="mud"] .flowRoadAtmosphere {
     background: radial-gradient(ellipse at 72% 62%, rgb(133 157 149 / 18%), transparent 26%), linear-gradient(180deg, var(--citrus) 0%, #4a503b 18%, #191b18 58%, #050505 100%);
   }
-  .flowConnector[data-road-surface="gravel"] .flowRoadAtmosphere {
+  .flowConnector[data-road-surface="cobble"] .flowRoadAtmosphere {
     background: linear-gradient(180deg, #050505 0%, #171914 48%, #080906 100%);
   }
 
@@ -1804,7 +1804,7 @@
   }
 
   .flowConnector[data-road-surface="mud"] .flowRoadFar { background: #121712; opacity: .76; }
-  .flowConnector[data-road-surface="gravel"] .flowRoadFar {
+  .flowConnector[data-road-surface="cobble"] .flowRoadFar {
     bottom: 22%;
     background: #20231d;
     clip-path: polygon(0 88%, 10% 65%, 20% 82%, 31% 50%, 43% 83%, 56% 61%, 68% 87%, 80% 52%, 91% 78%, 100% 62%, 100% 100%, 0 100%);
@@ -1838,29 +1838,62 @@
   .flowRoadShoulder { stroke-width: 166; }
   .flowRoadBed { stroke-width: 138; }
   .flowRoadTexture { stroke-width: 130; opacity: .92; }
-  .flowRoadTrack { stroke-width: 9; opacity: .62; stroke-dasharray: 86 18 36 15; }
+  .flowRoadTrack { stroke-width: 9; opacity: .34; }
   .flowRoadEnergy { display: none; }
 
-  /* Dry dirt: granular bed, loose edge debris and two interrupted wheel tracks. */
-  .flowConnector[data-road-surface="dirt"] .flowRoadShoulder { stroke: #674a2a; }
-  .flowConnector[data-road-surface="dirt"] .flowRoadBed { stroke: #73522f; }
-  .flowConnector[data-road-surface="dirt"] .flowRoadTrack { stroke: #3a2716; }
+  /* Dry dirt: broad organic patches and softly compacted, continuous wheel channels. */
+  .flowConnector[data-road-surface="dirt"] .flowRoadShoulder { stroke: #5d4328; }
+  .flowConnector[data-road-surface="dirt"] .flowRoadBed { stroke: #6c4d2e; }
+  .flowConnector[data-road-surface="dirt"] .flowRoadTexture { stroke-width: 132; opacity: .9; }
+  .flowConnector[data-road-surface="dirt"] .flowRoadTrack { stroke: #2f2116; stroke-width: 11; opacity: .28; }
 
-  /* Wet mud: nearly merged shoulder/bed, dark channels and sparse reflective grain. */
-  .flowConnector[data-road-surface="mud"] .flowRoadShoulder { stroke: #303128; }
-  .flowConnector[data-road-surface="mud"] .flowRoadBed { stroke: #37372f; }
-  .flowConnector[data-road-surface="mud"] .flowRoadTexture { stroke-width: 128; opacity: .78; }
-  .flowConnector[data-road-surface="mud"] .flowRoadTrack { stroke: #0b0c0b; opacity: .84; stroke-width: 12; }
+  /* Wet mud: earthen base, pooled dark patches and low, restrained reflections. */
+  .flowConnector[data-road-surface="mud"] .flowRoadShoulder { stroke: #292720; }
+  .flowConnector[data-road-surface="mud"] .flowRoadBed { stroke: #40382d; }
+  .flowConnector[data-road-surface="mud"] .flowRoadTexture { stroke-width: 130; opacity: .86; }
+  .flowConnector[data-road-surface="mud"] .flowRoadTrack { stroke: #0c0c0a; opacity: .58; stroke-width: 13; }
 
-  /* Gravel: light stone aggregate without lane-like inner bands. */
-  .flowConnector[data-road-surface="gravel"] .flowRoadShadow { stroke: rgb(0 0 0 / 38%); }
-  .flowConnector[data-road-surface="gravel"] .flowRoadShoulder { stroke: #7d8076; }
-  .flowConnector[data-road-surface="gravel"] .flowRoadBed { stroke: #878a80; }
-  .flowConnector[data-road-surface="gravel"] .flowRoadTexture { stroke-width: 134; opacity: .98; }
-  .flowConnector[data-road-surface="gravel"] .flowRoadTrack { stroke: #565a51; opacity: .28; stroke-dasharray: 12 22; }
+  /* Cobblestone: staggered blocks over dark joints, without loose aggregate. */
+  .flowConnector[data-road-surface="cobble"] .flowRoadShadow { stroke: rgb(0 0 0 / 42%); }
+  .flowConnector[data-road-surface="cobble"] .flowRoadShoulder { stroke: #292c27; }
+  .flowConnector[data-road-surface="cobble"] .flowRoadBed { stroke: #41443d; }
+  .flowConnector[data-road-surface="cobble"] .flowRoadTexture { stroke-width: 132; opacity: 1; }
+  .flowConnector[data-road-surface="cobble"] .flowRoadTrack { display: none; }
 
   .flowDetails { z-index: 3; inset: 0; opacity: .82; }
   .flowRoadNear { z-index: 4; right: -2%; bottom: -4%; left: -2%; height: 43%; opacity: .88; }
+
+  .flowRoadPickup {
+    position: absolute;
+    z-index: 4;
+    top: 13%;
+    left: 4%;
+    width: clamp(210px, 24vw, 340px);
+    aspect-ratio: 16 / 9;
+    background: linear-gradient(135deg, rgb(8 10 8 / 12%), rgb(0 0 0 / 48%)), url("https://pub-8f0b05c2503f42609136a4e1e55a9242.r2.dev/banco_web_800/ranger.webp") 52% 58% / 122% auto no-repeat;
+    background-blend-mode: multiply;
+    mask-image: radial-gradient(ellipse 62% 56% at 49% 58%, #000 44%, transparent 69%);
+    clip-path: ellipse(47% 43% at 47% 60%);
+    opacity: clamp(0, calc(var(--flow) * 2.5), .86);
+    transform: translate3d(calc(var(--flow) * 38vw), calc((.55 - var(--flow)) * 3vh), 0) rotate(-5deg) scale(calc(.72 + var(--flow) * .15));
+    transform-origin: 50% 78%;
+    pointer-events: none;
+  }
+
+  .flowRoadPickup i {
+    position: absolute;
+    right: 72%;
+    bottom: 9%;
+    width: 42%;
+    height: 24%;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgb(194 177 141 / 28%), transparent 68%);
+  }
+  .flowRoadPickup i:last-child { right: 82%; bottom: 20%; transform: scale(.68); opacity: .58; }
+
+  .flowConnector[data-active="true"][data-road-surface="cobble"] .flowRoadPickup { will-change: transform, opacity; }
+  .experience[data-motion="reduced"] .flowRoadPickup { will-change: auto; }
+
   .flowDetails i,
   .flowRoadNear i { position: absolute; }
 
@@ -1886,8 +1919,13 @@
     background: #11130c;
     clip-path: polygon(48% 0, 68% 34%, 59% 34%, 84% 66%, 61% 66%, 61% 100%, 39% 100%, 39% 66%, 16% 66%, 41% 34%, 32% 34%);
   }
-  .flowConnector[data-road-surface="dirt"] .flowDetails i:nth-child(2n) { transform: scale(.68); }
-  .flowConnector[data-road-surface="dirt"] .flowRoadNear i { width: clamp(48px, 6vw, 96px); height: clamp(70px, 10vw, 142px); }
+  .flowConnector[data-road-surface="dirt"] .flowDetails { display: none; }
+  .flowConnector[data-road-surface="dirt"] .flowRoadNear i { width: clamp(38px, 4.5vw, 70px); height: clamp(58px, 7vw, 106px); }
+  .flowConnector[data-road-surface="dirt"] .flowRoadNear i:nth-child(2),
+  .flowConnector[data-road-surface="dirt"] .flowRoadNear i:nth-child(3),
+  .flowConnector[data-road-surface="dirt"] .flowRoadNear i:nth-child(4) { display: none; }
+  .flowConnector[data-road-surface="dirt"] .flowRoadNear i:first-child { left: -1%; }
+  .flowConnector[data-road-surface="dirt"] .flowRoadNear i:last-child { right: -1%; }
 
   .flowConnector[data-road-surface="mud"] .flowDetails i {
     width: 3px;
@@ -1905,18 +1943,8 @@
     background: rgb(151 177 168 / 10%);
   }
 
-  .flowConnector[data-road-surface="gravel"] .flowDetails i,
-  .flowConnector[data-road-surface="gravel"] .flowRoadNear i {
-    width: clamp(16px, 2.2vw, 34px);
-    height: clamp(8px, 1.1vw, 17px);
-    border: 1px solid rgb(255 255 255 / 12%);
-    border-radius: 36% 64% 44% 56%;
-    background: #9a9d91;
-    box-shadow: 0 7px 9px rgb(0 0 0 / 28%);
-    transform: rotate(17deg);
-  }
-  .flowConnector[data-road-surface="gravel"] .flowDetails i:nth-child(2n) { transform: rotate(-19deg) scale(.72); }
-  .flowConnector[data-road-surface="gravel"] .flowRoadNear i { width: clamp(34px, 4vw, 64px); height: clamp(15px, 2vw, 30px); }
+  .flowConnector[data-road-surface="cobble"] .flowDetails,
+  .flowConnector[data-road-surface="cobble"] .flowRoadNear { display: none; }
 
   .flowConnector[data-active="true"][data-road-surface] .flowRoadWorld { will-change: transform; }
   .experience[data-motion="reduced"] .flowConnector[data-road-surface] .flowRoadWorld { will-change: auto; }
