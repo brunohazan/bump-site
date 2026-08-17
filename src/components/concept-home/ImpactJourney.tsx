@@ -667,16 +667,16 @@ export function ImpactJourney({ definitive = false, lean = false }: { definitive
         <div className={styles.truckLayer}><Image src={`${ASSET_BASE}/amortecedores/hero.png`} alt="Picape atravessando terreno irregular" fill priority sizes="100vw" className={styles.truckImage}/><div className={styles.truckShade}/></div>
         <svg className={styles.terrain} viewBox="0 0 1600 300" preserveAspectRatio="none" aria-hidden="true"><path className={styles.heroRoadShadow} d="M0 180 C150 120 250 235 390 175 S650 110 770 190 S1030 240 1160 150 S1430 100 1600 185"/><path className={styles.heroRoadShoulder} d="M0 180 C150 120 250 235 390 175 S650 110 770 190 S1030 240 1160 150 S1430 100 1600 185"/><path className={styles.heroRoadBed} d="M0 180 C150 120 250 235 390 175 S650 110 770 190 S1030 240 1160 150 S1430 100 1600 185"/><path className={styles.heroRoadMarkings} d="M0 180 C150 120 250 235 390 175 S650 110 770 190 S1030 240 1160 150 S1430 100 1600 185"/><path className={styles.terrainGhost} d="M0 180 C150 120 250 235 390 175 S650 110 770 190 S1030 240 1160 150 S1430 100 1600 185"/><path className={styles.terrainLine} d="M0 180 C150 120 250 235 390 175 S650 110 770 190 S1030 240 1160 150 S1430 100 1600 185"/></svg>
         <div className={styles.impactPulse}><span/><span/><span/></div>
-        <div className={styles.productStage}><div className={styles.productHalo}/><Image src={productLines[2].image} alt="Amortecedor BUMP Premium em visualização conceitual" fill sizes="(min-width:900px) 48vw,88vw" className={styles.productImage}/><div className={styles.compressionScale}><span>EXTENSÃO</span><i/><span>COMPRESSÃO</span></div></div>
+        {!lean && <div className={styles.productStage}><div className={styles.productHalo}/><Image src={productLines[2].image} alt="Amortecedor BUMP Premium em visualização conceitual" fill sizes="(min-width:900px) 48vw,88vw" className={styles.productImage}/><div className={styles.compressionScale}><span>EXTENSÃO</span><i/><span>COMPRESSÃO</span></div></div>}
         <div className={styles.energyPath}><span/><span/><span/></div>
-        <nav className={styles.stageRail}>{stages.map((stage) => <div key={stage.key} className={styles.railItem} data-key={stage.key}><span>{stage.number}</span><i/><strong>{stage.label}</strong></div>)}</nav>
-        <div className={styles.chapters}>{stages.map((stage) => <article key={stage.key} className={styles.chapter} data-key={stage.key}><p className={styles.eyebrow}>{stage.number} · {stage.label}</p><h1>{stage.title}</h1><p className={styles.description}>{stage.text}</p>{stage.key === "hero" && <div className={styles.heroActions}><Link href="/configurador" className={styles.primaryAction}>Montar meu amortecedor</Link><a href="#rotina" className={styles.heroSecondaryAction}>Acompanhar a força</a><span>Role para entrar no sistema</span></div>}</article>)}</div>
-        <div className={styles.journeyExit} aria-hidden="true"><i/><span>ENERGIA CONTROLADA</span></div>
+        {!lean && <nav className={styles.stageRail}>{stages.map((stage) => <div key={stage.key} className={styles.railItem} data-key={stage.key}><span>{stage.number}</span><i/><strong>{stage.label}</strong></div>)}</nav>}
+        <div className={styles.chapters}>{stages.map((stage) => <article key={stage.key} className={styles.chapter} data-key={stage.key}>{!lean && <p className={styles.eyebrow}>{stage.number} · {stage.label}</p>}<h1>{stage.title}</h1><p className={styles.description}>{stage.text}</p>{stage.key === "hero" && <div className={styles.heroActions}><Link href="/configurador" className={styles.primaryAction}>Montar meu amortecedor</Link><a href="#rotina" className={styles.heroSecondaryAction}>Acompanhar a força</a><span>Role para entrar no sistema</span></div>}</article>)}</div>
+        {!lean && <div className={styles.journeyExit} aria-hidden="true"><i/><span>ENERGIA CONTROLADA</span></div>}
         <div className={styles.progress}><span/></div>
       </div>
     </section>
 
-    <section ref={bridgeRef} className={styles.energyBridge} aria-hidden="true">
+    {!lean && <section ref={bridgeRef} className={styles.energyBridge} aria-hidden="true">
       <div className={styles.bridgeGrid}/>
       <div className={styles.bridgeSurface}/>
       <div className={styles.bridgeBeam}><i/><span/></div>
@@ -685,7 +685,7 @@ export function ImpactJourney({ definitive = false, lean = false }: { definitive
         <path className={styles.bridgeWaveEnergy} d="M0 150 C180 65 330 235 520 145 S850 60 1040 155 S1390 230 1600 120"/>
       </svg>
       <div className={styles.bridgeTransfer}><span>04 · CONTROLE</span><i/><strong>05 · O CORPO</strong></div>
-    </section>
+    </section>}
 
     <section className={styles.promise}>
       <div className={styles.promiseEntry} aria-hidden="true"><i/><span/></div>

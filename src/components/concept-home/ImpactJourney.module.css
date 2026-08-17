@@ -38,19 +38,20 @@
   max-width: 46rem;
   margin-top: 3rem;
   padding: 1.6rem 1.8rem;
-  border: 1px solid rgb(211 255 26 / 32%);
-  border-left: 3px solid var(--citrus);
-  background: rgb(211 255 26 / 6%);
+  border: 1px solid #000;
+  border-left: 5px solid var(--citrus);
+  background: #fff;
 }
 .leanProof strong {
-  color: var(--citrus);
-  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  color: #000;
+  font-size: clamp(2.4rem, 4.5vw, 3.6rem);
   font-weight: 900;
   letter-spacing: -.04em;
   line-height: 1;
 }
-.leanProof p { max-width: 40rem; color: rgb(255 255 255 / 72%); font-size: .98rem; line-height: 1.6; }
-.leanProof a { color: var(--citrus); font-size: .68rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.leanProof p { max-width: 44rem; color: rgb(0 0 0 / 68%); font-size: clamp(1rem, 1.3vw, 1.15rem); line-height: 1.6; }
+.leanProof a { color: #647800; font-size: .68rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.leanProof a:hover { color: #000; }
 
 .topbar {
   position: fixed;
