@@ -53,6 +53,30 @@
 .leanProof a { color: #647800; font-size: .68rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
 .leanProof a:hover { color: #000; }
 
+/* Ajustes exclusivos da /homev2 (lean) */
+[data-lean="true"] .flowConnector:not([data-flow="body-use"]) { --flow-height: 8svh; }
+:global(body.concept-lean > a[href^="/contato?canal=whatsapp"]) { bottom: calc(4vh + 3rem); }
+
+.useArrow {
+  position: absolute;
+  z-index: 5;
+  top: 1.75rem;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid rgb(255 255 255 / 45%);
+  border-radius: 50%;
+  background: rgb(0 0 0 / 38%);
+  color: #fff;
+  font-size: 1.15rem;
+  cursor: pointer;
+  transition: background .2s, color .2s, border-color .2s;
+}
+.useArrow:hover { background: var(--citrus); color: #000; border-color: var(--citrus); }
+.useArrow[data-dir="prev"] { right: 5.1rem; }
+.useArrow[data-dir="next"] { right: 1.75rem; }
+
 .topbar {
   position: fixed;
   inset: 0 0 auto;
