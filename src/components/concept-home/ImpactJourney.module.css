@@ -77,6 +77,20 @@
 .useArrow[data-dir="prev"] { right: 5.1rem; }
 .useArrow[data-dir="next"] { right: 1.75rem; }
 
+/* Fluidez (apenas lean): pula layout/paint das seções fora da tela numa
+   página longa. Reduz o custo das animações infinitas e filtros quando
+   não estão visíveis, deixando o scroll mais leve. */
+[data-lean="true"] .promise,
+[data-lean="true"] .uses,
+[data-lean="true"] .brands,
+[data-lean="true"] .engineering,
+[data-lean="true"] .authority,
+[data-lean="true"] .finalCta,
+[data-lean="true"] .faq {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+
 .topbar {
   position: fixed;
   inset: 0 0 auto;
