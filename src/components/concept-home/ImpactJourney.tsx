@@ -24,6 +24,12 @@ const technology = [
   ["04", "Recuperável", "O equipamento pode voltar à fábrica para desmontagem, inspeção e recuperação."],
 ] as const;
 
+const leanTechnology = [
+  ["01", "Corpo duplo + monotubo", "Mais volume de fluido, proteção externa e resposta consistente quando a jornada se estende."],
+  ["02", "Pressão sob medida", "Veículo, carga, altura e uso orientam o acerto. Não existe uma pressão única para toda picape."],
+  ["03", "Recuperável", "O equipamento pode voltar à fábrica para desmontagem, inspeção e recuperação."],
+] as const;
+
 const brandMarks = [
   ["Toyota", "toyota"], ["Ford", "ford"], ["Chevrolet", "chevrolet"], ["Mitsubishi", "mitsubishi"],
   ["Nissan", "nissan"], ["Volkswagen", "volkswagen"], ["RAM", "ram"], ["Jeep", "jeep"],
@@ -152,7 +158,7 @@ function FlowConnector({ variant }: { variant: FlowVariant }) {
   </div>;
 }
 
-export function ImpactJourney({ definitive = false }: { definitive?: boolean }) {
+export function ImpactJourney({ definitive = false, lean = false }: { definitive?: boolean; lean?: boolean }) {
   const journeyRef = useRef<HTMLElement>(null);
   const bridgeRef = useRef<HTMLElement>(null);
   const frameRef = useRef<number | null>(null);
@@ -686,6 +692,7 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
       <div className={styles.promiseLead} data-reveal><p className={styles.sectionCode}>05 · O corpo</p><h2>A última peça do sistema não é de metal.</h2></div>
       <div className={styles.bodyGrid} data-reveal><p><strong>Não existe uma pressão única para toda picape.</strong> Seu uso não é igual ao de outra picape, e seu amortecedor também não deveria ser. A BUMP calibra construção, pressão e curso para o peso, a altura e a rotina reais: menos impacto acumulado no corpo, mais estabilidade com carga e mais controle quando o asfalto termina.</p><div className={styles.wave}><i/><i/><i/><span>IMPACTO ENTRA</span><b>ENERGIA CONTROLADA</b></div></div>
       <div className={styles.trust} data-reveal>{[["13+","anos de fábrica"],["2 anos","contra vazamento"],["Sob medida","veículo e uso"],["Brasil","produção própria"],["Envio","nacional"]].map(([a,b])=><div key={b}><strong>{a}</strong><span>{b}</span></div>)}</div>
+      {lean && <div className={styles.leanProof} data-reveal><strong>400.000 km</strong><p>Caso real: um equipamento foi desmontado, inspecionado, recuperado e voltou ao trabalho — prova da construção recuperável. Não é garantia universal.</p><Link href="/resultados">Ver o caso com contexto ↗</Link></div>}
     </section>
 
     <FlowConnector variant="body-use"/>
@@ -706,9 +713,10 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
 
     <section id="engenharia" className={styles.engineering}>
       <div className={styles.engineeringVisual}><div className={styles.fluid}><i/><i/><i/><i/><i/></div><Image src={productLines[2].image} alt="Vista técnica do amortecedor BUMP" fill sizes="50vw"/><span>PRESSÃO → FLUIDO → RETORNO</span></div>
-      <div className={styles.engineeringCopy}><div className={styles.sectionIntro} data-reveal><p className={styles.sectionCode}>07 · Dentro do amortecedor</p><h2>A engenharia só termina quando chega ao corpo.</h2></div>{technology.map(([n,title,text])=><article key={n} data-reveal><span>{n}</span><div><h3>{title}</h3><p>{text}</p></div></article>)}<Link href="/tecnologia">Entender toda a engenharia ↗</Link></div>
+      <div className={styles.engineeringCopy}><div className={styles.sectionIntro} data-reveal><p className={styles.sectionCode}>07 · Dentro do amortecedor</p><h2>A engenharia só termina quando chega ao corpo.</h2></div>{(lean ? leanTechnology : technology).map(([n,title,text])=><article key={n} data-reveal><span>{n}</span><div><h3>{title}</h3><p>{text}</p></div></article>)}<Link href="/tecnologia">Entender toda a engenharia ↗</Link></div>
     </section>
 
+    {!lean && <>
     <FlowConnector variant="engineering-lines"/>
 
     <section id="linhas" className={styles.lines}>
@@ -729,6 +737,8 @@ export function ImpactJourney({ definitive = false }: { definitive?: boolean }) 
       <div className={styles.durabilityCopy} data-reveal><p className={styles.sectionCode}>09 · O tempo volta para a fábrica</p><h2>Não virou descarte. Voltou ao trabalho.</h2><p>Um equipamento real foi desmontado, inspecionado, recuperado e devolvido ao uso. O caso comprova a lógica recuperável da construção. Não promete a mesma quilometragem para toda aplicação.</p><Link href="/resultados">Ver o caso com contexto ↗</Link></div>
       <div className={styles.recovery}>{["Desmontar","Inspecionar","Recuperar","Retornar"].map((item,i)=><div key={item}><span>0{i+1}</span><i/>{item}</div>)}</div>
     </section>
+
+    </>}
 
     <FlowConnector variant="results-authority"/>
 
