@@ -227,6 +227,27 @@
   .experience .sceneSmoke[data-visible] { opacity: 0; }
 }
 
+/* Parallax de cena (v3) — as imagens full-bleed deslizam com leve zoom
+   conforme a seção cruza a viewport, dando profundidade de cinema. Amarrado
+   ao scroll (animation-timeline: view()); só transform (composited, leve).
+   Fallback: imagem estática. Desligado em prefers-reduced-motion (é movimento).
+   Escopado ao v3 e às cenas full-bleed (O uso e CTA final). */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    [data-v3="true"] .useBackground,
+    [data-v3="true"] .finalCta > img {
+      animation: sceneParallax linear both;
+      animation-timeline: view();
+      animation-range: cover;
+      will-change: transform;
+    }
+  }
+}
+@keyframes sceneParallax {
+  from { transform: translate3d(0, -9%, 0) scale(1.22); }
+  to   { transform: translate3d(0, 9%, 0) scale(1.22); }
+}
+
 /* ============================================================
    Escala tipográfica padrão — SOMENTE v3 ([data-v3="true"])
    Display (Hero) 36–65px · Título 28–48px · Subtítulo 20–26px
