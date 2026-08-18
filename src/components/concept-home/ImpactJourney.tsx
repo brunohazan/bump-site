@@ -677,7 +677,7 @@ export function ImpactJourney({ definitive = false, lean = false, v3 = false }: 
         {!lean && <nav className={styles.stageRail}>{stages.map((stage) => <div key={stage.key} className={styles.railItem} data-key={stage.key}><span>{stage.number}</span><i/><strong>{stage.label}</strong></div>)}</nav>}
         <div className={styles.chapters}>{(v3 ? [stages[0]] : stages).map((stage) => <article key={stage.key} className={styles.chapter} data-key={stage.key}>{!lean && <p className={styles.eyebrow}>{stage.number} · {stage.label}</p>}<h1>{stage.title}</h1><p className={styles.description}>{stage.text}</p>{stage.key === "hero" && <div className={styles.heroActions}><Link href="/configurador" className={styles.primaryAction}>Montar meu amortecedor</Link>{!lean && <a href="#rotina" className={styles.heroSecondaryAction}>Acompanhar a força</a>}{!lean && <span>Role para entrar no sistema</span>}</div>}</article>)}</div>
         {!lean && <div className={styles.journeyExit} aria-hidden="true"><i/><span>ENERGIA CONTROLADA</span></div>}
-        <div className={styles.progress}><span/></div>
+        {!v3 && <div className={styles.progress}><span/></div>}
       </div>
     </section>
 
