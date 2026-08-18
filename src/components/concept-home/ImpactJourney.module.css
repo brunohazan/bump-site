@@ -146,7 +146,7 @@
   animation-range: entry 12% cover 62%;
 }
 [data-v3="true"] .wave i { clip-path: inset(0 calc((1 - var(--wave-p)) * 100%) 0 0); }
-[data-v3="true"] .wave i:nth-child(2) { border-color: var(--brown); }   /* 4ª cor: marrom */
+[data-v3="true"] .wave i:nth-child(2) { border-color: rgb(0 0 0 / 45%); }  /* neutro */
 [data-v3="true"] .wave i:nth-child(3) { border-color: var(--citrus); }  /* amarelo */
 [data-v3="true"] .wave::after {
   content: "";
@@ -159,43 +159,6 @@
   box-shadow: 0 0 12px rgb(254 242 19 / 70%);
   opacity: calc(var(--wave-p) * (1 - var(--wave-p)) * 4);
 }
-
-/* ---- Simulação de barro entre seções (v3) ---- */
-.mudDivider {
-  position: relative;
-  z-index: 4;
-  height: 118px;
-  overflow: hidden;
-  background: linear-gradient(180deg, #000 0%, var(--mud-1) 26%, var(--mud-2) 62%, var(--mud-1) 100%);
-}
-.mudDivider::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image:
-    radial-gradient(circle at 12% 42%, rgb(94 61 38 / .95) 0 7px, transparent 8px),
-    radial-gradient(circle at 21% 70%, rgb(60 40 25 / .9) 0 4px, transparent 5px),
-    radial-gradient(circle at 33% 30%, rgb(110 74 44 / .8) 0 10px, transparent 11px),
-    radial-gradient(circle at 45% 62%, rgb(74 50 32 / .9) 0 5px, transparent 6px),
-    radial-gradient(circle at 57% 38%, rgb(94 61 38 / .85) 0 8px, transparent 9px),
-    radial-gradient(circle at 69% 66%, rgb(60 40 25 / .9) 0 4px, transparent 5px),
-    radial-gradient(circle at 80% 34%, rgb(110 74 44 / .8) 0 9px, transparent 10px),
-    radial-gradient(circle at 90% 60%, rgb(74 50 32 / .85) 0 5px, transparent 6px);
-}
-.mudDivider::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 10px;
-  background: repeating-linear-gradient(90deg, var(--brown) 0 14px, transparent 14px 34px);
-  filter: blur(.5px);
-  opacity: .55;
-}
-
-/* Detalhe em marrom (4ª cor) para teste */
-[data-v3="true"] .investmentNote { border-left: 2px solid var(--brown); padding-left: .85rem; }
 
 /* Autoridade com vídeo institucional (v3) */
 [data-v3="true"] .authorityVideo { max-width: 1000px; margin-top: clamp(3rem, 6vw, 5rem); }
@@ -217,10 +180,6 @@
   /* Accent = amarelo da logo BUMP (#FEF213), no lugar do citrus esverdeado */
   --citrus: #fef213;
   --color-accent: #fef213;
-  /* 4ª cor (teste): marrom / barro */
-  --brown: #6b4a2f;
-  --mud-1: #241710;
-  --mud-2: #4a3220;
   --fs-display: clamp(2.25rem, 5vw, 4.375rem);    /* 36 → 70px */
   --fs-title:   clamp(1.75rem, 3.6vw, 3rem);       /* 28 → 48px */
   --fs-subtitle:clamp(1.25rem, 2vw, 1.625rem);     /* 20 → 26px */
