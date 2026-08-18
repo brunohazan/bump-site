@@ -122,8 +122,15 @@
   height: 3px;
   border-radius: 2px;
   background: linear-gradient(90deg, transparent, var(--citrus) 18%, var(--citrus) 82%, transparent);
-  box-shadow: 0 0 18px rgb(211 255 26 / 45%);
+  box-shadow: 0 0 18px rgb(254 242 19 / 45%);
 }
+
+/* Amarelo da logo em fundos CLAROS (v3): tom escuro legível (substitui o verde-oliva) */
+[data-v3="true"] .promise .sectionCode,
+[data-v3="true"] .faq .sectionCode,
+[data-v3="true"] .leanProof a { color: #7a6800; }
+[data-v3="true"] .leanProof a:hover { color: #000; }
+[data-v3="true"] .fluid { border-color: rgb(254 242 19 / 22%); }
 
 /* Autoridade com vídeo institucional (v3) */
 [data-v3="true"] .authorityVideo { max-width: 1000px; margin-top: clamp(3rem, 6vw, 5rem); }
@@ -142,7 +149,10 @@
    Kicker 12px · Lead 17–20px · Body 16px · Small 13px
    ============================================================ */
 .experience[data-v3="true"] {
-  --fs-display: clamp(2.25rem, 5vw, 4.0625rem);   /* 36 → 65px */
+  /* Accent = amarelo da logo BUMP (#FEF213), no lugar do citrus esverdeado */
+  --citrus: #fef213;
+  --color-accent: #fef213;
+  --fs-display: clamp(2.25rem, 5vw, 4.375rem);    /* 36 → 70px */
   --fs-title:   clamp(1.75rem, 3.6vw, 3rem);       /* 28 → 48px */
   --fs-subtitle:clamp(1.25rem, 2vw, 1.625rem);     /* 20 → 26px */
   --fs-kicker:  .75rem;                            /* 12px */
