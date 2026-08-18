@@ -307,6 +307,19 @@ export function ImpactJourney({ definitive = false, lean = false, v3 = false }: 
     );
     document.querySelectorAll(`.${styles.experience} [data-reveal]`).forEach((node) => revealObserver.observe(node));
 
+    // Fumaça de cena: reveal one-shot — dissolve uma vez ao entrar na tela e
+    // NÃO refumaça (evita ficar "presa" quando a seção sai parcialmente).
+    const smokeObserver = new IntersectionObserver(
+      (entries) => entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.setAttribute("data-visible", "");
+          smokeObserver.unobserve(entry.target);
+        }
+      }),
+      { threshold: .12 },
+    );
+    document.querySelectorAll(`.${styles.experience} .${styles.sceneSmoke}`).forEach((node) => smokeObserver.observe(node));
+
     syncPreference();
     window.addEventListener("scroll", requestUpdate, { passive: true });
     window.addEventListener("resize", requestUpdate);
@@ -319,6 +332,7 @@ export function ImpactJourney({ definitive = false, lean = false, v3 = false }: 
       media.removeEventListener("change", syncPreference);
       journeyObserver.disconnect();
       revealObserver.disconnect();
+      smokeObserver.disconnect();
       journey.removeAttribute("data-active");
       if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
     };
@@ -770,7 +784,7 @@ export function ImpactJourney({ definitive = false, lean = false, v3 = false }: 
     {v3 ? <div className={styles.barDivider} aria-hidden="true"><span/></div> : <FlowConnector variant="authority-cta"/>}
 
     <section className={styles.finalCta}>
-      <Image src={`${ASSET_BASE}/banco_web_800/triton.webp`} alt="Picape pronta para o próximo terreno" fill sizes="100vw"/><div/><div className={styles.finalCopy} data-reveal>{v3 ? <div className={styles.finalGrid}><div><p className={styles.sectionCode}>O próximo chão</p><h2>A estrada pode continuar ruim. Seu corpo não precisa repetir tudo.</h2></div><div className={styles.finalForm}><ContactForm/></div></div> : <><p className={styles.sectionCode}>{sc("11 · O próximo chão")}</p><h2>A estrada pode continuar ruim. Seu corpo não precisa repetir tudo.</h2><p>Conte o veículo, a carga e a rotina. A fábrica transforma contexto em um ponto de partida técnico.</p><div className={styles.finalActions}><Link href="/configurador" className={styles.primaryAction}>Montar para o meu chão</Link><Link href="/contato" className={styles.finalSecondaryAction}>Falar com a BUMP</Link></div></>}</div>{v3 && <span className={styles.sceneSmoke} data-reveal aria-hidden="true"/>}
+      <Image src={`${ASSET_BASE}/banco_web_800/triton.webp`} alt="Picape pronta para o próximo terreno" fill sizes="100vw"/><div/><div className={styles.finalCopy} data-reveal>{v3 ? <div className={styles.finalGrid}><div><p className={styles.sectionCode}>O próximo chão</p><h2>A estrada pode continuar ruim. Seu corpo não precisa repetir tudo.</h2></div><div className={styles.finalForm}><ContactForm/></div></div> : <><p className={styles.sectionCode}>{sc("11 · O próximo chão")}</p><h2>A estrada pode continuar ruim. Seu corpo não precisa repetir tudo.</h2><p>Conte o veículo, a carga e a rotina. A fábrica transforma contexto em um ponto de partida técnico.</p><div className={styles.finalActions}><Link href="/configurador" className={styles.primaryAction}>Montar para o meu chão</Link><Link href="/contato" className={styles.finalSecondaryAction}>Falar com a BUMP</Link></div></>}</div>{v3 && <span className={styles.sceneSmoke} aria-hidden="true"/>}
     </section>
 
     {v3 ? <div className={styles.barDivider} aria-hidden="true"><span/></div> : <FlowConnector variant="cta-faq"/>}
