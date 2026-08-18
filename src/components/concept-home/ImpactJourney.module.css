@@ -178,8 +178,16 @@
 [data-v3="true"] .promise { padding-bottom: clamp(2rem, 4vw, 4.5rem); }
 [data-v3="true"] .leanProof { margin-top: clamp(1.5rem, 3vw, 2.25rem); }
 
-/* Autoridade com vídeo institucional (v3) */
-[data-v3="true"] .authorityVideo { max-width: 1000px; margin-top: clamp(3rem, 6vw, 5rem); }
+/* Autoridade com vídeo institucional (v3): texto ao lado do vídeo */
+[data-v3="true"] .authorityLayout { display: grid; gap: clamp(2rem, 5vw, 4.5rem); align-items: center; margin-top: clamp(3rem, 6vw, 5rem); }
+[data-v3="true"] .authorityVideo { margin-top: 0; }
+[data-v3="true"] .authorityText { align-content: center; }
+[data-v3="true"] .authorityLede { max-width: 40ch; color: rgb(255 255 255 / 68%); }
+[data-v3="true"] .authorityLink { justify-self: start; margin-top: .4rem; display: inline-flex; align-items: center; gap: .4rem; font-weight: 800; letter-spacing: .04em; color: var(--citrus); border-bottom: 1px solid currentColor; padding-bottom: 2px; transition: color .2s; }
+[data-v3="true"] .authorityLink:hover { color: #fff; }
+@media (min-width: 900px) {
+  [data-v3="true"] .authorityLayout { grid-template-columns: 0.9fr 1.1fr; }
+}
 
 /* CTA final com formulário lateral (v3) */
 [data-v3="true"] .finalCopy { width: min(94%, 1340px); }
