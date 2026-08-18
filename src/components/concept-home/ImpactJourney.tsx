@@ -158,7 +158,7 @@ function FlowConnector({ variant }: { variant: FlowVariant }) {
   </div>;
 }
 
-export function ImpactJourney({ definitive = false, lean = false }: { definitive?: boolean; lean?: boolean }) {
+export function ImpactJourney({ definitive = false, lean = false, heroStatic = false }: { definitive?: boolean; lean?: boolean; heroStatic?: boolean }) {
   const journeyRef = useRef<HTMLElement>(null);
   const bridgeRef = useRef<HTMLElement>(null);
   const frameRef = useRef<number | null>(null);
@@ -656,7 +656,7 @@ export function ImpactJourney({ definitive = false, lean = false }: { definitive
     };
   }, []);
 
-  return <div className={styles.experience} data-motion={motionReduced ? "reduced" : "full"} data-lean={lean ? "true" : undefined}>
+  return <div className={styles.experience} data-motion={motionReduced ? "reduced" : "full"} data-lean={lean ? "true" : undefined} data-hero={heroStatic ? "static" : undefined}>
     {definitive && motionReduced && <button type="button" className={styles.motionToggleStandalone} onClick={enableMotion}>Ativar movimento</button>}
     {!definitive && <header className={styles.topbar}>
       <Link href="/" className={styles.brand} aria-label="BUMP Amortecedores"><Image src="/brand/bump-logo.png" alt="" width={180} height={53} priority className={styles.brandLogo}/></Link>
@@ -673,7 +673,7 @@ export function ImpactJourney({ definitive = false, lean = false }: { definitive
         {!lean && <div className={styles.productStage}><div className={styles.productHalo}/><Image src={productLines[2].image} alt="Amortecedor BUMP Premium em visualização conceitual" fill sizes="(min-width:900px) 48vw,88vw" className={styles.productImage}/><div className={styles.compressionScale}><span>EXTENSÃO</span><i/><span>COMPRESSÃO</span></div></div>}
         <div className={styles.energyPath}><span/><span/><span/></div>
         {!lean && <nav className={styles.stageRail}>{stages.map((stage) => <div key={stage.key} className={styles.railItem} data-key={stage.key}><span>{stage.number}</span><i/><strong>{stage.label}</strong></div>)}</nav>}
-        <div className={styles.chapters}>{stages.map((stage) => <article key={stage.key} className={styles.chapter} data-key={stage.key}>{!lean && <p className={styles.eyebrow}>{stage.number} · {stage.label}</p>}<h1>{stage.title}</h1><p className={styles.description}>{stage.text}</p>{stage.key === "hero" && <div className={styles.heroActions}><Link href="/configurador" className={styles.primaryAction}>Montar meu amortecedor</Link>{!lean && <a href="#rotina" className={styles.heroSecondaryAction}>Acompanhar a força</a>}{!lean && <span>Role para entrar no sistema</span>}</div>}</article>)}</div>
+        <div className={styles.chapters}>{(heroStatic ? [stages[0]] : stages).map((stage) => <article key={stage.key} className={styles.chapter} data-key={stage.key}>{!lean && <p className={styles.eyebrow}>{stage.number} · {stage.label}</p>}<h1>{stage.title}</h1><p className={styles.description}>{stage.text}</p>{stage.key === "hero" && <div className={styles.heroActions}><Link href="/configurador" className={styles.primaryAction}>Montar meu amortecedor</Link>{!lean && <a href="#rotina" className={styles.heroSecondaryAction}>Acompanhar a força</a>}{!lean && <span>Role para entrar no sistema</span>}</div>}</article>)}</div>
         {!lean && <div className={styles.journeyExit} aria-hidden="true"><i/><span>ENERGIA CONTROLADA</span></div>}
         <div className={styles.progress}><span/></div>
       </div>

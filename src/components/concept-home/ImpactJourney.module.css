@@ -91,6 +91,21 @@
   contain-intrinsic-size: auto 900px;
 }
 
+/* Hero estático + passagem com parallax (apenas v3 / data-hero="static").
+   Estágio 1 fica fixo e visível; ao rolar, a picape faz um parallax curto
+   e a seção 2 sobe por cima — sem trocar os textos 2/3/4. */
+[data-hero="static"] .journey { min-height: 148svh !important; }
+[data-hero="static"] .chapter[data-key="hero"] {
+  opacity: 1 !important;
+  transform: none !important;
+  pointer-events: auto;
+}
+[data-hero="static"] .truckLayer {
+  opacity: 1 !important;
+  transform: translate3d(0, calc(var(--journey) * -9vh), 0) scale(calc(1.06 + var(--journey) * .07)) !important;
+  transform-origin: 60% 50%;
+}
+
 .topbar {
   position: fixed;
   inset: 0 0 auto;
