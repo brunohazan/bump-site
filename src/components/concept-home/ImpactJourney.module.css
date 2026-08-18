@@ -176,6 +176,9 @@
 
 /* Reduz o espaço em branco entre o conteúdo de O corpo (400 mil km) e a lama */
 [data-v3="true"] .promise { padding-bottom: clamp(2rem, 4vw, 4.5rem); }
+
+/* Marca d'água "CORPO" um pouco mais presente no v3 (era quase invisível a 3,5%) */
+[data-v3="true"] .promise::before { color: rgb(0 0 0 / 7%); }
 [data-v3="true"] .leanProof { margin-top: clamp(1.5rem, 3vw, 2.25rem); }
 
 /* Autoridade com vídeo institucional (v3): texto ao lado do vídeo */
