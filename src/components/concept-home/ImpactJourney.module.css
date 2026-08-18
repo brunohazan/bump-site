@@ -149,12 +149,7 @@
    tela (scroll-driven, sem JS). Cursor de leitura acompanha a rolagem.
    Fallback: navegadores sem animation-timeline mostram os arcos completos. */
 @property --wave-p { syntax: "<number>"; inherits: true; initial-value: 1; }
-@keyframes v3WaveMeter { from { --wave-p: 0; } to { --wave-p: 1; } }
-[data-v3="true"] .wave {
-  animation: v3WaveMeter linear both;
-  animation-timeline: view();
-  animation-range: entry 8% exit 42%;   /* avança durante quase toda a passagem = mais suave/perceptível */
-}
+/* --wave-p é atualizado por JS conforme a seção rola (funciona em todos os navegadores) */
 [data-v3="true"] .wave i { clip-path: inset(0 calc((1 - var(--wave-p)) * 100%) 0 0); transition: none; }
 [data-v3="true"] .wave i:nth-child(1) { border-top-width: 4px; }
 [data-v3="true"] .wave i:nth-child(2) { border-color: rgb(0 0 0 / 55%); border-top-width: 4px; }  /* neutro */
@@ -169,7 +164,7 @@
   width: 3px;
   background: var(--citrus);
   box-shadow: 0 0 14px 2px rgb(254 242 19 / 80%);
-  opacity: calc(min(var(--wave-p), 1 - var(--wave-p)) * 6);
+  opacity: calc(min(var(--wave-p) * 12, 1));
 }
 [data-v3="true"] .wave::before {
   content: "";
@@ -183,7 +178,7 @@
   border-radius: 50%;
   background: var(--citrus);
   box-shadow: 0 0 16px 3px rgb(254 242 19 / 85%);
-  opacity: calc(min(var(--wave-p), 1 - var(--wave-p)) * 6);
+  opacity: calc(min(var(--wave-p) * 12, 1));
 }
 
 /* Reduz o espaço em branco entre o conteúdo de O corpo (400 mil km) e a lama */
