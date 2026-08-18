@@ -114,56 +114,17 @@
   z-index: 4;
   display: grid;
   place-items: center;
-  height: 128px;
+  height: 88px;
   background: #000;
   overflow: hidden;
 }
-/* Fumaça cinematográfica na virada de seção (v3): névoa 100% CSS, sem asset/lib.
-   Estática por padrão; faz drift amarrado ao scroll onde houver suporte a
-   animation-timeline. Desliga o movimento em prefers-reduced-motion. */
-.barDivider::before,
-.barDivider::after {
-  content: "";
-  position: absolute;
-  inset: -60% -12%;
-  z-index: 1;
-  pointer-events: none;
-  background:
-    radial-gradient(40% 62% at 20% 50%, rgb(255 255 255 / 10%), transparent 62%),
-    radial-gradient(30% 50% at 50% 44%, rgb(254 242 19 / 6%), transparent 60%),
-    radial-gradient(44% 66% at 80% 56%, rgb(255 255 255 / 8%), transparent 64%);
-}
-.barDivider::after { transform: scaleX(-1); opacity: .55; }
 .barDivider span {
-  position: relative;
-  z-index: 2;
   display: block;
   width: min(1160px, 84vw);
   height: 3px;
   border-radius: 2px;
   background: linear-gradient(90deg, transparent, var(--citrus) 18%, var(--citrus) 82%, transparent);
   box-shadow: 0 0 18px rgb(254 242 19 / 45%);
-}
-@media (prefers-reduced-motion: no-preference) {
-  @supports (animation-timeline: view()) {
-    .barDivider::before,
-    .barDivider::after {
-      animation: smokeDrift both;
-      animation-timeline: view();
-      animation-range: cover 0% cover 100%;
-    }
-    .barDivider::after { animation-name: smokeDriftB; }
-  }
-}
-@keyframes smokeDrift {
-  from { transform: translate3d(-7%, 6%, 0) scale(1.08); opacity: .3; }
-  50%  { opacity: .8; }
-  to   { transform: translate3d(5%, -4%, 0) scale(1.02); opacity: .3; }
-}
-@keyframes smokeDriftB {
-  from { transform: scaleX(-1) translate3d(-5%, 4%, 0) scale(1.06); opacity: .18; }
-  50%  { opacity: .5; }
-  to   { transform: scaleX(-1) translate3d(7%, -6%, 0) scale(1); opacity: .18; }
 }
 
 /* Divisor de lama (v3) — transição O corpo (branco) → O uso (escuro).
