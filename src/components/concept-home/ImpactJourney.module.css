@@ -80,13 +80,15 @@
 /* Fluidez (apenas lean): pula layout/paint das seções fora da tela numa
    página longa. Reduz o custo das animações infinitas e filtros quando
    não estão visíveis, deixando o scroll mais leve. */
-[data-lean="true"] .promise,
-[data-lean="true"] .uses,
-[data-lean="true"] .brands,
-[data-lean="true"] .engineering,
-[data-lean="true"] .authority,
-[data-lean="true"] .finalCta,
-[data-lean="true"] .faq {
+/* Fluidez (v2 lean, exceto v3): pula layout/paint das seções fora da tela.
+   Excluímos a v3 porque content-visibility quebra o reveal no scroll. */
+[data-lean="true"]:not([data-v3="true"]) .promise,
+[data-lean="true"]:not([data-v3="true"]) .uses,
+[data-lean="true"]:not([data-v3="true"]) .brands,
+[data-lean="true"]:not([data-v3="true"]) .engineering,
+[data-lean="true"]:not([data-v3="true"]) .authority,
+[data-lean="true"]:not([data-v3="true"]) .finalCta,
+[data-lean="true"]:not([data-v3="true"]) .faq {
   content-visibility: auto;
   contain-intrinsic-size: auto 900px;
 }
