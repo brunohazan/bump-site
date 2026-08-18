@@ -9,5 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function HomeV3Page() {
-  return <ImpactJourney definitive lean heroStatic />;
+  return <ImpactJourney definitive lean v3 />;
 }

@@ -91,19 +91,49 @@
   contain-intrinsic-size: auto 900px;
 }
 
-/* Hero estático + passagem com parallax (apenas v3 / data-hero="static").
+/* Hero estático + passagem com parallax (apenas v3 / data-v3="true").
    Estágio 1 fica fixo e visível; ao rolar, a picape faz um parallax curto
    e a seção 2 sobe por cima — sem trocar os textos 2/3/4. */
-[data-hero="static"] .journey { min-height: 148svh !important; }
-[data-hero="static"] .chapter[data-key="hero"] {
+[data-v3="true"] .journey { min-height: 148svh !important; }
+[data-v3="true"] .chapter[data-key="hero"] {
   opacity: 1 !important;
   transform: none !important;
   pointer-events: auto;
 }
-[data-hero="static"] .truckLayer {
+[data-v3="true"] .truckLayer {
   opacity: 1 !important;
   transform: translate3d(0, calc(var(--journey) * -9vh), 0) scale(calc(1.06 + var(--journey) * .07)) !important;
   transform-origin: 60% 50%;
+}
+
+/* Conector estilo "barra" (v3): substitui a pista/carro por um divisor clean */
+.barDivider {
+  position: relative;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  height: 88px;
+  background: #000;
+  overflow: hidden;
+}
+.barDivider span {
+  display: block;
+  width: min(1160px, 84vw);
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--citrus) 18%, var(--citrus) 82%, transparent);
+  box-shadow: 0 0 18px rgb(211 255 26 / 45%);
+}
+
+/* Autoridade com vídeo institucional (v3) */
+[data-v3="true"] .authorityVideo { max-width: 1000px; margin-top: clamp(3rem, 6vw, 5rem); }
+
+/* CTA final com formulário lateral (v3) */
+[data-v3="true"] .finalCopy { width: min(94%, 1340px); }
+.finalGrid { display: grid; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+.finalForm :global(form) { background: rgb(10 10 10 / 82%); backdrop-filter: blur(6px); }
+@media (min-width: 900px) {
+  .finalGrid { grid-template-columns: 1.05fr .95fr; }
 }
 
 .topbar {

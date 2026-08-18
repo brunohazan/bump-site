@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ASSET_BASE, faqItems, getProductLine, productLines, useCases } from "@/lib/site-data";
+import { VideoEmbed } from "@/components/site/VideoEmbed";
+import { ContactForm } from "@/components/contact/ContactForm";
 import styles from "./ImpactJourney.module.css";
 
 const stages = [
@@ -158,7 +160,7 @@ function FlowConnector({ variant }: { variant: FlowVariant }) {
   </div>;
 }
 
-export function ImpactJourney({ definitive = false, lean = false, heroStatic = false }: { definitive?: boolean; lean?: boolean; heroStatic?: boolean }) {
+export function ImpactJourney({ definitive = false, lean = false, v3 = false }: { definitive?: boolean; lean?: boolean; v3?: boolean }) {
   const journeyRef = useRef<HTMLElement>(null);
   const bridgeRef = useRef<HTMLElement>(null);
   const frameRef = useRef<number | null>(null);
@@ -656,7 +658,7 @@ export function ImpactJourney({ definitive = false, lean = false, heroStatic = f
     };
   }, []);
 
-  return <div className={styles.experience} data-motion={motionReduced ? "reduced" : "full"} data-lean={lean ? "true" : undefined} data-hero={heroStatic ? "static" : undefined}>
+  return <div className={styles.experience} data-motion={motionReduced ? "reduced" : "full"} data-lean={lean ? "true" : undefined} data-v3={v3 ? "true" : undefined}>
     {definitive && motionReduced && <button type="button" className={styles.motionToggleStandalone} onClick={enableMotion}>Ativar movimento</button>}
     {!definitive && <header className={styles.topbar}>
       <Link href="/" className={styles.brand} aria-label="BUMP Amortecedores"><Image src="/brand/bump-logo.png" alt="" width={180} height={53} priority className={styles.brandLogo}/></Link>
@@ -673,7 +675,7 @@ export function ImpactJourney({ definitive = false, lean = false, heroStatic = f
         {!lean && <div className={styles.productStage}><div className={styles.productHalo}/><Image src={productLines[2].image} alt="Amortecedor BUMP Premium em visualização conceitual" fill sizes="(min-width:900px) 48vw,88vw" className={styles.productImage}/><div className={styles.compressionScale}><span>EXTENSÃO</span><i/><span>COMPRESSÃO</span></div></div>}
         <div className={styles.energyPath}><span/><span/><span/></div>
         {!lean && <nav className={styles.stageRail}>{stages.map((stage) => <div key={stage.key} className={styles.railItem} data-key={stage.key}><span>{stage.number}</span><i/><strong>{stage.label}</strong></div>)}</nav>}
-        <div className={styles.chapters}>{(heroStatic ? [stages[0]] : stages).map((stage) => <article key={stage.key} className={styles.chapter} data-key={stage.key}>{!lean && <p className={styles.eyebrow}>{stage.number} · {stage.label}</p>}<h1>{stage.title}</h1><p className={styles.description}>{stage.text}</p>{stage.key === "hero" && <div className={styles.heroActions}><Link href="/configurador" className={styles.primaryAction}>Montar meu amortecedor</Link>{!lean && <a href="#rotina" className={styles.heroSecondaryAction}>Acompanhar a força</a>}{!lean && <span>Role para entrar no sistema</span>}</div>}</article>)}</div>
+        <div className={styles.chapters}>{(v3 ? [stages[0]] : stages).map((stage) => <article key={stage.key} className={styles.chapter} data-key={stage.key}>{!lean && <p className={styles.eyebrow}>{stage.number} · {stage.label}</p>}<h1>{stage.title}</h1><p className={styles.description}>{stage.text}</p>{stage.key === "hero" && <div className={styles.heroActions}><Link href="/configurador" className={styles.primaryAction}>Montar meu amortecedor</Link>{!lean && <a href="#rotina" className={styles.heroSecondaryAction}>Acompanhar a força</a>}{!lean && <span>Role para entrar no sistema</span>}</div>}</article>)}</div>
         {!lean && <div className={styles.journeyExit} aria-hidden="true"><i/><span>ENERGIA CONTROLADA</span></div>}
         <div className={styles.progress}><span/></div>
       </div>
@@ -692,16 +694,16 @@ export function ImpactJourney({ definitive = false, lean = false, heroStatic = f
 
     <section className={styles.promise}>
       <div className={styles.promiseEntry} aria-hidden="true"><i/><span/></div>
-      <div className={styles.promiseLead} data-reveal><p className={styles.sectionCode}>{sc("05 · O corpo")}</p><h2>A última peça do sistema não é de metal.</h2></div>
-      <div className={styles.bodyGrid} data-reveal><p><strong>Não existe uma pressão única para toda picape.</strong> Seu uso não é igual ao de outra picape, e seu amortecedor também não deveria ser. A BUMP calibra construção, pressão e curso para o peso, a altura e a rotina reais: menos impacto acumulado no corpo, mais estabilidade com carga e mais controle quando o asfalto termina.</p><div className={styles.wave}><i/><i/><i/><span>IMPACTO ENTRA</span><b>ENERGIA CONTROLADA</b></div></div>
-      <div className={styles.trust} data-reveal>{[["13+","anos de fábrica"],["2 anos","contra vazamento"],["Sob medida","veículo e uso"],["Brasil","produção própria"],["Envio","nacional"]].map(([a,b])=><div key={b}><strong>{a}</strong><span>{b}</span></div>)}</div>
+      <div className={styles.promiseLead} data-reveal><p className={styles.sectionCode}>{sc("05 · O corpo")}</p><h2>{v3 ? "Mais conforto, estabilidade e controle." : "A última peça do sistema não é de metal."}</h2></div>
+      <div className={styles.bodyGrid} data-reveal><p>{v3 ? "Cada conjunto é configurado conforme o veículo, o uso, a altura, a carga, o terreno e a forma de dirigir. O resultado é uma picape mais confortável no dia a dia, firme quando precisa e preparada para trabalhar sem castigar quem está dentro." : <><strong>Não existe uma pressão única para toda picape.</strong> Seu uso não é igual ao de outra picape, e seu amortecedor também não deveria ser. A BUMP calibra construção, pressão e curso para o peso, a altura e a rotina reais: menos impacto acumulado no corpo, mais estabilidade com carga e mais controle quando o asfalto termina.</>}</p><div className={styles.wave}><i/><i/><i/><span>IMPACTO ENTRA</span><b>ENERGIA CONTROLADA</b></div></div>
+      <div className={styles.trust} data-reveal>{(v3 ? [["Desde 2013","de fábrica"],["2 anos","de garantia"],["Sob medida","feito"],["Nacional","envio"]] : [["13+","anos de fábrica"],["2 anos","contra vazamento"],["Sob medida","veículo e uso"],["Brasil","produção própria"],["Envio","nacional"]]).map(([a,b])=><div key={b}><strong>{a}</strong><span>{b}</span></div>)}</div>
       {lean && <div className={styles.leanProof} data-reveal><strong>400.000 km</strong><p>Caso real: um equipamento foi desmontado, inspecionado, recuperado e voltou ao trabalho — prova da construção recuperável. Não é garantia universal.</p><Link href="/resultados">Ver o caso com contexto ↗</Link></div>}
     </section>
 
-    <FlowConnector variant="body-use"/>
+    {v3 ? <div className={styles.barDivider} aria-hidden="true"><span/></div> : <FlowConnector variant="body-use"/>}
 
     <section id="rotina" className={styles.uses}>
-      <div className={styles.sectionIntro} data-reveal><p className={styles.sectionCode}>{sc("06 · O uso define o acerto")}</p><h2>Qual chão repete no seu corpo todo dia?</h2><p>Escolha a rotina. A cena, o produto e o ponto de partida mudam juntos.</p></div>
+      <div className={styles.sectionIntro} data-reveal><p className={styles.sectionCode}>{v3 ? "Escolha seu uso" : sc("06 · O uso define o acerto")}</p><h2>{v3 ? "Como você usa a sua picape?" : "Qual chão repete no seu corpo todo dia?"}</h2><p>{v3 ? "Selecione o cenário que mais se adequa à sua rotina, e recomendaremos o amortecedor ideal para você." : "Escolha a rotina. A cena, o produto e o ponto de partida mudam juntos."}</p></div>
       <div className={styles.useTabs}>{useCases.map((item)=><button key={item.id} type="button" data-active={item.id===useId} onClick={()=>setUseId(item.id)}><span>{item.number}</span>{item.label}</button>)}<Link href="/configurador?uso=projeto"><span>05</span>Projeto especial ↗</Link></div>
       <article className={styles.useScene} key={useId}>
         <Image src={useImages[useId]} alt={`Picape em cenário de ${useCase.label.toLowerCase()}`} fill sizes="100vw" className={styles.useBackground}/><div className={styles.useShade}/>
@@ -712,11 +714,11 @@ export function ImpactJourney({ definitive = false, lean = false, heroStatic = f
 
     <section className={styles.brands}><p>Picapes que encontram seu acerto</p><div className={styles.marquee} aria-label={brandMarks.map(([name]) => name).join(", ")}><div>{[...brandMarks,...brandMarks].map(([name,slug],i)=><span className={styles.brandMark} key={`${slug}-${i}`}><Image src={`/brands/${slug}.svg`} alt="" width={72} height={44} loading="eager" unoptimized className={styles.brandMarkLogo}/><b>{name}</b></span>)}</div></div></section>
 
-    <FlowConnector variant="brands-engineering"/>
+    {v3 ? <div className={styles.barDivider} aria-hidden="true"><span/></div> : <FlowConnector variant="brands-engineering"/>}
 
     <section id="engenharia" className={styles.engineering}>
       <div className={styles.engineeringVisual}><div className={styles.fluid}><i/><i/><i/><i/><i/></div><Image src={productLines[2].image} alt="Vista técnica do amortecedor BUMP" fill sizes="50vw"/><span>PRESSÃO → FLUIDO → RETORNO</span></div>
-      <div className={styles.engineeringCopy}><div className={styles.sectionIntro} data-reveal><p className={styles.sectionCode}>{sc("07 · Dentro do amortecedor")}</p><h2>A engenharia só termina quando chega ao corpo.</h2></div>{(lean ? leanTechnology : technology).map(([n,title,text])=><article key={n} data-reveal><span>{n}</span><div><h3>{title}</h3><p>{text}</p></div></article>)}<Link href="/tecnologia">Entender toda a engenharia ↗</Link></div>
+      <div className={styles.engineeringCopy}><div className={styles.sectionIntro} data-reveal><p className={styles.sectionCode}>{v3 ? "Engenharia que você sente no volante e no corpo" : sc("07 · Dentro do amortecedor")}</p><h2>{v3 ? "Por que a BUMP mantém a resposta do primeiro ao último quilômetro." : "A engenharia só termina quando chega ao corpo."}</h2>{v3 && <p>Não é tecnologia para encher ficha técnica. Cada escolha existe para controlar melhor o movimento, administrar o calor e adaptar o amortecedor ao seu uso.</p>}</div>{(lean ? leanTechnology : technology).map(([n,title,text])=><article key={n} data-reveal><span>{n}</span><div><h3>{title}</h3><p>{text}</p></div></article>)}<Link href="/tecnologia">Entender toda a engenharia ↗</Link></div>
     </section>
 
     {!lean && <>
@@ -743,20 +745,20 @@ export function ImpactJourney({ definitive = false, lean = false, heroStatic = f
 
     </>}
 
-    <FlowConnector variant="results-authority"/>
+    {v3 ? <div className={styles.barDivider} aria-hidden="true"><span/></div> : <FlowConnector variant="results-authority"/>}
 
     <section className={styles.authority}>
       <div className={styles.sectionIntro} data-reveal><p className={styles.sectionCode}>{sc("10 · Autoridade com autoria")}</p><h2>Cristian: piloto antes de fabricante, especialista à frente do projeto.</h2></div>
-      <div className={styles.authorityGrid}><article data-reveal><span>CENÁRIO DE APLICAÇÃO</span><h3>Experiência que virou método.</h3><p>Cristian levou o que sentia no volante para a engenharia e para a fábrica. É ele quem define como cada conjunto responde ao peso, à altura e ao terreno informados.</p><Link href="/quem-somos">Conhecer a história ↗</Link></article><article data-reveal><span>EVIDÊNCIA DECLARADA · LIMITES EXPLÍCITOS</span><h3>A fábrica continua depois da escolha.</h3><p>Produção própria no Brasil, projeto sob medida, 2 anos contra vazamento e construção que pode voltar à fábrica para recuperação.</p><Link href="/resultados">Ver evidências ↗</Link></article></div>
+      {v3 ? <div className={styles.authorityVideo} data-reveal><VideoEmbed videoId="AYLSZZo0-N8" title="Vídeo institucional BUMP Amortecedores" caption="Vídeo do canal oficial BUMP. Exemplos reais em veículos e terrenos."/></div> : <div className={styles.authorityGrid}><article data-reveal><span>CENÁRIO DE APLICAÇÃO</span><h3>Experiência que virou método.</h3><p>Cristian levou o que sentia no volante para a engenharia e para a fábrica. É ele quem define como cada conjunto responde ao peso, à altura e ao terreno informados.</p><Link href="/quem-somos">Conhecer a história ↗</Link></article><article data-reveal><span>EVIDÊNCIA DECLARADA · LIMITES EXPLÍCITOS</span><h3>A fábrica continua depois da escolha.</h3><p>Produção própria no Brasil, projeto sob medida, 2 anos contra vazamento e construção que pode voltar à fábrica para recuperação.</p><Link href="/resultados">Ver evidências ↗</Link></article></div>}
     </section>
 
-    <FlowConnector variant="authority-cta"/>
+    {v3 ? <div className={styles.barDivider} aria-hidden="true"><span/></div> : <FlowConnector variant="authority-cta"/>}
 
     <section className={styles.finalCta}>
-      <Image src={`${ASSET_BASE}/banco_web_800/triton.webp`} alt="Picape pronta para o próximo terreno" fill sizes="100vw"/><div/><div className={styles.finalCopy} data-reveal><p className={styles.sectionCode}>{sc("11 · O próximo chão")}</p><h2>A estrada pode continuar ruim. Seu corpo não precisa repetir tudo.</h2><p>Conte o veículo, a carga e a rotina. A fábrica transforma contexto em um ponto de partida técnico.</p><div className={styles.finalActions}><Link href="/configurador" className={styles.primaryAction}>Montar para o meu chão</Link><Link href="/contato" className={styles.finalSecondaryAction}>Falar com a BUMP</Link></div></div>
+      <Image src={`${ASSET_BASE}/banco_web_800/triton.webp`} alt="Picape pronta para o próximo terreno" fill sizes="100vw"/><div/><div className={styles.finalCopy} data-reveal>{v3 ? <div className={styles.finalGrid}><div><p className={styles.sectionCode}>O próximo chão</p><h2>A estrada pode continuar ruim. Seu corpo não precisa repetir tudo.</h2></div><div className={styles.finalForm}><ContactForm/></div></div> : <><p className={styles.sectionCode}>{sc("11 · O próximo chão")}</p><h2>A estrada pode continuar ruim. Seu corpo não precisa repetir tudo.</h2><p>Conte o veículo, a carga e a rotina. A fábrica transforma contexto em um ponto de partida técnico.</p><div className={styles.finalActions}><Link href="/configurador" className={styles.primaryAction}>Montar para o meu chão</Link><Link href="/contato" className={styles.finalSecondaryAction}>Falar com a BUMP</Link></div></>}</div>
     </section>
 
-    <FlowConnector variant="cta-faq"/>
+    {v3 ? <div className={styles.barDivider} aria-hidden="true"><span/></div> : <FlowConnector variant="cta-faq"/>}
 
     <section className={styles.faq}>
       <div className={styles.sectionIntro} data-reveal><p className={styles.sectionCode}>{sc("12 · Antes de decidir")}</p><h2>Perguntas que também fazem parte do projeto.</h2></div>
@@ -764,7 +766,7 @@ export function ImpactJourney({ definitive = false, lean = false, heroStatic = f
       <div className={styles.faqActions}><Link href="/faq">Ver todas as dúvidas ↗</Link><Link href="/contato">Falar com a BUMP ↗</Link></div>
     </section>
 
-    <FlowConnector variant="faq-footer"/>
+    {v3 ? <div className={styles.barDivider} aria-hidden="true"><span/></div> : <FlowConnector variant="faq-footer"/>}
 
     {!definitive && <footer className={styles.conceptFooter}><Image src="/brand/bump-logo.png" alt="BUMP Amortecedores" width={180} height={53} className={styles.footerLogo}/><span>DO CHÃO AO CORPO · CONCEITO V0.2</span><Link href="/">Voltar ao site atual ↗</Link></footer>}
   </div>;
