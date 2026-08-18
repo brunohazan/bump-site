@@ -658,36 +658,6 @@ export function ImpactJourney({ definitive = false, lean = false, v3 = false }: 
     };
   }, []);
 
-  useEffect(() => {
-    if (!v3) return;
-    const wave = document.querySelector<HTMLElement>(`.${styles.wave}`);
-    if (!wave) return;
-    let frame: number | null = null;
-    let visible = false;
-    const update = () => {
-      frame = null;
-      const rect = wave.getBoundingClientRect();
-      const vh = window.innerHeight || 1;
-      const p = Math.min(1, Math.max(0, (vh - rect.top) / (vh * 0.8)));
-      wave.style.setProperty("--wave-p", p.toFixed(4));
-    };
-    const schedule = () => { if (frame === null && visible) frame = requestAnimationFrame(update); };
-    const io = new IntersectionObserver(([entry]) => {
-      visible = entry.isIntersecting;
-      if (visible) schedule();
-    }, { rootMargin: "40% 0px" });
-    io.observe(wave);
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
-    update();
-    return () => {
-      io.disconnect();
-      window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
-      if (frame !== null) cancelAnimationFrame(frame);
-    };
-  }, [v3]);
-
   return <div className={styles.experience} data-motion={motionReduced ? "reduced" : "full"} data-lean={lean ? "true" : undefined} data-v3={v3 ? "true" : undefined}>
     {definitive && motionReduced && <button type="button" className={styles.motionToggleStandalone} onClick={enableMotion}>Ativar movimento</button>}
     {!definitive && <header className={styles.topbar}>
