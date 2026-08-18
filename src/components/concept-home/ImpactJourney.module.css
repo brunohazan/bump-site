@@ -128,12 +128,13 @@
 }
 
 /* Divisor de lama (v3) — transição O corpo (branco) → O uso (escuro).
-   Respingos sobem sobre o branco; a lama assenta descendo para o escuro. */
+   Mostra a imagem INTEIRA (sem cortar os respingos): aspect-ratio = imagem. */
 .mudDivider {
   position: relative;
   z-index: 4;
-  height: clamp(200px, 30vw, 480px);
-  background: #fff url("/media/lama.webp") center bottom / cover no-repeat;
+  width: 100%;
+  aspect-ratio: 1600 / 690;
+  background: #fff url("/media/lama.webp") center / 100% 100% no-repeat;
 }
 
 /* Amarelo da logo em fundos CLAROS (v3): tom escuro legível (substitui o verde-oliva) */
@@ -152,22 +153,42 @@
 [data-v3="true"] .wave {
   animation: v3WaveMeter linear both;
   animation-timeline: view();
-  animation-range: entry 12% cover 62%;
+  animation-range: entry 8% exit 42%;   /* avança durante quase toda a passagem = mais suave/perceptível */
 }
-[data-v3="true"] .wave i { clip-path: inset(0 calc((1 - var(--wave-p)) * 100%) 0 0); }
-[data-v3="true"] .wave i:nth-child(2) { border-color: rgb(0 0 0 / 45%); }  /* neutro */
-[data-v3="true"] .wave i:nth-child(3) { border-color: var(--citrus); }  /* amarelo */
+[data-v3="true"] .wave i { clip-path: inset(0 calc((1 - var(--wave-p)) * 100%) 0 0); transition: none; }
+[data-v3="true"] .wave i:nth-child(1) { border-top-width: 4px; }
+[data-v3="true"] .wave i:nth-child(2) { border-color: rgb(0 0 0 / 55%); border-top-width: 4px; }  /* neutro */
+[data-v3="true"] .wave i:nth-child(3) { border-color: var(--citrus); border-top-width: 5px; }     /* amarelo */
+/* cursor de leitura: linha + ponto brilhante que acompanha a rolagem */
 [data-v3="true"] .wave::after {
   content: "";
   position: absolute;
-  top: 10%;
-  bottom: 10%;
+  top: 6%;
+  bottom: 6%;
   left: calc(var(--wave-p) * 100%);
-  width: 2px;
+  width: 3px;
   background: var(--citrus);
-  box-shadow: 0 0 12px rgb(254 242 19 / 70%);
-  opacity: calc(var(--wave-p) * (1 - var(--wave-p)) * 4);
+  box-shadow: 0 0 14px 2px rgb(254 242 19 / 80%);
+  opacity: calc(min(var(--wave-p), 1 - var(--wave-p)) * 6);
 }
+[data-v3="true"] .wave::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: calc(var(--wave-p) * 100%);
+  width: 13px;
+  height: 13px;
+  margin: -6.5px 0 0 -6.5px;
+  border-radius: 50%;
+  background: var(--citrus);
+  box-shadow: 0 0 16px 3px rgb(254 242 19 / 85%);
+  opacity: calc(min(var(--wave-p), 1 - var(--wave-p)) * 6);
+}
+
+/* Reduz o espaço em branco entre o conteúdo de O corpo (400 mil km) e a lama */
+[data-v3="true"] .promise { padding-bottom: clamp(2rem, 4vw, 4.5rem); }
+[data-v3="true"] .leanProof { margin-top: clamp(1.5rem, 3vw, 2.25rem); }
 
 /* Autoridade com vídeo institucional (v3) */
 [data-v3="true"] .authorityVideo { max-width: 1000px; margin-top: clamp(3rem, 6vw, 5rem); }
