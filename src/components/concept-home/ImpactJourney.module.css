@@ -114,17 +114,60 @@
   z-index: 4;
   display: grid;
   place-items: center;
-  height: 88px;
+  height: 152px;
   background: #000;
   overflow: hidden;
 }
+/* Transição esfumaçada entre seções (v3): a fumaça encorpa e cobre a emenda
+   conforme ela cruza a viewport e depois se dissolve, como um corte de cena.
+   Textura de ruído fractal embutida (data-URI) reutilizada em todas as viradas
+   — sem asset externo, sem lib. O movimento (opacity/transform) é amarrado ao
+   scroll via animation-timeline: view(); no fallback fica uma névoa estática
+   discreta e em prefers-reduced-motion não há movimento. */
+.barDivider::before,
+.barDivider::after {
+  content: "";
+  position: absolute;
+  inset: -12% -8%;
+  z-index: 1;
+  pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%271200%27%20height%3D%27320%27%3E%3Cfilter%20id%3D%27s%27%20x%3D%27-20%25%27%20y%3D%27-20%25%27%20width%3D%27140%25%27%20height%3D%27140%25%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%270.006%200.011%27%20numOctaves%3D%275%27%20seed%3D%279%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20type%3D%27matrix%27%20values%3D%270%200%200%200%200.86%200%200%200%200%200.85%200%200%200%200%200.72%200%200%200%201%200%27%2F%3E%3CfeComponentTransfer%3E%3CfeFuncA%20type%3D%27gamma%27%20amplitude%3D%271.1%27%20exponent%3D%272.6%27%20offset%3D%27-0.15%27%2F%3E%3C%2FfeComponentTransfer%3E%3CfeGaussianBlur%20stdDeviation%3D%275%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%271200%27%20height%3D%27320%27%20filter%3D%27url%28%23s%29%27%2F%3E%3C%2Fsvg%3E") center / cover;
+  mix-blend-mode: screen;
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 24%, #000 76%, transparent);
+          mask-image: linear-gradient(180deg, transparent, #000 24%, #000 76%, transparent);
+  opacity: .28;
+}
+.barDivider::after { background-position: 40% 60%; opacity: .2; }
 .barDivider span {
+  position: relative;
+  z-index: 3;
   display: block;
   width: min(1160px, 84vw);
   height: 3px;
   border-radius: 2px;
   background: linear-gradient(90deg, transparent, var(--citrus) 18%, var(--citrus) 82%, transparent);
   box-shadow: 0 0 18px rgb(254 242 19 / 45%);
+}
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .barDivider::before,
+    .barDivider::after {
+      animation: smokePass both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+    .barDivider::after { animation-name: smokePassB; }
+  }
+}
+@keyframes smokePass {
+  0%   { opacity: 0;   transform: translate3d(0, 12%, 0) scale(1.16); }
+  50%  { opacity: .65; transform: translate3d(-3%, 0, 0) scale(1.05); }
+  100% { opacity: 0;   transform: translate3d(3%, -12%, 0) scale(1); }
+}
+@keyframes smokePassB {
+  0%   { opacity: 0;   transform: translate3d(0, -10%, 0) scale(1.1); }
+  50%  { opacity: .4;  transform: translate3d(4%, 0, 0) scale(1.02); }
+  100% { opacity: 0;   transform: translate3d(-4%, 10%, 0) scale(1.1); }
 }
 
 /* Divisor de lama (v3) — transição O corpo (branco) → O uso (escuro).
