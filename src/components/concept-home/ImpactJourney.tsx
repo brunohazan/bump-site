@@ -32,6 +32,13 @@ const leanTechnology = [
   ["03", "Recuperável", "O equipamento pode voltar à fábrica para desmontagem, inspeção e recuperação."],
 ] as const;
 
+const v3UseText: Record<string, string> = {
+  urbano: "Para quem quer reduzir trancos, balanço e cansaço no asfalto sem perder firmeza e estabilidade ao dirigir.",
+  agro: "Para quem roda com peso, enfrenta estrada ruim e precisa de conforto sem perder sustentação e controle.",
+  trilha: "Para quem precisa enfrentar terrenos irregulares com mais estabilidade, controle e sustentação sem cravar.",
+  rally: "Para uso severo, alta exigência térmica e controle consistente em terrenos irregulares.",
+};
+
 const brandMarks = [
   ["Toyota", "toyota"], ["Ford", "ford"], ["Chevrolet", "chevrolet"], ["Mitsubishi", "mitsubishi"],
   ["Nissan", "nissan"], ["Volkswagen", "volkswagen"], ["RAM", "ram"], ["Jeep", "jeep"],
@@ -707,7 +714,7 @@ export function ImpactJourney({ definitive = false, lean = false, v3 = false }: 
       <div className={styles.useTabs}>{useCases.map((item)=><button key={item.id} type="button" data-active={item.id===useId} onClick={()=>setUseId(item.id)}><span>{item.number}</span>{item.label}</button>)}<Link href="/configurador?uso=projeto"><span>05</span>Projeto especial ↗</Link></div>
       <article className={styles.useScene} key={useId}>
         <Image src={useImages[useId]} alt={`Picape em cenário de ${useCase.label.toLowerCase()}`} fill sizes="100vw" className={styles.useBackground}/><div className={styles.useShade}/>
-        <div className={styles.useCopy}><p>Recomendado para {useCase.label}</p><h3 className={useLine.shortName.length > 8 ? styles.compactProductName : undefined}>{useLine.shortName}</h3><span>{useCase.description} {useLine.description}</span><small className={styles.investmentNote}>O investimento é definido após confirmar veículo, linha e configuração. O valor final é apresentado no orçamento técnico.</small><div><Link className={styles.primaryAction} href={`/configurador?linha=${useLine.slug}&uso=${useId}`}>Montar essa linha</Link><Link href={`/linhas/${useLine.slug}`}>Ver detalhes ↗</Link></div></div>
+        <div className={styles.useCopy}><p>Recomendado para {useCase.label}</p><h3 className={useLine.shortName.length > 8 ? styles.compactProductName : undefined}>{useLine.shortName}</h3><span>{v3 ? v3UseText[useId] : `${useCase.description} ${useLine.description}`}</span><small className={styles.investmentNote}>O investimento é definido após confirmar veículo, linha e configuração. O valor final é apresentado no orçamento técnico.</small><div><Link className={styles.primaryAction} href={`/configurador?linha=${useLine.slug}&uso=${useId}`}>Montar essa linha</Link><Link href={`/linhas/${useLine.slug}`}>Ver detalhes ↗</Link></div></div>
         <div className={styles.useProduct}><Image src={useLine.image} alt={useLine.name} fill sizes="(min-width:900px) 42vw,85vw"/></div>{lean && <><button type="button" className={styles.useArrow} data-dir="prev" onClick={()=>setUseId(useCases[(useIdx+useCases.length-1)%useCases.length].id)} aria-label="Uso anterior">←</button><button type="button" className={styles.useArrow} data-dir="next" onClick={()=>setUseId(useCases[(useIdx+1)%useCases.length].id)} aria-label="Próximo uso">→</button></>}
       </article>
     </section>
