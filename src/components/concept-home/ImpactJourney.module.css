@@ -127,6 +127,14 @@
   box-shadow: 0 0 18px rgb(254 242 19 / 45%);
 }
 
+/* Divisor de lama (v3) — usa a textura real (respingos no topo, lama na base) */
+.mudDivider {
+  position: relative;
+  z-index: 4;
+  height: clamp(110px, 15vw, 190px);
+  background: url("/media/lama.webp") center bottom / cover no-repeat;
+}
+
 /* Amarelo da logo em fundos CLAROS (v3): tom escuro legível (substitui o verde-oliva) */
 [data-v3="true"] .promise .sectionCode,
 [data-v3="true"] .faq .sectionCode,
