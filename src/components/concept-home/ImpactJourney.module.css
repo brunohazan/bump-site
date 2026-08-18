@@ -136,6 +136,48 @@
   .finalGrid { grid-template-columns: 1.05fr .95fr; }
 }
 
+/* ============================================================
+   Escala tipográfica padrão — SOMENTE v3 ([data-v3="true"])
+   Display (Hero) 36–65px · Título 28–48px · Subtítulo 20–26px
+   Kicker 12px · Lead 17–20px · Body 16px · Small 13px
+   ============================================================ */
+.experience[data-v3="true"] {
+  --fs-display: clamp(2.25rem, 5vw, 4.0625rem);   /* 36 → 65px */
+  --fs-title:   clamp(1.75rem, 3.6vw, 3rem);       /* 28 → 48px */
+  --fs-subtitle:clamp(1.25rem, 2vw, 1.625rem);     /* 20 → 26px */
+  --fs-kicker:  .75rem;                            /* 12px */
+  --fs-lead:    clamp(1.0625rem, 1.4vw, 1.25rem);  /* 17 → 20px */
+  --fs-body:    1rem;                              /* 16px */
+  --fs-small:   .8125rem;                          /* 13px */
+}
+
+/* Display — título do Hero (teto 65px) */
+[data-v3="true"] .chapter[data-key="hero"] h1 { font-size: var(--fs-display) !important; line-height: .95 !important; letter-spacing: -.03em !important; }
+
+/* Título — títulos de seção */
+[data-v3="true"] .promise h2,
+[data-v3="true"] .sectionIntro h2,
+[data-v3="true"] .engineeringCopy .sectionIntro h2,
+[data-v3="true"] .finalCopy h2,
+[data-v3="true"] .useCopy h3 { font-size: var(--fs-title) !important; line-height: 1 !important; letter-spacing: -.03em !important; }
+
+/* Subtítulo — títulos de bloco, números de prova e perguntas do FAQ */
+[data-v3="true"] .engineeringCopy h3,
+[data-v3="true"] .trust strong,
+[data-v3="true"] .faqList summary { font-size: var(--fs-subtitle) !important; line-height: 1.15 !important; letter-spacing: -.02em !important; }
+
+/* Kicker / label */
+[data-v3="true"] .sectionCode { font-size: var(--fs-kicker) !important; letter-spacing: .14em !important; }
+
+/* Lead / subtexto de apoio */
+[data-v3="true"] .description,
+[data-v3="true"] .bodyGrid > p,
+[data-v3="true"] .sectionIntro > p:last-child { font-size: var(--fs-lead) !important; line-height: 1.6 !important; }
+
+/* Small / notas e respostas */
+[data-v3="true"] .investmentNote,
+[data-v3="true"] .faqList details p { font-size: var(--fs-small) !important; }
+
 .topbar {
   position: fixed;
   inset: 0 0 auto;
