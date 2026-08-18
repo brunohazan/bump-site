@@ -154,6 +154,13 @@
   .practiceCard + .practiceCard { margin-left: calc(-1 * (var(--cut) - var(--seam))); }
 }
 
+/* O reset global de reveal em prefers-reduced-motion zera clip-path para limpar
+   reveals do tipo "mask". O corte diagonal destes cards é estrutural (não é reveal),
+   então reafirmamos aqui com especificidade maior para não virar retângulo. */
+@media (prefers-reduced-motion: reduce) {
+  .practiceGrid .practiceCard { clip-path: polygon(var(--cut) 0, 100% 0, calc(100% - var(--cut)) 100%, 0 100%) !important; }
+}
+
 /* Amarelo da logo em fundos CLAROS (v3): tom escuro legível (substitui o verde-oliva) */
 [data-v3="true"] .promise .sectionCode,
 [data-v3="true"] .faq .sectionCode,
