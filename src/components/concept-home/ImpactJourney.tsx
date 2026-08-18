@@ -700,7 +700,7 @@ export function ImpactJourney({ definitive = false, lean = false, v3 = false }: 
       {lean && <div className={styles.leanProof} data-reveal><strong>400.000 km</strong><p>Caso real: um equipamento foi desmontado, inspecionado, recuperado e voltou ao trabalho — prova da construção recuperável. Não é garantia universal.</p><Link href="/resultados">Ver o caso com contexto ↗</Link></div>}
     </section>
 
-    {v3 ? <div className={styles.barDivider} aria-hidden="true"><span/></div> : <FlowConnector variant="body-use"/>}
+    {v3 ? <div className={styles.mudDivider} aria-hidden="true"/> : <FlowConnector variant="body-use"/>}
 
     <section id="rotina" className={styles.uses}>
       <div className={styles.sectionIntro} data-reveal><p className={styles.sectionCode}>{v3 ? "Escolha seu uso" : sc("06 · O uso define o acerto")}</p><h2>{v3 ? "Como você usa a sua picape?" : "Qual chão repete no seu corpo todo dia?"}</h2><p>{v3 ? "Selecione o cenário que mais se adequa à sua rotina, e recomendaremos o amortecedor ideal para você." : "Escolha a rotina. A cena, o produto e o ponto de partida mudam juntos."}</p></div>
@@ -714,7 +714,7 @@ export function ImpactJourney({ definitive = false, lean = false, v3 = false }: 
 
     <section className={styles.brands}><p>Picapes que encontram seu acerto</p><div className={styles.marquee} aria-label={brandMarks.map(([name]) => name).join(", ")}><div>{[...brandMarks,...brandMarks].map(([name,slug],i)=><span className={styles.brandMark} key={`${slug}-${i}`}><Image src={`/brands/${slug}.svg`} alt="" width={72} height={44} loading="eager" unoptimized className={styles.brandMarkLogo}/><b>{name}</b></span>)}</div></div></section>
 
-    {v3 ? <div className={styles.mudDivider} aria-hidden="true"/> : <FlowConnector variant="brands-engineering"/>}
+    {v3 ? <div className={styles.barDivider} aria-hidden="true"><span/></div> : <FlowConnector variant="brands-engineering"/>}
 
     <section id="engenharia" className={styles.engineering}>
       <div className={styles.engineeringVisual}><div className={styles.fluid}><i/><i/><i/><i/><i/></div><Image src={productLines[2].image} alt="Vista técnica do amortecedor BUMP" fill sizes="50vw"/><span>PRESSÃO → FLUIDO → RETORNO</span></div>
@@ -745,7 +745,7 @@ export function ImpactJourney({ definitive = false, lean = false, v3 = false }: 
 
     </>}
 
-    {v3 ? <div className={styles.mudDivider} aria-hidden="true"/> : <FlowConnector variant="results-authority"/>}
+    {v3 ? <div className={styles.barDivider} aria-hidden="true"><span/></div> : <FlowConnector variant="results-authority"/>}
 
     <section className={styles.authority}>
       <div className={styles.sectionIntro} data-reveal><p className={styles.sectionCode}>{sc("10 · Autoridade com autoria")}</p><h2>Cristian: piloto antes de fabricante, especialista à frente do projeto.</h2></div>

@@ -127,12 +127,13 @@
   box-shadow: 0 0 18px rgb(254 242 19 / 45%);
 }
 
-/* Divisor de lama (v3) — usa a textura real (respingos no topo, lama na base) */
+/* Divisor de lama (v3) — transição O corpo (branco) → O uso (escuro).
+   Respingos sobem sobre o branco; a lama assenta descendo para o escuro. */
 .mudDivider {
   position: relative;
   z-index: 4;
-  height: clamp(110px, 15vw, 190px);
-  background: url("/media/lama.webp") center bottom / cover no-repeat;
+  height: clamp(200px, 30vw, 480px);
+  background: #fff url("/media/lama.webp") center bottom / cover no-repeat;
 }
 
 /* Amarelo da logo em fundos CLAROS (v3): tom escuro legível (substitui o verde-oliva) */
