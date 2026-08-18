@@ -137,6 +137,19 @@
   background: #fff url("/media/lama.webp") center / 100% 100% no-repeat;
 }
 
+/* Seção "Antes e depois na prática" (v3): 3 vídeos com faixa especial */
+.practice { padding: clamp(6rem, 10vw, 9rem) max(5vw, calc((100vw - 1320px) / 2)); background: #080808; }
+.practiceGrid { display: grid; gap: 1rem; margin-top: clamp(2.5rem, 5vw, 4rem); grid-template-columns: 1fr; }
+.practiceCard { position: relative; min-height: 340px; overflow: hidden; border: 1px solid rgb(255 255 255 / 12%); }
+.practiceCard img { object-fit: cover; filter: saturate(.7) contrast(1.05) brightness(.68); transition: transform .5s ease; }
+.practiceCard:hover img { transform: scale(1.04); }
+.practiceBand { position: absolute; z-index: 2; top: 1rem; left: 1rem; padding: .3rem .7rem; background: var(--citrus); color: #000; font-size: .6rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.practicePlay { position: absolute; z-index: 2; top: 50%; left: 50%; transform: translate(-50%, -50%); display: grid; place-items: center; width: 62px; height: 62px; border-radius: 50%; background: rgb(0 0 0 / 45%); border: 1px solid rgb(255 255 255 / 55%); color: #fff; font-size: 1.1rem; transition: background .2s, color .2s, border-color .2s; }
+.practiceCard:hover .practicePlay { background: var(--citrus); color: #000; border-color: var(--citrus); }
+.practiceCaption { position: absolute; z-index: 2; inset: auto 0 0 0; padding: 1.2rem 1.3rem; background: linear-gradient(0deg, #000 10%, transparent); }
+.practiceCaption strong { font-size: 1.15rem; font-weight: 900; letter-spacing: -.02em; }
+@media (min-width: 800px) { .practiceGrid { grid-template-columns: repeat(3, 1fr); } }
+
 /* Amarelo da logo em fundos CLAROS (v3): tom escuro legível (substitui o verde-oliva) */
 [data-v3="true"] .promise .sectionCode,
 [data-v3="true"] .faq .sectionCode,

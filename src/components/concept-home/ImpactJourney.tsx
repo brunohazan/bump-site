@@ -728,6 +728,12 @@ export function ImpactJourney({ definitive = false, lean = false, v3 = false }: 
       <div className={styles.engineeringCopy}><div className={styles.sectionIntro} data-reveal><p className={styles.sectionCode}>{v3 ? "Engenharia que você sente no volante e no corpo" : sc("07 · Dentro do amortecedor")}</p><h2>{v3 ? "Por que a BUMP mantém a resposta do primeiro ao último quilômetro." : "A engenharia só termina quando chega ao corpo."}</h2>{v3 && <p>Não é tecnologia para encher ficha técnica. Cada escolha existe para controlar melhor o movimento, administrar o calor e adaptar o amortecedor ao seu uso.</p>}</div>{(lean ? leanTechnology : technology).map(([n,title,text])=><article key={n} data-reveal><span>{n}</span><div><h3>{title}</h3><p>{text}</p></div></article>)}<Link href="/tecnologia">Entender toda a engenharia ↗</Link></div>
     </section>
 
+    {v3 && <><div className={styles.barDivider} aria-hidden="true"><span/></div>
+    <section className={styles.practice}>
+      <div className={styles.sectionIntro} data-reveal><p className={styles.sectionCode}>Antes e depois na prática</p><h2>A diferença que se vê no uso real.</h2></div>
+      <div className={styles.practiceGrid}>{[[`${ASSET_BASE}/banco_web_800/hilux.webp`,"Carga e agro"],[`${ASSET_BASE}/banco_web_800/triton.webp`,"Terra e trilha"],[`${ASSET_BASE}/banco_web_800/ram1500.webp`,"Estrada longa"]].map(([img,title])=><article key={title} className={styles.practiceCard} data-reveal><Image src={img} alt={`Antes e depois — ${title}`} fill sizes="(min-width:900px) 33vw,100vw"/><span className={styles.practiceBand}>Antes · Depois</span><span className={styles.practicePlay} aria-hidden="true">▶</span><div className={styles.practiceCaption}><strong>{title}</strong></div></article>)}</div>
+    </section></>}
+
     {!lean && <>
     <FlowConnector variant="engineering-lines"/>
 
