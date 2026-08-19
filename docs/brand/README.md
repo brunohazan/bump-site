@@ -29,6 +29,22 @@ O PNG é o logo oficial disponível para uso imediato na Home. O arquivo origina
 | Preto | `#000000` | Background e textos em seções claras |
 | Branco | `#FFFFFF` | Prioridade em textos; background apenas em seções de respiro |
 
+### Paleta atualizada do cliente (2026-08-19)
+
+O cliente enviou uma paleta revisada, adotada como base de tokens do site (ver ADR-012). Ela
+substitui o amarelo citrus esverdeado por um amarelo puro e troca o branco por um branco metálico.
+O PDF original permanece como fonte histórica; esta tabela é a referência de implementação atual.
+
+| Token | Valor | Uso |
+| --- | --- | --- |
+| Preto | `#000000` | Background principal |
+| Amarelo | `#fcf313` | Accent, botões e destaques (`--color-accent`) |
+| Branco metal | `#f0f1f4` | Texto e superfícies de respiro (`--color-paper`) |
+| Terreno | `#7e5b3c` | Cor de apoio para chão/terreno (`--color-terrain`) |
+
+Em fundos claros, o accent é rebaixado para um amarelo escuro legível (`#6b6600`/`#7a6800`),
+já que `#fcf313` puro é ilegível sobre branco.
+
 ### Tipografia
 
 | Hierarquia | Família |

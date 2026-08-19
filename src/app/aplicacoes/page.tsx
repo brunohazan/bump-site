@@ -27,7 +27,7 @@ export default function ApplicationsPage() {
               ["02", "Contexto", "Carga, terreno, distância, altura e acessórios mostram o que o conjunto enfrenta de verdade."],
               ["03", "Confirmação", "A equipe técnica revisa medidas, linha e disponibilidade antes de qualquer produção."],
             ].map(([number, title, text]) => (
-              <article key={number} className="min-h-56 bg-ink-card p-7">
+              <article key={number} data-reveal className="min-h-56 bg-ink-card p-7">
                 <span className="font-mono text-[10px] text-accent">{number}</span>
                 <h2 className="mt-10 text-2xl font-black">{title}</h2>
                 <p className="mt-4 text-sm leading-relaxed text-mute-2">{text}</p>

@@ -82,7 +82,7 @@ export default function NationalOrImportedPage() {
           </div>
           <div className="mt-10 grid gap-px overflow-hidden border border-line-1 bg-line-1 md:grid-cols-2">
             {criteria.map((criterion, index) => (
-              <article key={criterion.title} className="min-h-64 bg-ink-card p-7 md:p-8">
+              <article key={criterion.title} data-reveal className="min-h-64 bg-ink-card p-7 md:p-8">
                 <span className="font-mono text-[10px] text-accent">0{index + 1}</span>
                 <h3 className="mt-12 text-2xl font-black tracking-[-0.035em] md:text-3xl">{criterion.title}</h3>
                 <p className="mt-4 leading-relaxed text-mute-1">{criterion.text}</p>
@@ -101,7 +101,7 @@ export default function NationalOrImportedPage() {
           </div>
           <div className="mt-10 overflow-hidden border border-line-2">
             {solutions.map(([solution, strength, check], index) => (
-              <article key={solution} className="grid gap-5 border-b border-line-1 bg-ink-card p-6 last:border-0 md:grid-cols-[180px_1fr_1fr] md:gap-8 md:p-8">
+              <article key={solution} data-reveal className="grid gap-5 border-b border-line-1 bg-ink-card p-6 last:border-0 md:grid-cols-[180px_1fr_1fr] md:gap-8 md:p-8">
                 <div><span className="font-mono text-[9px] text-accent">0{index + 1}</span><h3 className="mt-3 text-xl font-black">{solution}</h3></div>
                 <div><span className="font-mono text-[9px] tracking-[0.08em] text-mute-3 uppercase">O que pode entregar</span><p className="mt-3 leading-relaxed text-mute-1">{strength}</p></div>
                 <div><span className="font-mono text-[9px] tracking-[0.08em] text-mute-3 uppercase">O que confirmar</span><p className="mt-3 leading-relaxed text-mute-1">{check}</p></div>
@@ -130,7 +130,7 @@ export default function NationalOrImportedPage() {
           <div><Eyebrow>04 · Respostas diretas</Eyebrow><h2 className="text-4xl font-black tracking-[-0.045em]">Antes de decidir.</h2></div>
           <div className="divide-y divide-line-2 border-y border-line-2">
             {questions.map((item) => (
-              <article key={item.question} className="py-7">
+              <article key={item.question} data-reveal className="py-7">
                 <h3 className="text-xl font-black">{item.question}</h3>
                 <p className="mt-3 leading-relaxed text-mute-1">{item.answer}</p>
               </article>

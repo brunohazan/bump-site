@@ -8,8 +8,8 @@
   --faint: #9a9a94;
   --line: #c7c7c1;
   --line-strong: #111;
-  --accent: #647800;
-  --citrus: #d3ff1a;
+  --accent: #6b6600;
+  --citrus: #fcf313;
   --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
 
   min-height: 100vh;
@@ -55,7 +55,7 @@
   margin-top: 1.1rem;
   padding: .7rem .9rem;
   border-left: 3px solid var(--citrus);
-  background: rgb(211 255 26 / 22%);
+  background: rgb(252 243 19 / 22%);
   font-size: 12.5px;
   color: #3a3a36;
 }

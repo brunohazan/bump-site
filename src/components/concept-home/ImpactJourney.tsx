@@ -167,8 +167,24 @@ function FlowConnector({ variant }: { variant: FlowVariant }) {
   </div>;
 }
 
-export function ImpactJourney({ definitive = false, lean = false, v3 = false }: { definitive?: boolean; lean?: boolean; v3?: boolean }) {
-  const journeyRef = useRef<HTMLElement>(null);
+// Divisor cinematográfico decorativo (v3): substitui os barDivider repetidos
+// por transições narrativas distintas, cada uma sem texto. É puramente
+// decorativo (aria-hidden), usa apenas transform/opacity/CSS e degrada para
+// um traço estático sem movimento (mobile e prefers-reduced-motion). A trilha
+// base fica sempre visível como fallback; o restante apenas enriquece.
+type DividerVariant = "pressao" | "controle" | "prova" | "terreno" | "estabilizacao" | "fechamento";
+
+function CinematicDivider({ variant }: { variant: DividerVariant }) {
+  return (
+    <div className={styles.cinematicDivider} data-variant={variant} aria-hidden="true">
+      <span className={styles.cinematicTrack} />
+      <span className={styles.cinematicSweep} />
+      <span className={styles.cinematicNodes}><i /><i /><i /><i /><i /></span>
+    </div>
+  );
+}
+
+export function ImpactJourney({ definitive = false, lean = false, v3 = false }: { definitive?: boolean; lean?: boolean; v3?: boolean }) {  const journeyRef = useRef<HTMLElement>(null);
   const bridgeRef = useRef<HTMLElement>(null);
   const frameRef = useRef<number | null>(null);
   const bridgeFrameRef = useRef<number | null>(null);
@@ -202,7 +218,10 @@ export function ImpactJourney({ definitive = false, lean = false, v3 = false }: 
 
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     const explicitReduced = new URLSearchParams(window.location.search).get("motion") === "reduce";
-    if (!explicitReduced) {
+    // Default respeita a preferência do sistema: só força movimento quando o
+    // usuário NÃO pediu redução (nem por ?motion=reduce nem pelo sistema).
+    // Com o sistema em "reduzir", inicia estático e exibe o opt-in "Ativar movimento".
+    if (!(explicitReduced || media.matches)) {
       forceMotionRef.current = true;
       body.classList.add("concept-force-motion");
       journey.setAttribute("data-force-motion", "true");
@@ -307,15 +326,11 @@ export function ImpactJourney({ definitive = false, lean = false, v3 = false }: 
     );
     document.querySelectorAll(`.${styles.experience} [data-reveal]`).forEach((node) => revealObserver.observe(node));
 
-    // Fumaça de cena: reveal one-shot — dissolve uma vez ao entrar na tela e
-    // NÃO refumaça (evita ficar "presa" quando a seção sai parcialmente).
+    // Fumaça de cena: reveal REVERSÍVEL — dissolve ao entrar na tela e volta a
+    // adensar ao sair (observer toggle, sem unobserve one-shot). Assim a névoa
+    // acompanha a cena nos dois sentidos do scroll em vez de ficar fixa.
     const smokeObserver = new IntersectionObserver(
-      (entries) => entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.setAttribute("data-visible", "");
-          smokeObserver.unobserve(entry.target);
-        }
-      }),
+      (entries) => entries.forEach((entry) => entry.target.toggleAttribute("data-visible", entry.isIntersecting)),
       { threshold: .12 },
     );
     document.querySelectorAll(`.${styles.experience} .${styles.sceneSmoke}`).forEach((node) => smokeObserver.observe(node));
@@ -736,14 +751,14 @@ export function ImpactJourney({ definitive = false, lean = false, v3 = false }: 
 
     <section className={styles.brands}><p>Picapes que encontram seu acerto</p><div className={styles.marquee} aria-label={brandMarks.map(([name]) => name).join(", ")}><div>{[...brandMarks,...brandMarks].map(([name,slug],i)=><span className={styles.brandMark} key={`${slug}-${i}`}><Image src={`/brands/${slug}.svg`} alt="" width={72} height={44} loading="eager" unoptimized className={styles.brandMarkLogo}/><b>{name}</b></span>)}</div></div></section>
 
-    {v3 ? <div className={styles.barDivider} aria-hidden="true"><span/></div> : <FlowConnector variant="brands-engineering"/>}
+    {v3 ? <CinematicDivider variant="pressao"/> : <FlowConnector variant="brands-engineering"/>}
 
     <section id="engenharia" className={styles.engineering}>
       <div className={styles.engineeringVisual}><div className={styles.fluid}><i/><i/><i/><i/><i/></div><Image src={productLines[2].image} alt="Vista técnica do amortecedor BUMP" fill sizes="50vw"/><span>PRESSÃO → FLUIDO → RETORNO</span></div>
       <div className={styles.engineeringCopy}><div className={styles.sectionIntro} data-reveal><p className={styles.sectionCode}>{v3 ? "Engenharia que você sente no volante e no corpo" : sc("07 · Dentro do amortecedor")}</p><h2>{v3 ? "Por que a BUMP mantém a resposta do primeiro ao último quilômetro." : "A engenharia só termina quando chega ao corpo."}</h2>{v3 && <p>Não é tecnologia para encher ficha técnica. Cada escolha existe para controlar melhor o movimento, administrar o calor e adaptar o amortecedor ao seu uso.</p>}</div>{(lean ? leanTechnology : technology).map(([n,title,text])=><article key={n} data-reveal><span>{n}</span><div><h3>{title}</h3><p>{text}</p></div></article>)}<Link href="/tecnologia">Entender toda a engenharia ↗</Link></div>
     </section>
 
-    {v3 && <><div className={styles.barDivider} aria-hidden="true"><span/></div>
+    {v3 && <><CinematicDivider variant="controle"/>
     <section className={styles.practice}>
       <div className={styles.sectionIntro} data-reveal><p className={styles.sectionCode}>Antes e depois na prática</p><h2>A diferença que se vê no uso real.</h2></div>
       <div className={styles.practiceGrid}>{[[`${ASSET_BASE}/banco_web_800/hilux.webp`,"Carga e agro"],[`${ASSET_BASE}/banco_web_800/triton.webp`,"Terra e trilha"],[`${ASSET_BASE}/banco_web_800/ram1500.webp`,"Estrada longa"]].map(([img,title])=><article key={title} className={styles.practiceCard} data-reveal><Image src={img} alt={`Antes e depois — ${title}`} fill sizes="(min-width:900px) 33vw,100vw"/><span className={styles.practiceBand}>Antes · Depois</span><span className={styles.practicePlay} aria-hidden="true">▶</span><div className={styles.practiceCaption}><strong>{title}</strong></div></article>)}</div>
@@ -773,7 +788,7 @@ export function ImpactJourney({ definitive = false, lean = false, v3 = false }: 
 
     </>}
 
-    {v3 ? <div className={styles.barDivider} aria-hidden="true"><span/></div> : <FlowConnector variant="results-authority"/>}
+    {v3 ? <CinematicDivider variant="prova"/> : <FlowConnector variant="results-authority"/>}
 
     <section className={styles.authority}>
       {v3 ? <div className={styles.authorityLayout}>
@@ -782,13 +797,13 @@ export function ImpactJourney({ definitive = false, lean = false, v3 = false }: 
       </div> : <><div className={styles.sectionIntro} data-reveal><p className={styles.sectionCode}>{sc("10 · Autoridade com autoria")}</p><h2>Cristian: piloto antes de fabricante, especialista à frente do projeto.</h2></div><div className={styles.authorityGrid}><article data-reveal><span>CENÁRIO DE APLICAÇÃO</span><h3>Experiência que virou método.</h3><p>Cristian levou o que sentia no volante para a engenharia e para a fábrica. É ele quem define como cada conjunto responde ao peso, à altura e ao terreno informados.</p><Link href="/quem-somos">Conhecer a história ↗</Link></article><article data-reveal><span>EVIDÊNCIA DECLARADA · LIMITES EXPLÍCITOS</span><h3>A fábrica continua depois da escolha.</h3><p>Produção própria no Brasil, projeto sob medida, 2 anos contra vazamento e construção que pode voltar à fábrica para recuperação.</p><Link href="/resultados">Ver evidências ↗</Link></article></div></>}
     </section>
 
-    {v3 ? <div className={styles.barDivider} aria-hidden="true"><span/></div> : <FlowConnector variant="authority-cta"/>}
+    {v3 ? <CinematicDivider variant="terreno"/> : <FlowConnector variant="authority-cta"/>}
 
-    <section className={styles.finalCta}>
-      <Image src={`${ASSET_BASE}/banco_web_800/triton.webp`} alt="Picape pronta para o próximo terreno" fill sizes="100vw"/><div/><div className={styles.finalCopy} data-reveal>{v3 ? <div className={styles.finalGrid}><div><p className={styles.sectionCode}>O próximo chão</p><h2>A estrada pode continuar ruim. Seu corpo não precisa repetir tudo.</h2></div><div className={styles.finalForm}><ContactForm/></div></div> : <><p className={styles.sectionCode}>{sc("11 · O próximo chão")}</p><h2>A estrada pode continuar ruim. Seu corpo não precisa repetir tudo.</h2><p>Conte o veículo, a carga e a rotina. A fábrica transforma contexto em um ponto de partida técnico.</p><div className={styles.finalActions}><Link href="/configurador" className={styles.primaryAction}>Montar para o meu chão</Link><Link href="/contato" className={styles.finalSecondaryAction}>Falar com a BUMP</Link></div></>}</div>{v3 && <span className={styles.sceneSmoke} aria-hidden="true"/>}
+    <section className={styles.finalCta} data-wa-compact="">
+      <Image src={`${ASSET_BASE}/banco_web_800/triton.webp`} alt="Picape pronta para o próximo terreno" fill sizes="100vw" /><div/><div className={styles.finalCopy} data-reveal>{v3 ? <div className={styles.finalGrid}><div><p className={styles.sectionCode}>O próximo chão</p><h2>A estrada pode continuar ruim. Seu corpo não precisa repetir tudo.</h2></div><div className={styles.finalForm}><ContactForm/></div></div> : <><p className={styles.sectionCode}>{sc("11 · O próximo chão")}</p><h2>A estrada pode continuar ruim. Seu corpo não precisa repetir tudo.</h2><p>Conte o veículo, a carga e a rotina. A fábrica transforma contexto em um ponto de partida técnico.</p><div className={styles.finalActions}><Link href="/configurador" className={styles.primaryAction}>Montar para o meu chão</Link><Link href="/contato" className={styles.finalSecondaryAction}>Falar com a BUMP</Link></div></>}</div>{v3 && <span className={styles.sceneSmoke} aria-hidden="true"/>}
     </section>
 
-    {v3 ? <div className={styles.barDivider} aria-hidden="true"><span/></div> : <FlowConnector variant="cta-faq"/>}
+    {v3 ? <CinematicDivider variant="estabilizacao"/> : <FlowConnector variant="cta-faq"/>}
 
     <section className={styles.faq}>
       <div className={styles.sectionIntro} data-reveal><p className={styles.sectionCode}>{sc("12 · Antes de decidir")}</p><h2>Perguntas que também fazem parte do projeto.</h2></div>
@@ -796,7 +811,7 @@ export function ImpactJourney({ definitive = false, lean = false, v3 = false }: 
       <div className={styles.faqActions}><Link href="/faq">Ver todas as dúvidas ↗</Link><Link href="/contato">Falar com a BUMP ↗</Link></div>
     </section>
 
-    {v3 ? <div className={styles.barDivider} aria-hidden="true"><span/></div> : <FlowConnector variant="faq-footer"/>}
+    {v3 ? <CinematicDivider variant="fechamento"/> : <FlowConnector variant="faq-footer"/>}
 
     {!definitive && <footer className={styles.conceptFooter}><Image src="/brand/bump-logo.png" alt="BUMP Amortecedores" width={180} height={53} className={styles.footerLogo}/><span>DO CHÃO AO CORPO · CONCEITO V0.2</span><Link href="/">Voltar ao site atual ↗</Link></footer>}
   </div>;

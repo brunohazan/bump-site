@@ -4,8 +4,8 @@
 }
 
 :global(body.concept-definitive) {
-  --color-accent: #d3ff1a;
-  --color-accent-soft: #263000;
+  --color-accent: #fcf313;
+  --color-accent-soft: #2a2600;
 }
 
 :global(body.concept-mode:not(.concept-definitive) > header),
@@ -19,7 +19,7 @@
 }
 
 .experience {
-  --citrus: #d3ff1a;
+  --citrus: #fcf313;
   --black: #000;
   --white: #fff;
   --journey: 0;
@@ -50,7 +50,7 @@
   line-height: 1;
 }
 .leanProof p { max-width: 44rem; color: rgb(0 0 0 / 68%); font-size: clamp(1rem, 1.3vw, 1.15rem); line-height: 1.6; }
-.leanProof a { color: #647800; font-size: .68rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.leanProof a { color: #6b6600; font-size: .68rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
 .leanProof a:hover { color: #000; }
 
 /* Ajustes exclusivos da /homev2 (lean) */
@@ -108,23 +108,146 @@
   transform-origin: 60% 50%;
 }
 
-/* Conector estilo "barra" (v3): substitui a pista/carro por um divisor clean */
-.barDivider {
+/* Divisor cinematográfico (v3): substitui os barDivider repetidos por
+   transições narrativas distintas, sem texto. A trilha base fica sempre
+   visível (fallback estático); sweep e nós só enriquecem. Todo o movimento é
+   transform/opacity e é desligado em mobile e prefers-reduced-motion. */
+.cinematicDivider {
   position: relative;
   z-index: 4;
   display: grid;
   place-items: center;
-  height: 88px;
+  height: clamp(66px, 8.5vw, 104px);
   background: #000;
   overflow: hidden;
 }
-.barDivider span {
+.cinematicTrack {
+  position: relative;
   display: block;
   width: min(1160px, 84vw);
   height: 3px;
   border-radius: 2px;
   background: linear-gradient(90deg, transparent, var(--citrus) 18%, var(--citrus) 82%, transparent);
-  box-shadow: 0 0 18px rgb(254 242 19 / 45%);
+  box-shadow: 0 0 18px rgb(252 243 19 / 45%);
+}
+.cinematicSweep {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 180px;
+  height: 4px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, transparent, #fff, transparent);
+  opacity: 0;
+  transform: translate(-50%, -50%);
+}
+.cinematicNodes { position: absolute; inset: 0; }
+.cinematicNodes i {
+  position: absolute;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: 50%;
+  background: var(--citrus);
+  box-shadow: 0 0 10px rgb(252 243 19 / 55%);
+  opacity: .55;
+}
+.cinematicNodes i:nth-child(1) { left: 20%; }
+.cinematicNodes i:nth-child(2) { left: 35%; }
+.cinematicNodes i:nth-child(3) { left: 50%; }
+.cinematicNodes i:nth-child(4) { left: 65%; }
+.cinematicNodes i:nth-child(5) { left: 80%; }
+
+/* Pressão: os nós comprimem em direção ao centro (impacto que entra). */
+.cinematicDivider[data-variant="pressao"] .cinematicNodes i:nth-child(1) { --push: 42px; }
+.cinematicDivider[data-variant="pressao"] .cinematicNodes i:nth-child(2) { --push: 20px; }
+.cinematicDivider[data-variant="pressao"] .cinematicNodes i:nth-child(3) { --push: 0px; }
+.cinematicDivider[data-variant="pressao"] .cinematicNodes i:nth-child(4) { --push: -20px; }
+.cinematicDivider[data-variant="pressao"] .cinematicNodes i:nth-child(5) { --push: -42px; }
+
+/* Controle: o sweep desliza e assenta com o easing de estabilização. */
+.cinematicDivider[data-variant="controle"] .cinematicNodes i { opacity: .32; }
+
+/* Prova: o nó central pulsa como uma evidência confirmada. */
+.cinematicDivider[data-variant="prova"] .cinematicNodes i:not(:nth-child(3)) { opacity: .28; }
+
+/* Terreno: a trilha vira uma linha de relevo (silhueta de terreno). */
+.cinematicDivider[data-variant="terreno"] .cinematicTrack {
+  height: 26px;
+  border-radius: 0;
+  background: linear-gradient(180deg, var(--citrus), rgb(252 243 19 / 35%));
+  box-shadow: none;
+  opacity: .88;
+  clip-path: polygon(0 100%, 8% 56%, 16% 78%, 26% 30%, 36% 66%, 46% 22%, 56% 60%, 66% 34%, 76% 70%, 86% 40%, 94% 62%, 100% 100%);
+}
+.cinematicDivider[data-variant="terreno"] .cinematicNodes { display: none; }
+
+/* Estabilização: os nós formam uma onda amortecida que decai ao centro. */
+.cinematicDivider[data-variant="estabilizacao"] .cinematicNodes i:nth-child(1) { transform: translateY(-15px); }
+.cinematicDivider[data-variant="estabilizacao"] .cinematicNodes i:nth-child(2) { transform: translateY(10px); }
+.cinematicDivider[data-variant="estabilizacao"] .cinematicNodes i:nth-child(3) { transform: translateY(-5px); }
+.cinematicDivider[data-variant="estabilizacao"] .cinematicNodes i:nth-child(4) { transform: translateY(2px); }
+.cinematicDivider[data-variant="estabilizacao"] .cinematicNodes i:nth-child(5) { transform: translateY(0); }
+
+/* Fechamento: a energia esmaece e o escuro fecha nas bordas. */
+.cinematicDivider[data-variant="fechamento"] .cinematicTrack { opacity: .5; }
+.cinematicDivider[data-variant="fechamento"] .cinematicNodes i:not(:nth-child(3)) { opacity: .2; }
+.cinematicDivider[data-variant="fechamento"]::before,
+.cinematicDivider[data-variant="fechamento"]::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 26%;
+  pointer-events: none;
+}
+.cinematicDivider[data-variant="fechamento"]::before { left: 0; background: linear-gradient(90deg, #000, transparent); }
+.cinematicDivider[data-variant="fechamento"]::after { right: 0; background: linear-gradient(270deg, #000, transparent); }
+
+@media (min-width: 721px) and (prefers-reduced-motion: no-preference) {
+  .cinematicDivider[data-variant="pressao"] .cinematicNodes i { animation: cdPressao 3.6s var(--ease-settle, ease-in-out) infinite; }
+  .cinematicDivider[data-variant="controle"] .cinematicSweep { animation: cdControle 4.2s var(--ease-settle, ease-in-out) infinite; }
+  .cinematicDivider[data-variant="prova"] .cinematicNodes i:nth-child(3) { animation: cdProva 2.8s var(--ease-impact, ease-out) infinite; }
+  .cinematicDivider[data-variant="terreno"] .cinematicSweep { height: 22px; opacity: 0; animation: cdTerreno 5.5s linear infinite; }
+  .cinematicDivider[data-variant="estabilizacao"] .cinematicNodes i { animation: cdSettle 3.4s var(--ease-settle, ease-in-out) infinite; }
+  .cinematicDivider[data-variant="fechamento"] .cinematicTrack { animation: cdFechar 4.6s ease-in-out infinite; }
+}
+
+@keyframes cdPressao {
+  0%, 100% { transform: translateX(0); opacity: .38; }
+  50% { transform: translateX(var(--push, 0px)); opacity: 1; }
+}
+@keyframes cdControle {
+  0% { transform: translate(-360px, -50%); opacity: 0; }
+  18% { opacity: 1; }
+  70% { transform: translate(0, -50%); opacity: 1; }
+  100% { transform: translate(360px, -50%); opacity: 0; }
+}
+@keyframes cdProva {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgb(252 243 19 / 55%); }
+  45% { transform: scale(1.9); box-shadow: 0 0 0 8px rgb(252 243 19 / 12%), 0 0 18px rgb(252 243 19 / 70%); }
+}
+@keyframes cdTerreno {
+  0% { transform: translate(-60vw, -50%); opacity: 0; }
+  35%, 65% { opacity: .5; }
+  100% { transform: translate(60vw, -50%); opacity: 0; }
+}
+@keyframes cdSettle {
+  0% { translate: 0 0; }
+  40% { translate: 0 -4px; }
+  100% { translate: 0 0; }
+}
+@keyframes cdFechar {
+  0%, 100% { opacity: .5; }
+  50% { opacity: .16; }
+}
+
+/* Mobile simplifica: só a trilha/relevo estático, sem sweep nem nós móveis. */
+@media (max-width: 720px) {
+  .cinematicDivider { height: 56px; }
+  .cinematicSweep { display: none; }
+  .cinematicDivider:not([data-variant="estabilizacao"]) .cinematicNodes i:nth-child(even) { display: none; }
 }
 
 /* Divisor de lama (v3) — transição O corpo (branco) → O uso (escuro).
@@ -166,7 +289,7 @@
 [data-v3="true"] .faq .sectionCode,
 [data-v3="true"] .leanProof a { color: #7a6800; }
 [data-v3="true"] .leanProof a:hover { color: #000; }
-[data-v3="true"] .fluid { border-color: rgb(254 242 19 / 22%); }
+[data-v3="true"] .fluid { border-color: rgb(252 243 19 / 22%); }
 
 /* ---- Medidor "em tempo real" no wave IMPACTO ENTRA -> ENERGIA CONTROLADA (v3) ----
    Os arcos se desenham da esquerda para a direita conforme a seção rola pela
@@ -211,13 +334,14 @@
 }
 
 /* Reveal de cena por trás da fumaça (v3) — a imagem do CTA final emerge da
-   névoa quando a seção entra na tela e refumaça ao sair. É disparado pelo
-   IntersectionObserver do componente (atributo data-visible), que funciona em
-   TODOS os navegadores, inclusive Safari — diferente de animation-timeline.
-   O efeito é um crossfade só de opacidade (sem parallax/zoom), então continua
-   visível e suave também em prefers-reduced-motion. Fica acima da imagem e
-   abaixo do texto (z-index 1 < .finalCopy z-index 2): a leitura nunca é
-   bloqueada. Textura de ruído fractal embutida (data-URI), sem asset/lib. */
+   névoa quando a seção entra na tela e volta a adensar ao sair. É disparado
+   pelo IntersectionObserver do componente (atributo data-visible em toggle),
+   que funciona em TODOS os navegadores, inclusive Safari — diferente de
+   animation-timeline. O efeito é um crossfade só de opacidade (sem
+   parallax/zoom), então continua visível e suave também em
+   prefers-reduced-motion. Fica acima da imagem e abaixo do texto (z-index
+   1 < .finalCopy z-index 2): a leitura nunca é bloqueada. Textura de ruído
+   fractal embutida (data-URI), sem asset/lib. */
 .sceneSmoke {
   position: absolute;
   inset: -8%;
@@ -239,7 +363,7 @@
 
 /* Variante escura da fumaça (v3) — para seções de fundo CLARO (ex.: O corpo),
    onde fumaça branca sumiria. Fica acima do conteúdo e dissolve revelando a
-   seção. Reutiliza o observer one-shot (mesma classe .sceneSmoke). */
+   seção; reversível (mesma classe .sceneSmoke, observer em toggle). */
 .experience .sceneSmoke[data-tone="dark"] {
   z-index: 3;
   opacity: .82;
@@ -281,9 +405,9 @@
    Kicker 12px · Lead 17–20px · Body 16px · Small 13px
    ============================================================ */
 .experience[data-v3="true"] {
-  /* Accent = amarelo da logo BUMP (#FEF213), no lugar do citrus esverdeado */
-  --citrus: #fef213;
-  --color-accent: #fef213;
+  /* Accent = amarelo da logo BUMP (#fcf313), no lugar do citrus esverdeado */
+  --citrus: #fcf313;
+  --color-accent: #fcf313;
   --fs-display: clamp(2.25rem, 5vw, 4.375rem);    /* 36 → 70px */
   --fs-title:   clamp(1.75rem, 3.6vw, 3rem);       /* 28 → 48px */
   --fs-subtitle:clamp(1.25rem, 2vw, 1.625rem);     /* 20 → 26px */
@@ -472,7 +596,7 @@
 }
 
 .terrainGhost {
-  stroke: rgb(211 255 26 / 14%);
+  stroke: rgb(252 243 19 / 14%);
   stroke-width: 42;
   filter: blur(12px);
 }
@@ -522,7 +646,7 @@
   position: absolute;
   inset: 10% 4%;
   border-radius: 50%;
-  background: radial-gradient(circle, rgb(211 255 26 / 18%), rgb(211 255 26 / 3%) 48%, transparent 70%);
+  background: radial-gradient(circle, rgb(252 243 19 / 18%), rgb(252 243 19 / 3%) 48%, transparent 70%);
   filter: blur(18px);
 }
 
@@ -579,7 +703,7 @@
   border: 2px solid var(--citrus);
   border-radius: 50%;
   background: #000;
-  box-shadow: 0 0 20px rgb(211 255 26 / 65%);
+  box-shadow: 0 0 20px rgb(252 243 19 / 65%);
   transform: translate(-50%, calc(var(--journey) * 32vh));
 }
 
@@ -723,6 +847,36 @@
   text-transform: uppercase;
 }
 
+/* Microinteração unificada dos CTAs próprios da Home com os easings globais
+   (impacto → absorção → estabilidade): mesmo gesto de hover/press que os
+   botões globais .button-primary/.button-secondary. */
+.primaryAction,
+.heroSecondaryAction,
+.darkAction,
+.outlineAction,
+.finalSecondaryAction {
+  transition: background-color .2s, color .2s, border-color .2s, transform var(--dur-impact, 520ms) var(--ease-impact, ease);
+}
+.primaryAction:hover,
+.darkAction:hover,
+.outlineAction:hover { transform: translateY(-1px); }
+.primaryAction:active,
+.heroSecondaryAction:active,
+.darkAction:active,
+.outlineAction:active,
+.finalSecondaryAction:active { transform: translateY(0) scale(.98); transition-duration: 90ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .primaryAction,
+  .heroSecondaryAction,
+  .darkAction,
+  .outlineAction,
+  .finalSecondaryAction {
+    transform: none !important;
+    transition-duration: .01ms !important;
+  }
+}
+
 .primaryAction {
   background: var(--citrus);
   color: var(--black);
@@ -731,7 +885,7 @@
 .heroSecondaryAction {
   border: 1px solid rgb(255 255 255 / 38%);
   color: var(--white);
-  transition: border-color 180ms ease, color 180ms ease;
+  transition: border-color 180ms ease, color 180ms ease, transform var(--dur-impact, 520ms) var(--ease-impact, ease);
 }
 
 .heroSecondaryAction:hover {
@@ -754,7 +908,7 @@
   width: calc(var(--journey) * 100%);
   height: 100%;
   background: var(--citrus);
-  box-shadow: 0 0 14px rgb(211 255 26 / 55%);
+  box-shadow: 0 0 14px rgb(252 243 19 / 55%);
 }
 
 .journeyExit {
@@ -774,7 +928,7 @@
   width: 100%;
   height: 100%;
   background: linear-gradient(transparent, var(--citrus) 28%, var(--citrus));
-  box-shadow: 0 0 24px rgb(211 255 26 / 58%);
+  box-shadow: 0 0 24px rgb(252 243 19 / 58%);
 }
 
 .journeyExit span {
@@ -836,8 +990,8 @@
   height: 69%;
   transform: translateX(-50%) scaleY(clamp(0, calc(var(--bridge) * 1.9), 1));
   transform-origin: top;
-  background: linear-gradient(var(--citrus), rgb(211 255 26 / 35%));
-  box-shadow: 0 0 28px rgb(211 255 26 / 62%);
+  background: linear-gradient(var(--citrus), rgb(252 243 19 / 35%));
+  box-shadow: 0 0 28px rgb(252 243 19 / 62%);
   will-change: auto;
 }
 
@@ -863,7 +1017,7 @@
   height: 18px;
   border: 2px solid var(--citrus);
   background: #020202;
-  box-shadow: 0 0 32px rgb(211 255 26 / 78%);
+  box-shadow: 0 0 32px rgb(252 243 19 / 78%);
 }
 
 .energyBridge[data-active="true"] .bridgeSurface,
@@ -1073,7 +1227,7 @@
   background: linear-gradient(transparent, var(--citrus) 18%, var(--citrus) 82%, transparent);
   transform: scaleY(clamp(0, calc(var(--flow) * 1.35), 1));
   transform-origin: top;
-  box-shadow: 0 0 16px rgb(211 255 26 / 48%);
+  box-shadow: 0 0 16px rgb(252 243 19 / 48%);
 }
 
 .flowAxis span {
@@ -1086,7 +1240,7 @@
   border-radius: 50%;
   background: var(--flow-from);
   transform: translate(-50%, -50%);
-  box-shadow: 0 0 18px rgb(211 255 26 / 62%);
+  box-shadow: 0 0 18px rgb(252 243 19 / 62%);
 }
 
 .flowOrbit {
@@ -1096,7 +1250,7 @@
   display: none;
   width: min(32vw, 340px);
   aspect-ratio: 1;
-  border: 1px solid rgb(211 255 26 / 42%);
+  border: 1px solid rgb(252 243 19 / 42%);
   border-radius: 50%;
   opacity: clamp(.16, calc(var(--flow) * 1.4), .82);
   transform: translate(-50%, -50%) rotate(calc(var(--flow) * 140deg)) scale(calc(.58 + var(--flow) * .42));
@@ -1107,7 +1261,7 @@
 .flowOrbit::after {
   content: "";
   position: absolute;
-  border: 1px solid rgb(211 255 26 / 20%);
+  border: 1px solid rgb(252 243 19 / 20%);
   border-radius: inherit;
 }
 
@@ -1179,7 +1333,7 @@
   height: auto;
   clip-path: none;
   opacity: .72;
-  background: radial-gradient(circle at 50% 50%, rgb(211 255 26 / 8%), transparent 54%), var(--flow-to);
+  background: radial-gradient(circle at 50% 50%, rgb(252 243 19 / 8%), transparent 54%), var(--flow-to);
 }
 
 .flowConnector[data-flow="brands-engineering"] .flowTrace,
@@ -1532,7 +1686,7 @@
 .promise { position:relative; padding:clamp(7rem,13vw,13rem) max(5vw,calc((100vw - 1320px)/2)); overflow:hidden; background:#fff; color:#000; }
 .promiseLead { position:relative; }
 .promise::before { content:"CORPO"; position:absolute; right:-.06em; top:-.24em; color:rgb(0 0 0 / 3.5%); font-size:32vw; line-height:1; font-weight:900; letter-spacing:-.1em; }
-.promise .sectionCode { color:#647800; }
+.promise .sectionCode { color:#6b6600; }
 .promise h2 { position:relative; max-width:11ch; margin-top:1.5rem; font-size:clamp(3.5rem,8.5vw,9.5rem); line-height:.84; font-weight:900; letter-spacing:-.075em; text-transform:uppercase; }
 .bodyGrid { position:relative; display:grid; grid-template-columns:.7fr 1.3fr; align-items:end; gap:6vw; margin-top:5rem; }
 .bodyGrid > p { max-width:34rem; font-size:clamp(1.1rem,1.7vw,1.5rem); line-height:1.65; }
@@ -1542,7 +1696,7 @@
 .wave i:nth-child(2){ left:38%; width:68%; height:25px; border-color:#7d9800; transform:rotate(2deg); }
 .wave i:nth-child(3){ left:64%; width:38%; height:10px; border-color:var(--citrus); }
 .wave span,.wave b { position:absolute; bottom:1rem; font-size:.55rem; letter-spacing:.12em; }
-.wave b { right:0; color:#647800; }
+.wave b { right:0; color:#6b6600; }
 .trust { display:grid; grid-template-columns:repeat(5,1fr); margin-top:8rem; border:1px solid #000; }
 .trust div { padding:1.5rem; border-right:1px solid #000; }
 .trust div:last-child{border:0}.trust strong{display:block;font-size:clamp(1.7rem,3vw,3rem);font-weight:900;letter-spacing:-.05em}.trust span{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
@@ -1561,19 +1715,19 @@
 .brands{padding:3rem 0;border-block:1px solid rgb(255 255 255 / 15%);overflow:hidden;background:#000}.brands>p{margin:0 4vw 1.5rem;color:rgb(255 255 255 / 45%);font-size:.58rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase}.marquee{width:max-content}.marquee>div{display:flex;animation:brandMove 28s linear infinite}.marquee span{min-width:220px;padding:1.4rem 2.5rem;border-right:1px solid rgb(255 255 255 / 16%);font-size:1.35rem;font-weight:900;text-align:center;text-transform:uppercase}@keyframes brandMove{to{transform:translateX(-50%)}}
 
 .engineering { display:grid; grid-template-columns:1fr 1fr; background:#090909; }
-.engineeringVisual { position:sticky; top:0; height:100svh; overflow:hidden; border-right:1px solid rgb(255 255 255 / 15%); background:radial-gradient(circle at 50% 45%,rgb(211 255 26 / 16%),transparent 50%),#020202; }
-.engineeringVisual img{object-fit:contain;padding:10%;transform:rotate(7deg);filter:drop-shadow(0 35px 55px #000)}.engineeringVisual>span{position:absolute;left:2rem;bottom:2rem;color:var(--citrus);font-size:.58rem;font-weight:800;letter-spacing:.14em}.fluid{position:absolute;inset:8%;border:1px solid rgb(211 255 26 / 22%);border-radius:50%;animation:spin 18s linear infinite}.fluid i{position:absolute;width:9px;height:9px;border-radius:50%;background:var(--citrus);box-shadow:0 0 20px var(--citrus)}.fluid i:nth-child(1){top:10%;left:50%}.fluid i:nth-child(2){top:34%;left:4%}.fluid i:nth-child(3){top:68%;right:7%}.fluid i:nth-child(4){bottom:4%;left:45%}.fluid i:nth-child(5){top:20%;right:15%}@keyframes spin{to{transform:rotate(360deg)}}
+.engineeringVisual { position:sticky; top:0; height:100svh; overflow:hidden; border-right:1px solid rgb(255 255 255 / 15%); background:radial-gradient(circle at 50% 45%,rgb(252 243 19 / 16%),transparent 50%),#020202; }
+.engineeringVisual img{object-fit:contain;padding:10%;transform:rotate(7deg);filter:drop-shadow(0 35px 55px #000)}.engineeringVisual>span{position:absolute;left:2rem;bottom:2rem;color:var(--citrus);font-size:.58rem;font-weight:800;letter-spacing:.14em}.fluid{position:absolute;inset:8%;border:1px solid rgb(252 243 19 / 22%);border-radius:50%;animation:spin 18s linear infinite}.fluid i{position:absolute;width:9px;height:9px;border-radius:50%;background:var(--citrus);box-shadow:0 0 20px var(--citrus)}.fluid i:nth-child(1){top:10%;left:50%}.fluid i:nth-child(2){top:34%;left:4%}.fluid i:nth-child(3){top:68%;right:7%}.fluid i:nth-child(4){bottom:4%;left:45%}.fluid i:nth-child(5){top:20%;right:15%}@keyframes spin{to{transform:rotate(360deg)}}
 .engineeringCopy{padding:clamp(7rem,10vw,10rem) 6vw}.engineeringCopy .sectionIntro{margin-bottom:5rem}.engineeringCopy .sectionIntro h2{font-size:clamp(3rem,5.4vw,6rem)}.engineeringCopy article{display:grid;grid-template-columns:3rem 1fr;gap:1.2rem;padding:2.5rem 0;border-top:1px solid rgb(255 255 255 / 16%)}.engineeringCopy article>span{color:var(--citrus);font-size:.68rem}.engineeringCopy h3{font-size:clamp(1.5rem,2.6vw,2.6rem);font-weight:900;letter-spacing:-.04em}.engineeringCopy article p{max-width:37rem;margin-top:.8rem;color:rgb(255 255 255 / 60%);line-height:1.65}.engineeringCopy>a{display:inline-block;margin-top:2rem;color:var(--citrus);font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
 
-.lines{padding:clamp(7rem,11vw,11rem) max(4vw,calc((100vw - 1400px)/2));overflow:hidden;background:#fff;color:#000}.lines .sectionCode{color:#647800}.lineStage{display:grid;grid-template-columns:60px 1.2fr .8fr 60px;align-items:center;min-height:650px;margin-top:4rem;border-block:1px solid #000}.lineStage>button{width:52px;height:52px;border:1px solid #000;border-radius:50%;font-size:1.3rem}.lineProduct{position:relative;height:620px;background:radial-gradient(circle,rgb(211 255 26 / 65%),transparent 52%)}.lineProduct span{position:absolute;z-index:2;top:1.5rem;left:1.5rem;font-size:.6rem;font-weight:800;letter-spacing:.12em}.lineProduct img{object-fit:contain;padding:8%;animation:productIn .55s ease both}@keyframes productIn{from{opacity:0;transform:translateX(50px) rotate(8deg)}to{opacity:1;transform:none}}.lineCopy{padding:3rem}.lineCopy>p{color:#647800;font-size:.62rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase}.lineCopy h3{margin-top:.7rem;font-size:clamp(3.5rem,7vw,7rem);line-height:.82;font-weight:900;letter-spacing:-.075em;text-transform:uppercase}.lineCopy strong{display:block;margin-top:1.8rem;font-size:1.25rem;line-height:1.3}.lineCopy>span{display:block;margin-top:1rem;color:rgb(0 0 0 / 62%);line-height:1.6}.lineCopy>a{display:inline-block;margin-top:2rem;font-size:.68rem;font-weight:800;text-transform:uppercase}.lineIndex{display:grid;grid-template-columns:repeat(6,1fr);border-bottom:1px solid #000}.lineIndex button{padding:1.2rem .8rem;border-right:1px solid rgb(0 0 0 / 20%);font-size:.55rem;text-align:left}.lineIndex strong{display:block;margin-top:.4rem;font-size:.8rem}.lineIndex button[data-active="true"]{background:#000;color:var(--citrus)}
+.lines{padding:clamp(7rem,11vw,11rem) max(4vw,calc((100vw - 1400px)/2));overflow:hidden;background:#fff;color:#000}.lines .sectionCode{color:#6b6600}.lineStage{display:grid;grid-template-columns:60px 1.2fr .8fr 60px;align-items:center;min-height:650px;margin-top:4rem;border-block:1px solid #000}.lineStage>button{width:52px;height:52px;border:1px solid #000;border-radius:50%;font-size:1.3rem}.lineProduct{position:relative;height:620px;background:radial-gradient(circle,rgb(252 243 19 / 65%),transparent 52%)}.lineProduct span{position:absolute;z-index:2;top:1.5rem;left:1.5rem;font-size:.6rem;font-weight:800;letter-spacing:.12em}.lineProduct img{object-fit:contain;padding:8%;animation:productIn .55s ease both}@keyframes productIn{from{opacity:0;transform:translateX(50px) rotate(8deg)}to{opacity:1;transform:none}}.lineCopy{padding:3rem}.lineCopy>p{color:#6b6600;font-size:.62rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase}.lineCopy h3{margin-top:.7rem;font-size:clamp(3.5rem,7vw,7rem);line-height:.82;font-weight:900;letter-spacing:-.075em;text-transform:uppercase}.lineCopy strong{display:block;margin-top:1.8rem;font-size:1.25rem;line-height:1.3}.lineCopy>span{display:block;margin-top:1rem;color:rgb(0 0 0 / 62%);line-height:1.6}.lineCopy>a{display:inline-block;margin-top:2rem;font-size:.68rem;font-weight:800;text-transform:uppercase}.lineIndex{display:grid;grid-template-columns:repeat(6,1fr);border-bottom:1px solid #000}.lineIndex button{padding:1.2rem .8rem;border-right:1px solid rgb(0 0 0 / 20%);font-size:.55rem;text-align:left}.lineIndex strong{display:block;margin-top:.4rem;font-size:.8rem}.lineIndex button[data-active="true"]{background:#000;color:var(--citrus)}
 
 .durability{position:relative;padding:clamp(7rem,11vw,11rem) max(5vw,calc((100vw - 1320px)/2));overflow:hidden;background:var(--citrus);color:#000}.durability::after{content:"400";position:absolute;right:-.1em;bottom:-.25em;color:rgb(0 0 0 / 5%);font-size:42vw;line-height:1;font-weight:900;letter-spacing:-.12em}.odometer{position:relative;z-index:2}.odometer>span{display:block;font-size:.58rem;font-weight:800;letter-spacing:.13em}.odometer strong{display:inline-block;margin-top:1rem;font-size:clamp(5rem,15vw,15rem);line-height:.75;font-weight:900;letter-spacing:-.085em}.odometer b{font-size:clamp(1.5rem,4vw,4rem)}.durabilityCopy{position:relative;z-index:2;display:grid;grid-template-columns:.35fr .65fr;gap:3rem;align-items:start;margin-top:5rem}.durabilityCopy .sectionCode{color:#000}.durabilityCopy h2{font-size:clamp(2.7rem,5vw,5.5rem);line-height:.9;font-weight:900;letter-spacing:-.06em;text-transform:uppercase}.durabilityCopy>p:not(.sectionCode){grid-column:2;max-width:44rem;font-size:1.08rem;line-height:1.7}.durabilityCopy>a{grid-column:2;font-size:.68rem;font-weight:800;text-transform:uppercase}.recovery{position:relative;z-index:2;display:grid;grid-template-columns:repeat(4,1fr);margin-top:5rem;border-block:1px solid #000}.recovery div{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:1rem;padding:1.5rem;border-right:1px solid #000;font-size:.75rem;font-weight:900;text-transform:uppercase}.recovery span{font-size:.55rem}.recovery i{height:1px;background:#000}
 
 .authority{padding:clamp(7rem,11vw,11rem) max(5vw,calc((100vw - 1320px)/2));background:#050505}.authorityGrid{display:grid;grid-template-columns:1fr 1fr;gap:1px;margin-top:5rem;background:rgb(255 255 255 / 18%)}.authorityGrid article{min-height:420px;padding:clamp(2rem,4vw,4rem);background:#0b0b0b}.authorityGrid span{color:var(--citrus);font-size:.58rem;font-weight:800;letter-spacing:.13em}.authorityGrid h3{max-width:12ch;margin-top:3rem;font-size:clamp(2.3rem,4vw,4rem);line-height:.92;font-weight:900;letter-spacing:-.05em;text-transform:uppercase}.authorityGrid p{max-width:35rem;margin-top:1.5rem;color:rgb(255 255 255 / 62%);line-height:1.7}.authorityGrid a{display:inline-block;margin-top:2.5rem;font-size:.68rem;font-weight:800;text-transform:uppercase}
 
-.finalCta{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden}.finalCta>img{object-fit:cover;filter:saturate(.55) contrast(1.1)}.finalCta>div:first-of-type{position:absolute;inset:0;background:linear-gradient(90deg,#000 5%,rgb(0 0 0 / 72%) 52%,transparent),linear-gradient(0deg,#000,transparent 45%)}.finalCopy{position:relative;z-index:2;width:min(90%,1200px);margin:auto}.finalCopy h2{max-width:10ch;margin-top:1.2rem;font-size:clamp(3.5rem,8vw,8.5rem);line-height:.84;font-weight:900;letter-spacing:-.07em;text-transform:uppercase}.finalCopy>p:not(.sectionCode){max-width:38rem;margin-top:1.7rem;color:rgb(255 255 255 / 70%);font-size:1.1rem;line-height:1.65}.finalActions{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2rem}.finalSecondaryAction{display:inline-flex;min-height:50px;align-items:center;justify-content:center;padding:.8rem 1.2rem;border:1px solid rgb(255 255 255 / 38%);font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;transition:border-color 180ms ease,color 180ms ease}.finalSecondaryAction:hover{border-color:var(--citrus);color:var(--citrus)}
+.finalCta{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden}.finalCta>img{object-fit:cover;filter:saturate(.55) contrast(1.1)}.finalCta>div:first-of-type{position:absolute;inset:0;background:linear-gradient(90deg,#000 5%,rgb(0 0 0 / 72%) 52%,transparent),linear-gradient(0deg,#000,transparent 45%)}.finalCopy{position:relative;z-index:2;width:min(90%,1200px);margin:auto}.finalCopy h2{max-width:10ch;margin-top:1.2rem;font-size:clamp(3.5rem,8vw,8.5rem);line-height:.84;font-weight:900;letter-spacing:-.07em;text-transform:uppercase}.finalCopy>p:not(.sectionCode){max-width:38rem;margin-top:1.7rem;color:rgb(255 255 255 / 70%);font-size:1.1rem;line-height:1.65}.finalActions{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2rem}.finalSecondaryAction{display:inline-flex;min-height:50px;align-items:center;justify-content:center;padding:.8rem 1.2rem;border:1px solid rgb(255 255 255 / 38%);font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;transition:border-color 180ms ease,color 180ms ease,transform var(--dur-impact, 520ms) var(--ease-impact, ease)}.finalSecondaryAction:hover{border-color:var(--citrus);color:var(--citrus)}
 
-.faq{padding:clamp(7rem,11vw,11rem) max(5vw,calc((100vw - 1200px)/2));background:#fff;color:#000}.faq .sectionCode{color:#647800}.faqList{margin-top:5rem;border-top:1px solid #000}.faqList details{border-bottom:1px solid #000}.faqList summary{display:grid;grid-template-columns:3rem 1fr auto;gap:1rem;align-items:center;padding:2rem 0;cursor:pointer;font-size:clamp(1.2rem,2.4vw,2.2rem);font-weight:900;letter-spacing:-.03em;list-style:none}.faqList summary::-webkit-details-marker{display:none}.faqList summary span{font-size:.58rem;letter-spacing:.1em}.faqList summary i{font-style:normal}.faqList details[open] summary i{transform:rotate(45deg)}.faqList details p{max-width:48rem;padding:0 0 2rem 4rem;color:rgb(0 0 0 / 65%);line-height:1.7}.faqActions{display:flex;gap:2rem;margin-top:3rem;font-size:.68rem;font-weight:800;text-transform:uppercase}.conceptFooter{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;min-height:140px;padding:2rem 4vw;background:#000}.conceptFooter strong{font-size:1.6rem}.conceptFooter span{color:rgb(255 255 255 / 42%);font-size:.56rem;letter-spacing:.14em}.conceptFooter a{justify-self:end;font-size:.62rem;font-weight:800;text-transform:uppercase}
+.faq{padding:clamp(7rem,11vw,11rem) max(5vw,calc((100vw - 1200px)/2));background:#fff;color:#000}.faq .sectionCode{color:#6b6600}.faqList{margin-top:5rem;border-top:1px solid #000}.faqList details{border-bottom:1px solid #000}.faqList summary{display:grid;grid-template-columns:3rem 1fr auto;gap:1rem;align-items:center;padding:2rem 0;cursor:pointer;font-size:clamp(1.2rem,2.4vw,2.2rem);font-weight:900;letter-spacing:-.03em;list-style:none}.faqList summary::-webkit-details-marker{display:none}.faqList summary span{font-size:.58rem;letter-spacing:.1em}.faqList summary i{font-style:normal}.faqList details[open] summary i{transform:rotate(45deg)}.faqList details p{max-width:48rem;padding:0 0 2rem 4rem;color:rgb(0 0 0 / 65%);line-height:1.7}.faqActions{display:flex;gap:2rem;margin-top:3rem;font-size:.68rem;font-weight:800;text-transform:uppercase}.conceptFooter{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;min-height:140px;padding:2rem 4vw;background:#000}.conceptFooter strong{font-size:1.6rem}.conceptFooter span{color:rgb(255 255 255 / 42%);font-size:.56rem;letter-spacing:.14em}.conceptFooter a{justify-self:end;font-size:.62rem;font-weight:800;text-transform:uppercase}
 
 @media(max-width:900px){
   .miniNav{display:none}.topbar{grid-template-columns:1fr auto}.sectionIntro h2{font-size:clamp(2.7rem,12vw,5rem)}
@@ -2270,4 +2424,49 @@
 .experience[data-motion="reduced"] .flowConnector[data-flow="body-use"] .flowPickupMotion,
 .experience[data-motion="reduced"] .flowPickupDust {
   display: none;
+}
+
+/* ---- Tratamento visual dos wrappers de produto existentes ----
+   Luz discreta percorrendo o produto (engineering/linhas/estágio) e um brilho
+   de profundidade no produto do bloco "O uso". Sem peças/mídia novas: só
+   camadas de luz. Overflow contido para a luz não vazar. Tudo é
+   transform/opacity (compositado) e é desligado em mobile e reduced-motion. */
+.lineProduct,
+.productStage { overflow: hidden; }
+.engineeringVisual::after,
+.lineProduct::after,
+.productStage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 42%, rgb(252 243 19 / 14%) 50%, transparent 58%);
+  opacity: 0;
+  transform: translateX(-120%);
+}
+.useProduct::after {
+  content: "";
+  position: absolute;
+  inset: 12%;
+  z-index: 3;
+  pointer-events: none;
+  border-radius: 42%;
+  background: radial-gradient(circle at 40% 34%, rgb(252 243 19 / 16%), transparent 62%);
+  opacity: 0;
+}
+@media (prefers-reduced-motion: no-preference) and (min-width: 721px) {
+  .engineeringVisual::after,
+  .lineProduct::after,
+  .productStage::after { animation: productSweep 7.5s var(--ease-settle, ease-in-out) infinite; }
+  .useProduct::after { animation: productDepth 6s ease-in-out infinite; }
+}
+@keyframes productSweep {
+  0% { transform: translateX(-120%); opacity: 0; }
+  20% { opacity: 1; }
+  55%, 100% { transform: translateX(120%); opacity: 0; }
+}
+@keyframes productDepth {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
 }

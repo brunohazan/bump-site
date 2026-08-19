@@ -68,7 +68,7 @@ export default async function ApplicationPage({ params }: ApplicationPageProps) 
           </div>
           <div className="mt-10 grid gap-px overflow-hidden border border-line-1 bg-line-1 md:grid-cols-3">
             {application.contexts.map((context, index) => (
-              <article key={context.title} className="min-h-64 bg-ink-card p-7 md:p-8">
+              <article key={context.title} data-reveal className="min-h-64 bg-ink-card p-7 md:p-8">
                 <span className="font-mono text-[10px] text-accent">0{index + 1}</span>
                 <h3 className="mt-12 text-2xl font-black tracking-[-0.035em]">{context.title}</h3>
                 <p className="mt-4 leading-relaxed text-mute-1">{context.text}</p>
@@ -87,7 +87,7 @@ export default async function ApplicationPage({ params }: ApplicationPageProps) 
           </div>
           <div className="divide-y divide-line-2 border-y border-line-2">
             {application.questions.map((question, index) => (
-              <article key={question} className="grid grid-cols-[44px_1fr] gap-5 py-7 md:py-9">
+              <article key={question} data-reveal className="grid grid-cols-[44px_1fr] gap-5 py-7 md:py-9">
                 <span className="font-mono text-xs text-accent">0{index + 1}</span>
                 <h3 className="text-xl font-black tracking-[-0.025em] md:text-2xl">{question}</h3>
               </article>
@@ -119,8 +119,8 @@ export default async function ApplicationPage({ params }: ApplicationPageProps) 
             ["Gravataí · RS", "produção própria"],
             ["2 anos", "contra vazamento"],
             ["Recuperável", "retorno possível à fábrica"],
-          ].map(([value, label]) => (
-            <div key={label}>
+          ].map(([value, label], index) => (
+            <div key={label} data-reveal data-delay={`${Math.min(index, 3)}`}>
               <strong className="block text-2xl font-black tracking-[-0.035em]">{value}</strong>
               <span className="mt-2 block font-mono text-[9px] tracking-[0.08em] uppercase">{label}</span>
             </div>

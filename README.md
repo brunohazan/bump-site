@@ -45,6 +45,11 @@ A documentação canônica versionada começa em [`docs/README.md`](docs/README.
 - decisões de arquitetura: [`docs/project/adrs.md`](docs/project/adrs.md)
 - marca e ativos: [`docs/brand/README.md`](docs/brand/README.md)
 
+A evolução estética cinematográfica global (nova paleta do cliente — preto `#000000`, amarelo
+`#fcf313`, branco metal `#f0f1f4`, terreno `#7e5b3c` —, motivos de motion por cluster, CTAs
+unificados, WhatsApp compactável e movimento reduzido do sistema respeitado por padrão) está
+registrada na ADR-012.
+
 `CLAUDE.md`, quando presente no ambiente local, é apenas um mapa mental operacional. Ele não é
 fonte de verdade, repositório de conhecimento, changelog ou substituto de `docs/`.
 

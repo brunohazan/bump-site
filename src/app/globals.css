@@ -14,17 +14,25 @@
   --color-ink-soft: #050505;
   --color-ink-card: #0b0b0b;
   --color-ink-frame: #101010;
-  --color-paper: #ffffff;
+  --color-paper: #f0f1f4;
   --color-mute-1: #b8b8b8;
   --color-mute-2: #8d8d8d;
   --color-mute-3: #6f6f6f;
   --color-mute-4: #4d4d4d;
-  --color-accent: #d3ff1a;
-  --color-accent-soft: #263000;
+  --color-accent: #fcf313;
+  --color-accent-soft: #2a2600;
+  --color-accent-rgb: 252 243 19;
+  --color-terrain: #7e5b3c;
   --color-line-1: #1f1f1f;
   --color-line-2: #2b2b2b;
   --color-line-3: #171717;
   --color-line-4: #3b3b3b;
+
+  /* Easings "amortecedor": impacto forte -> absorção -> estabilidade */
+  --ease-impact: cubic-bezier(.2, .9, .1, 1);
+  --ease-settle: cubic-bezier(.22, 1, .36, 1);
+  --dur-impact: 520ms;
+  --dur-settle: 720ms;
 }
 
 @theme inline {
@@ -39,6 +47,7 @@
   --color-mute-4: var(--color-mute-4);
   --color-accent: var(--color-accent);
   --color-accent-soft: var(--color-accent-soft);
+  --color-terrain: var(--color-terrain);
   --color-line-1: var(--color-line-1);
   --color-line-2: var(--color-line-2);
   --color-line-3: var(--color-line-3);
@@ -65,11 +74,12 @@
 @layer components {
   .site-container { width: min(100% - 2.5rem, 1280px); margin-inline: auto; }
   .section-space { padding-block: clamp(5rem, 9vw, 9rem); }
-  .button-primary, .button-secondary { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; border-radius: 3px; padding: .8rem 1.25rem; font-family: var(--font-plex-mono), monospace; font-size: .75rem; font-weight: 600; letter-spacing: .055em; transition: background-color .2s, color .2s, border-color .2s, transform .2s; }
+  .button-primary, .button-secondary { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; border-radius: 3px; padding: .8rem 1.25rem; font-family: var(--font-plex-mono), monospace; font-size: .75rem; font-weight: 600; letter-spacing: .055em; transition: background-color .2s, color .2s, border-color .2s, transform var(--dur-impact) var(--ease-impact); }
   .button-primary { background: var(--color-accent); color: var(--color-ink); border: 1px solid var(--color-accent); }
   .button-primary:hover { background: var(--color-paper); border-color: var(--color-paper); transform: translateY(-1px); }
   .button-secondary { border: 1px solid var(--color-line-4); color: var(--color-paper); background: transparent; }
   .button-secondary:hover { border-color: var(--color-accent); color: var(--color-accent); transform: translateY(-1px); }
+  .button-primary:active, .button-secondary:active { transform: translateY(0) scale(.98); transition-duration: 90ms; }
   .button-sm { min-height: 40px; padding: .65rem .9rem; font-size: .68rem; }
   .menu-item { display: block; padding: .7rem .8rem; font-size: .82rem; color: var(--color-mute-1); transition: color .2s, background-color .2s; }
   .menu-item:hover, .menu-item:focus-visible { color: var(--color-accent); background: var(--color-ink-soft); }
@@ -83,6 +93,37 @@
   .prose-legal h2 { margin-top: 2.5rem; margin-bottom: .75rem; font-size: 1.35rem; font-weight: 800; }
   .prose-legal p, .prose-legal li { color: var(--color-mute-1); line-height: 1.8; }
   .prose-legal ul { padding-left: 1.2rem; }
+
+  /* ---- Primitivas semânticas + camadas decorativas por cluster ----
+     Auras discretas em PageHero/CTASection e varredura de luz em produto.
+     Todas são aria-hidden/pointer-events:none e degradam para estático em
+     mobile e em prefers-reduced-motion (blocos mais abaixo). */
+  .page-hero { position: relative; isolation: isolate; }
+  .cta-section { position: relative; isolation: isolate; }
+  .page-hero-aura, .cta-section-aura {
+    position: absolute; z-index: 0; pointer-events: none;
+    width: min(60vw, 720px); aspect-ratio: 1;
+    right: -14%; top: -46%;
+    background: radial-gradient(circle at center, rgb(var(--color-accent-rgb) / .10), transparent 62%);
+    opacity: .7;
+  }
+  /* Deslocamentos por cluster (data-page-motif no <html>) */
+  html[data-page-motif="precision"] .page-hero-aura { right: auto; left: -12%; top: -38%; width: min(48vw, 560px); }
+  html[data-page-motif="lateral"] .page-hero-aura { right: auto; left: -16%; top: 8%; }
+  html[data-page-motif="rise"] .page-hero-aura { right: -10%; top: auto; bottom: -50%; }
+  html[data-page-motif="focus"] .page-hero-aura { right: 50%; top: -30%; translate: 50% 0; width: min(70vw, 820px); }
+  html[data-page-motif="cascade"] .page-hero-aura { right: -6%; top: -30%; }
+  html[data-page-motif="calm"] .page-hero-aura, html[data-page-motif="calm"] .cta-section-aura { opacity: .3; }
+
+  .breadcrumb { position: relative; }
+  .stats-strip-cell { position: relative; overflow: hidden; }
+
+  .product-sweep { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 1; }
+  .product-sweep::before {
+    content: ""; position: absolute; top: -30%; left: 0; width: 42%; height: 160%;
+    transform: translateX(-160%) rotate(8deg); opacity: 0;
+    background: linear-gradient(90deg, transparent, rgb(var(--color-accent-rgb) / .16), transparent);
+  }
 }
 
 @media (min-width: 768px) { .site-container { width: min(100% - 5rem, 1280px); } }
@@ -105,6 +146,24 @@
 @keyframes product-breathe {
   0%, 100% { transform: translate3d(0, 0, 0); }
   50% { transform: translate3d(0, -8px, 0); }
+}
+
+/* Motion "amortecedor": impacto -> absorção -> estabilidade */
+@keyframes bump-settle {
+  0% { transform: translateY(26px) scale(.96); }
+  55% { transform: translateY(-6px) scale(1.012); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+@keyframes bump-rise {
+  0% { transform: translateY(52px); }
+  70% { transform: translateY(-5px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes clip-wipe {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -137,10 +196,103 @@
   html.reveal-ready [data-delay="2"] { transition-delay: 160ms; }
   html.reveal-ready [data-delay="3"] { transition-delay: 240ms; }
 
+  /* ----- Motivos por cluster -----
+     Dois caminhos herdam o mesmo gesto:
+       1) data-motif no wrapper da página (controle local explícito);
+       2) data-page-motif no <html>, derivado do pathname por ScrollReveal —
+          faz o CSS usar o cluster MESMO sem wrapper manual.
+     Quando os dois coexistem (ex.: CTASection cascade dentro de uma página
+     lateral), o wrapper vence por ordem de origem (cascade vem por último). */
+
+  /* Produto/Linhas: compressão com overshoot (escala + peso) */
+  html.reveal-ready[data-page-motif="compression"] [data-reveal],
+  html.reveal-ready [data-motif="compression"] [data-reveal] {
+    transform: translateY(20px) scale(.955);
+    transition-timing-function: var(--ease-settle);
+  }
+  html.reveal-ready[data-page-motif="compression"] [data-reveal].is-visible,
+  html.reveal-ready [data-motif="compression"] [data-reveal].is-visible { transform: translateY(0) scale(1); }
+
+  /* Tecnologia: precisão — varredura clip-path + micro-translate */
+  html.reveal-ready[data-page-motif="precision"] [data-reveal],
+  html.reveal-ready [data-motif="precision"] [data-reveal] {
+    clip-path: inset(0 100% 0 0);
+    transform: translateX(-10px);
+    transition-timing-function: var(--ease-impact);
+  }
+  html.reveal-ready[data-page-motif="precision"] [data-reveal].is-visible,
+  html.reveal-ready [data-motif="precision"] [data-reveal].is-visible {
+    clip-path: inset(0 0 0 0);
+    transform: translateX(0);
+  }
+
+  /* Aplicações: deslize lateral assimétrico */
+  html.reveal-ready[data-page-motif="lateral"] [data-reveal],
+  html.reveal-ready [data-motif="lateral"] [data-reveal] { transform: translateX(-42px); }
+  html.reveal-ready[data-page-motif="lateral"] [data-reveal]:nth-child(even),
+  html.reveal-ready [data-motif="lateral"] [data-reveal]:nth-child(even) { transform: translateX(42px); }
+  html.reveal-ready[data-page-motif="lateral"] [data-reveal].is-visible,
+  html.reveal-ready [data-motif="lateral"] [data-reveal].is-visible { transform: translateX(0); }
+
+  /* Resultados: subida com peso */
+  html.reveal-ready[data-page-motif="rise"] [data-reveal],
+  html.reveal-ready [data-motif="rise"] [data-reveal] {
+    transform: translateY(50px);
+    transition-timing-function: var(--ease-settle);
+  }
+  html.reveal-ready[data-page-motif="rise"] [data-reveal].is-visible,
+  html.reveal-ready [data-motif="rise"] [data-reveal].is-visible { transform: translateY(0); }
+
+  /* Autoridade: foco — leve zoom-out + fade */
+  html.reveal-ready[data-page-motif="focus"] [data-reveal],
+  html.reveal-ready [data-motif="focus"] [data-reveal] {
+    transform: scale(1.045);
+    transition-timing-function: var(--ease-settle);
+  }
+  html.reveal-ready[data-page-motif="focus"] [data-reveal].is-visible,
+  html.reveal-ready [data-motif="focus"] [data-reveal].is-visible { transform: scale(1); }
+
+  /* Conversão: cascata com stagger */
+  html.reveal-ready[data-page-motif="cascade"] [data-reveal],
+  html.reveal-ready [data-motif="cascade"] [data-reveal] { transform: translateY(20px); }
+  html.reveal-ready[data-page-motif="cascade"] [data-reveal].is-visible,
+  html.reveal-ready [data-motif="cascade"] [data-reveal].is-visible { transform: translateY(0); }
+  html.reveal-ready[data-page-motif="cascade"] [data-reveal]:nth-child(2),
+  html.reveal-ready [data-motif="cascade"] [data-reveal]:nth-child(2) { transition-delay: 70ms; }
+  html.reveal-ready[data-page-motif="cascade"] [data-reveal]:nth-child(3),
+  html.reveal-ready [data-motif="cascade"] [data-reveal]:nth-child(3) { transition-delay: 140ms; }
+  html.reveal-ready[data-page-motif="cascade"] [data-reveal]:nth-child(4),
+  html.reveal-ready [data-motif="cascade"] [data-reveal]:nth-child(4) { transition-delay: 210ms; }
+  html.reveal-ready[data-page-motif="cascade"] [data-reveal]:nth-child(5),
+  html.reveal-ready [data-motif="cascade"] [data-reveal]:nth-child(5) { transition-delay: 280ms; }
+
+  /* Legal: calmo — apenas opacidade (texto longo não fica instável) */
+  html.reveal-ready[data-page-motif="calm"] [data-reveal],
+  html.reveal-ready [data-motif="calm"] [data-reveal] { transform: none; }
+  html.reveal-ready[data-page-motif="calm"] [data-reveal].is-visible,
+  html.reveal-ready [data-motif="calm"] [data-reveal].is-visible { transform: none; }
+
   .selector-panel-enter { animation: selector-enter 520ms cubic-bezier(.2, .7, .2, 1) both; }
   .selector-product { animation: product-breathe 5.8s ease-in-out 600ms infinite; }
   .technology-product { animation: product-breathe 6.8s ease-in-out infinite; }
   .animate-marquee:hover { animation-play-state: paused; }
+
+  /* Camadas decorativas das primitivas: deriva discreta da aura e varredura
+     de luz no produto ao passar o cursor (apenas transform/opacity). */
+  .page-hero-aura, .cta-section-aura { animation: aura-drift 14s ease-in-out infinite; }
+  .group:hover .product-sweep::before,
+  .group:focus-within .product-sweep::before { animation: product-light 900ms var(--ease-settle) both; }
+}
+
+@keyframes aura-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-3%, 4%, 0) scale(1.06); }
+}
+
+@keyframes product-light {
+  0% { transform: translateX(-160%) rotate(8deg); opacity: 0; }
+  28% { opacity: 1; }
+  100% { transform: translateX(320%) rotate(8deg); opacity: 0; }
 }
 
 @media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
@@ -172,4 +324,21 @@
     transform: none !important;
     transition-duration: .01ms !important;
   }
+
+  a[href^="/contato?canal=whatsapp"] {
+    transition-duration: .01ms !important;
+  }
+
+  /* Camadas decorativas evoluídas: sem animação e sem varredura no reduzido. */
+  .page-hero-aura,
+  .cta-section-aura {
+    animation: none !important;
+    transform: none !important;
+  }
+  .product-sweep::before { animation: none !important; opacity: 0 !important; }
+}
+
+/* Mobile simplifica as camadas decorativas: aura mais discreta e estática. */
+@media (max-width: 767px) {
+  .page-hero-aura, .cta-section-aura { opacity: .4; animation: none; }
 }

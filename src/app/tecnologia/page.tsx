@@ -52,7 +52,7 @@ const glossary = [
 
 export default function TechnologyPage() {
   return (
-    <>
+    <div data-motif="precision">
       <Breadcrumb items={[{ label: "Home", href: "/" }, { label: "A BUMP" }, { label: "Tecnologia" }]} />
 
       <section className="relative overflow-hidden border-y border-line-1 bg-ink-soft">
@@ -67,7 +67,7 @@ export default function TechnologyPage() {
               <Link href="/configurador" className="button-secondary">Montar meu projeto</Link>
             </div>
           </div>
-          <div data-reveal="mask" className="relative min-h-[480px] overflow-hidden border border-line-2 bg-[radial-gradient(circle_at_50%_45%,rgba(211,255,26,.2),transparent_58%)] md:min-h-[650px]">
+          <div data-reveal="mask" className="relative min-h-[480px] overflow-hidden border border-line-2 bg-[radial-gradient(circle_at_50%_45%,rgba(252,243,19,.2),transparent_58%)] md:min-h-[650px]">
             <span className="absolute top-5 left-5 z-10 font-mono text-[9px] tracking-[0.14em] text-accent">BUMP · SISTEMA RECUPERÁVEL</span>
             <span className="pointer-events-none absolute -right-5 -bottom-16 text-[clamp(14rem,30vw,30rem)] leading-none font-black tracking-[-.1em] text-paper/[.025]">20</span>
             <Image src={`${ASSET_BASE}/amortecedoressemfundo/amortecedorpremiumsemfundo.webp`} alt="Amortecedor BUMP Premium com reservatório externo" fill priority sizes="(min-width: 1024px) 58vw, 100vw" className="technology-product object-contain p-8 md:p-16" />
@@ -85,7 +85,7 @@ export default function TechnologyPage() {
 
           <div className="grid gap-8 lg:grid-cols-[1.05fr_.95fr] lg:gap-14">
             <div data-reveal="mask" className="relative min-h-[500px] overflow-hidden border border-line-2 bg-ink-soft lg:sticky lg:top-28 lg:min-h-[680px]">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_42%,rgba(211,255,26,.17),transparent_57%)]" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_42%,rgba(252,243,19,.17),transparent_57%)]" />
               <div className="absolute inset-5 border border-line-1" />
               <Image src={`${ASSET_BASE}/amortecedoressemfundo/amortecedorpremiumsemfundo.webp`} alt="Vista técnica do amortecedor BUMP" fill sizes="(min-width: 1024px) 52vw, 100vw" className="selector-product object-contain p-12 md:p-20" />
               <span className="absolute top-8 left-8 font-mono text-[9px] tracking-[0.12em] text-accent">CENA TÉCNICA · 01 A 04</span>
@@ -153,6 +153,6 @@ export default function TechnologyPage() {
       </section>
 
       <CTASection title="Engenharia feita para o seu chão." description="Conte sobre a picape, carga e rotina. A fábrica transforma essas informações em um ponto de partida técnico." />
-    </>
+    </div>
   );
 }

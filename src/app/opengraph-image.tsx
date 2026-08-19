@@ -63,7 +63,7 @@ export default function OpenGraphImage() {
           width: 12,
           height: "100%",
           display: "flex",
-          background: "#d3ff1a",
+          background: "#fcf313",
         }}
       />
 
@@ -92,9 +92,9 @@ export default function OpenGraphImage() {
             style={{
               display: "flex",
               padding: "7px 12px",
-              border: "1px solid rgba(211,255,26,0.55)",
+              border: "1px solid rgba(252,243,19,0.55)",
               borderRadius: 999,
-              color: "#d3ff1a",
+              color: "#fcf313",
               fontSize: 13,
               fontWeight: 700,
               letterSpacing: 1.4,
@@ -117,7 +117,7 @@ export default function OpenGraphImage() {
           }}
         >
           <div style={{ display: "flex" }}>Conforto que faz</div>
-          <div style={{ display: "flex", color: "#d3ff1a" }}>o corpo</div>
+          <div style={{ display: "flex", color: "#fcf313" }}>o corpo</div>
           <div style={{ display: "flex" }}>chegar inteiro.</div>
         </div>
 
@@ -145,15 +145,15 @@ export default function OpenGraphImage() {
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ display: "flex", color: "#d3ff1a" }}>●</span>
+            <span style={{ display: "flex", color: "#fcf313" }}>●</span>
             13+ anos de fábrica
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ display: "flex", color: "#d3ff1a" }}>●</span>
+            <span style={{ display: "flex", color: "#fcf313" }}>●</span>
             2 anos de garantia
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ display: "flex", color: "#d3ff1a" }}>●</span>
+            <span style={{ display: "flex", color: "#fcf313" }}>●</span>
             Feito no Brasil
           </div>
         </div>

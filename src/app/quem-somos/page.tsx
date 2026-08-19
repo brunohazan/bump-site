@@ -32,7 +32,7 @@ const applications = [
 
 export default function AboutPage() {
   return (
-    <>
+    <div data-motif="focus">
       <Breadcrumb items={[{ label: "Home", href: "/" }, { label: "A BUMP" }, { label: "Quem somos" }]} />
 
       <section className="relative overflow-hidden border-y border-line-1 bg-ink-soft">
@@ -139,6 +139,6 @@ export default function AboutPage() {
       </section>
 
       <CTASection title="Conheça a BUMP pelo seu próximo projeto." description="Escolha a linha ou conte como usa a picape. A conversa técnica começa pelo contexto." secondaryLabel="Ver as linhas" secondaryHref="/linhas" />
-    </>
+    </div>
   );
 }

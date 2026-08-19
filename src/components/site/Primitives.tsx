@@ -20,7 +20,7 @@ export function Breadcrumb({ items }: { items: readonly { label: string; href?: 
   return (
     <>
       <JsonLd data={breadcrumbJsonLd(items)} />
-      <nav aria-label="Navegação estrutural" className="site-container py-5">
+      <nav aria-label="Navegação estrutural" className="breadcrumb site-container py-5">
         <ol className="flex flex-wrap items-center gap-2 font-mono text-xs text-mute-3">
           {items.map((item, index) => (
             <li key={`${item.label}-${index}`} className="flex items-center gap-2">
@@ -36,13 +36,14 @@ export function Breadcrumb({ items }: { items: readonly { label: string; href?: 
 
 export function PageHero({ eyebrow, title, description, children }: { eyebrow: string; title: string; description: string; children?: React.ReactNode }) {
   return (
-    <section className="border-y border-line-1 bg-ink-soft">
-      <div className="site-container py-20 md:py-28">
+    <section className="page-hero border-y border-line-1 bg-ink-soft">
+      <span aria-hidden="true" className="page-hero-aura" />
+      <div className="relative site-container py-20 md:py-28">
         <div className="max-w-4xl">
-          <Eyebrow>{eyebrow}</Eyebrow>
-          <h1 className="text-balance text-[clamp(2.75rem,7vw,7rem)] leading-[0.9] font-black tracking-[-0.055em] uppercase">{title}</h1>
-          <p className="mt-7 max-w-2xl text-base leading-relaxed text-mute-1 md:text-xl">{description}</p>
-          {children && <div className="mt-9 flex flex-wrap gap-3">{children}</div>}
+          <p data-reveal className="mb-4 font-mono text-xs tracking-[0.16em] text-accent uppercase">{eyebrow}</p>
+          <h1 data-reveal data-delay="1" className="text-balance text-[clamp(2.75rem,7vw,7rem)] leading-[0.9] font-black tracking-[-0.055em] uppercase">{title}</h1>
+          <p data-reveal data-delay="2" className="mt-7 max-w-2xl text-base leading-relaxed text-mute-1 md:text-xl">{description}</p>
+          {children && <div data-reveal data-delay="3" className="mt-9 flex flex-wrap gap-3">{children}</div>}
         </div>
       </div>
     </section>
@@ -51,11 +52,12 @@ export function PageHero({ eyebrow, title, description, children }: { eyebrow: s
 
 export function CTASection({ title, description, primaryLabel = "Montar meu amortecedor", primaryHref = "/configurador", secondaryLabel = "Falar com especialista", secondaryHref = "/contato" }: { title: string; description?: string; primaryLabel?: string; primaryHref?: string; secondaryLabel?: string; secondaryHref?: string }) {
   return (
-    <section className="border-t border-line-1 bg-ink-soft">
-      <div className="site-container py-20 text-center md:py-28">
-        <h2 className="mx-auto max-w-4xl text-balance text-[clamp(2rem,5vw,4rem)] leading-tight font-black tracking-[-0.04em]">{title}</h2>
-        {description && <p className="mx-auto mt-5 max-w-2xl text-mute-1">{description}</p>}
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
+    <section className="cta-section border-t border-line-1 bg-ink-soft" data-motif="cascade">
+      <span aria-hidden="true" className="cta-section-aura" />
+      <div className="relative site-container py-20 text-center md:py-28">
+        <h2 data-reveal className="mx-auto max-w-4xl text-balance text-[clamp(2rem,5vw,4rem)] leading-tight font-black tracking-[-0.04em]">{title}</h2>
+        {description && <p data-reveal data-delay="1" className="mx-auto mt-5 max-w-2xl text-mute-1">{description}</p>}
+        <div data-reveal data-delay="2" className="mt-8 flex flex-wrap justify-center gap-3">
           <Link href={primaryHref} className="button-primary">{primaryLabel}</Link>
           <Link href={secondaryHref} className="button-secondary">{secondaryLabel}</Link>
         </div>
@@ -66,13 +68,13 @@ export function CTASection({ title, description, primaryLabel = "Montar meu amor
 
 export function StatsStrip() {
   return (
-    <div className="grid gap-px overflow-hidden rounded-sm border border-line-2 bg-line-2 sm:grid-cols-3">
+    <div className="stats-strip grid gap-px overflow-hidden rounded-sm border border-line-2 bg-line-2 sm:grid-cols-3">
       {[
         ["13+", "anos de fábrica"],
         ["400 mil km", "em um caso real"],
         ["Brasil", "produção própria"],
-      ].map(([value, label]) => (
-        <div key={label} className="bg-ink px-6 py-8 text-center">
+      ].map(([value, label], index) => (
+        <div key={label} data-reveal data-delay={`${index}`} className="stats-strip-cell bg-ink px-6 py-8 text-center">
           <strong className="block text-3xl font-black text-paper">{value}</strong>
           <span className="mt-1 block font-mono text-xs text-mute-2">{label}</span>
         </div>

@@ -21,6 +21,11 @@ scroll nativo, esconder conteúdo ou transformar cada seção em uma animação 
 - `will-change` volta para `auto` fora da área ativa.
 - Desktop e mobile usam a mesma narrativa, com alturas e composição próprias.
 - `?motion=reduce` permanece funcional e oferece `Ativar movimento`.
+- A preferência de movimento reduzido do **sistema** é respeitada por padrão: a Home inicia
+  estática e exibe `Ativar movimento` (opt-in), sem forçar movimento.
+- Reveals globais respeitam `prefers-reduced-motion`; variam o gesto por cluster (`data-motif` no
+  wrapper e/ou `data-page-motif` no `<html>`, derivado do pathname) e são **reversíveis por padrão**
+  (`data-reveal-once` fixa o estado para one-shot).
 - Não exibir os textos “Movimento conceitual · acerto sujeito à validação técnica” ou
   “Movimento reduzido pelo sistema”.
 
@@ -124,12 +129,35 @@ do loop compartilhado.
 ## Movimento reduzido e reativação
 
 - A experiência completa é o padrão aprovado.
+- **Preferência do sistema respeitada por padrão:** no mount de `ImpactJourney`, só se força
+  movimento quando `!(explicitReduced || media.matches)`. Com o sistema em "reduzir", a Home inicia
+  em `data-motion="reduced"`, sem `concept-force-motion`, exibindo `Ativar movimento`.
 - `?motion=reduce` inicia a Home com `data-motion="reduced"`.
 - A jornada fica em `--journey: 0.68` e estágio `control`.
 - Ponte e conectores usam progresso estático `0.72` e alturas compactas.
-- O botão `Ativar movimento` define a preferência forçada para a sessão, restaura alturas e dispara
-  nova medição.
+- O botão `Ativar movimento` (opt-in) define a preferência forçada para a sessão via
+  `concept-force-motion`, restaura alturas e dispara nova medição.
 - O botão desaparece depois da reativação.
+
+### Motivos por cluster (site interno)
+
+Reveals globais herdam o gesto de um wrapper `data-motif` na página ou do `data-page-motif` que o
+`ScrollReveal` grava no `<html>` a partir do pathname — então o CSS aplica o cluster mesmo sem
+wrapper manual:
+
+| Cluster | `data-motif` | Gesto |
+|---|---|---|
+| Produto/Linhas | `compression` | escala + overshoot |
+| Tecnologia | `precision` | varredura `clip-path` + micro-translate |
+| Aplicações | `lateral` | deslize horizontal assimétrico |
+| Resultados | `rise` | subida com peso |
+| Autoridade | `focus` | leve zoom-out + fade |
+| Conversão / CTAs | `cascade` | cascata com stagger |
+| Legal | `calm` | apenas opacidade |
+
+Todos são compositor-only e suprimidos em `prefers-reduced-motion`. Os reveals são **reversíveis por
+padrão** (entram e saem ao cruzar a viewport); `data-reveal-once` fixa o estado após a primeira
+entrada (one-shot), reservado a conteúdos que não devem reanimar.
 
 ## Validação mínima
 
@@ -171,9 +199,9 @@ os invariantes (scroll nativo, sem lib, `will-change` contido, trabalho perto da
 - A fumaça é uma textura de ruído fractal (`feTurbulence`) embutida como `data-URI` — sem asset
   externo, sem biblioteca; o filtro é rasterizado uma vez, nunca animado.
 - O elemento `.sceneSmoke` (aria-hidden) cobre a cena; o movimento é só `opacity` (compositado).
-- Gatilho: um `IntersectionObserver` **dedicado** marca `data-visible` na primeira entrada e faz
-  `unobserve` (**one-shot**). Não usa o observer compartilhado de `[data-reveal]`, que reverte o
-  estado ao sair parcialmente e deixava a névoa "presa".
+- Gatilho: um `IntersectionObserver` **dedicado** alterna `data-visible` (toggle) conforme a cena
+  entra e sai — dissolve ao entrar e volta a adensar ao sair, nos dois sentidos do scroll. Não usa o
+  observer compartilhado de `[data-reveal]`.
 - Variante escura `data-tone="dark"` para seções de fundo claro (ex.: O corpo), onde fumaça clara
   não teria contraste; fica acima do conteúdo (z-index) e dissolve revelando a seção.
 - `prefers-reduced-motion`: mantém um crossfade suave de opacidade (sem parallax/zoom).
@@ -192,6 +220,14 @@ os invariantes (scroll nativo, sem lib, `will-change` contido, trabalho perto da
 - `[data-v3] .truckImage` recebe mais brilho/contraste/saturação e `[data-v3] .truckShade` reduz o
   escurecimento do céu no topo, para um céu/picape mais claros e dramáticos. O gradiente à esquerda
   do `.truckShade` é preservado para manter a legibilidade do H1.
+
+### Divisores cinematográficos (v3)
+
+O componente decorativo `CinematicDivider` (em `ImpactJourney.tsx`) substitui os `barDivider`
+repetidos por seis transições narrativas distintas e **sem texto**: `pressao`, `controle`, `prova`,
+`terreno`, `estabilizacao` e `fechamento`. Cada variante é `aria-hidden`, usa apenas
+transform/opacity/CSS e mantém uma trilha base sempre visível como fallback estático. Sweep e nós
+móveis são desligados no mobile (`max-width: 720px`) e em `prefers-reduced-motion`.
 
 ### Ajustes de layout do v3 (referência rápida)
 

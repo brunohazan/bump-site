@@ -152,7 +152,7 @@ export default function WireframeHomePage() {
             Tamanhos de fonte em <b>px aproximados</b>: o site usa fonte fluida (varia com a largura da
             tela), então mostramos a faixa <b>mínimo–máximo no desktop</b> e, quando muda bastante, o
             valor no celular. Fonte de interface: <b>Montserrat</b>. Cor de destaque: Citrus{" "}
-            <b>#D3FF1A</b> sobre preto.
+            <b>#FCF313</b> sobre preto.
           </div>
           <div className={s.legend}>
             <span className={s.legendItem}>

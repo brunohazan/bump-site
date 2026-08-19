@@ -253,7 +253,8 @@ Refino cinematográfico aprovado, sempre a serviço da narrativa (nunca efeito s
 (100% CSS + observer, sem vídeo/WebGL/biblioteca):
 
 - **Transição esfumaçada de cena:** a imagem/seção emerge de uma fumaça que dissolve, como corte de
-  cena — reforça "mudanças por superfícies contínuas, não cortes secos". Reveal único ao entrar.
+  cena — reforça "mudanças por superfícies contínuas, não cortes secos". Reveal reversível: dissolve
+  ao entrar e volta a adensar ao sair.
 - **Parallax de cena:** as imagens full-bleed deslizam com leve zoom, dando profundidade.
 - **Hero mais dramático:** céu e picape um pouco mais claros e com mais contraste, mantendo a
   legibilidade do H1.
@@ -261,3 +262,27 @@ Refino cinematográfico aprovado, sempre a serviço da narrativa (nunca efeito s
 Detalhes técnicos (gatilhos, fallback, movimento reduzido) em
 [`../project/home-motion-system.md`](../project/home-motion-system.md) e as decisões em
 [`../project/adrs.md`](../project/adrs.md) (ADR-010 e ADR-011).
+
+
+## Atualização 2026-08-19 · Evolução estética global e nova paleta
+
+A linguagem cinematográfica do v3 passa a valer para todo o site, sem tocar em copy, ordem de
+seções, rotas ou estratégia. O gesto que unifica tudo é o do amortecedor: **impacto forte →
+absorção → estabilidade** — traduzido em easings próprios (`--ease-impact`, `--ease-settle`) e nos
+reveals globais.
+
+- **Nova paleta oficial do cliente:** preto `#000000`, amarelo `#fcf313`, branco metal `#f0f1f4`,
+  terreno `#7e5b3c`. Em fundos claros o accent é rebaixado para um amarelo escuro legível.
+- **Cada cluster ganha um gesto próprio** (produto/linhas: compressão; tecnologia: precisão;
+  aplicações: lateral; resultados: subida; autoridade: foco; conversão: cascata; legal: calmo),
+  derivado da rota (`data-page-motif` no `<html>`) ou de um wrapper `data-motif`, evitando o mesmo
+  reveal em tudo. Os reveals são reversíveis por padrão (`data-reveal-once` para one-shot).
+- **Divisores cinematográficos na Home (v3):** as barras repetidas viram transições narrativas
+  distintas e sem texto (pressão, controle, prova, terreno, estabilização, fechamento).
+- **CTAs unificados** entre Home, Header e páginas, com micro-press e o mesmo easing.
+- **WhatsApp flutuante compacta** em zonas de foco (formulário de contato, configurador).
+- **Movimento reduzido do sistema é respeitado por padrão**, mantendo o botão de opt-in
+  "Ativar movimento".
+
+Decisão registrada em [`../project/adrs.md`](../project/adrs.md) (ADR-012, que estende a ADR-011);
+detalhes de motion em [`../project/home-motion-system.md`](../project/home-motion-system.md).

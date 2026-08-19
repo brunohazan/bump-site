@@ -194,3 +194,71 @@ estática onde `animation-timeline` não é suportado; efeitos são suprimidos/a
 reduzido; tudo escopado ao v3, mantendo `/home-v1`, `/homev2` e `/conceito-home` inalterados.
 
 **Data:** 2026-08-18.
+
+## ADR-012 · Evolução estética cinematográfica global e nova paleta do cliente
+
+**Decisão:** estender a linguagem cinematográfica do v3 para todo o site, sobre uma base de tokens
+compartilhados, sem alterar copy, ordem de seções, rotas ou estratégia comercial. Compreende:
+
+- **Nova paleta oficial do cliente** aplicada via tokens em `globals.css`: preto `#000000`,
+  amarelo `#fcf313` (`--color-accent`, antes `#d3ff1a`), branco metal `#f0f1f4` (`--color-paper`,
+  antes `#ffffff`) e terreno `#7e5b3c` (novo `--color-terrain`). Derivados: `--color-accent-soft`
+  reaquecido para `#2a2600` e `--color-accent-rgb: 252 243 19` para `rgba()` arbitrárias. Literais
+  antigos (`#d3ff1a`, `#fef213`, `rgb(211 255 26 / …)`, olivas `#647800`) migrados nas superfícies
+  ativas, incluindo `ImpactJourney.module.css`, páginas, `opengraph-image.tsx` e Header.
+- **Tokens de easing "amortecedor"** (`--ease-impact`, `--ease-settle`, `--dur-impact`,
+  `--dur-settle`) e keyframes `bump-settle`, `bump-rise`, `clip-wipe`, traduzindo o gesto
+  impacto → absorção → estabilidade.
+- **CTAs unificados:** `.button-primary`/`.button-secondary` ganham micro-press (`:active`) sob o
+  mesmo easing; `CTASection` compartilhado passa a revelar com o gesto de conversão, mantendo
+  labels e destinos.
+- **Motor de reveal evoluído** (`ScrollReveal.tsx` + `globals.css`): mantém `data-reveal`/`mask`
+  e o guard de movimento reduzido; adiciona variantes por `data-motif` e reveals **reversíveis por
+  padrão** (entram e saem ao cruzar a viewport). `data-reveal-once` fixa o estado após a primeira
+  entrada (one-shot), reservado a conteúdos que não devem reanimar.
+- **Cluster por pathname:** `ScrollReveal` deriva o cluster da rota e o aplica como
+  `data-page-motif` no `<html>` (limpo no cleanup). O CSS usa o gesto do cluster nos `[data-reveal]`
+  **mesmo sem wrapper manual** `data-motif`; quando os dois coexistem, o wrapper local vence.
+- **Motivos por cluster** (`data-motif` no wrapper e/ou `data-page-motif` no `<html>`): produto/linhas →
+  `compression`; tecnologia → `precision`; aplicações → `lateral`; resultados → `rise`;
+  autoridade → `focus`; conversão (configurador/contato/faq/como-comprar) → `cascade`;
+  legal (política/termos) → `calm`.
+- **Divisores cinematográficos da Home (v3):** o componente decorativo `CinematicDivider` substitui
+  os `barDivider` repetidos por transições narrativas distintas e sem texto
+  (`pressao`/`controle`/`prova`/`terreno`/`estabilizacao`/`fechamento`), usando apenas
+  transform/opacity/CSS com traço base como fallback estático.
+- **Fumaça de cena reversível:** o `sceneSmoke` do v3 passa a alternar `data-visible` no observer
+  (dissolve ao entrar, adensa ao sair), em vez do reveal one-shot que fazia `unobserve`.
+- **Zonas de foco marcadas** com `data-wa-compact` (inclui o CTA final do v3, com formulário), para o
+  WhatsApp flutuante recolher.
+- **Primitivas evoluídas:** `PageHero`, `CTASection`, `Breadcrumb` e `StatsStrip` ganham classes
+  semânticas e camadas decorativas (auras) que variam por cluster; o conteúdo do `PageHero` recebe
+  `data-reveal` sem copy nova e o `CTASection` preserva labels e destinos. Cobertura de reveal
+  moderada em `ProductLineCard`, `FaqList` e páginas antes sem movimento; wrappers de produto
+  recebem luz percorrendo/profundidade discretas. Tudo simplifica no mobile e é estático em
+  `prefers-reduced-motion`.
+- **WhatsApp flutuante compactável:** `WhatsAppFloat` vira client component com `IntersectionObserver`
+  observando zonas `data-wa-compact` (form de contato, configurador); ao entrar na zona, recolhe para
+  ícone preservando `aria-label` e alvo de toque.
+
+**Correção de movimento reduzido (núcleo):** o v3 passa a **respeitar por padrão** a preferência do
+sistema. No mount de `ImpactJourney`, só força movimento quando `!(explicitReduced || media.matches)`.
+Com o sistema em "reduzir", a Home inicia estática (`data-motion="reduced"`) e exibe o opt-in
+"Ativar movimento"; `enableMotion()` e `?motion=reduce` permanecem funcionais. O bloco
+`body.concept-force-motion` dentro de `@media (prefers-reduced-motion: reduce)` serve exclusivamente
+ao opt-in.
+
+**Motivo:** unificar a identidade visual sob a paleta oficial e dar a cada cluster um gesto próprio,
+mantendo continuidade cinematográfica e corrigindo o desrespeito à preferência de movimento do
+sistema apontado após a ADR-011.
+
+**Alternativas:** manter paleta antiga; aplicar o mesmo reveal em todo o site; forçar movimento
+sempre com botão de reduzir (rejeitado por acessibilidade); introduzir biblioteca de animação
+(rejeitado — sem novas dependências).
+
+**Consequências:** todo o movimento continua compositor-only (`transform`/`opacity`/`clip-path`),
+sem scroll-hijack e com scroll nativo; páginas sem `data-reveal` não ganham movimento novo; layouts
+de `/home-v1`, `/homev2` e `/conceito-home` permanecem inalterados, herdando apenas a paleta.
+Referencia e estende a ADR-011.
+
+**Data:** 2026-08-19.

@@ -46,7 +46,7 @@ const evidence = [
 
 export default function ResultsPage() {
   return (
-    <>
+    <div data-motif="rise">
       <Breadcrumb items={[{ label: "Home", href: "/" }, { label: "Resultados" }]} />
 
       <section className="relative min-h-[760px] overflow-hidden border-y border-line-1">
@@ -133,6 +133,6 @@ export default function ResultsPage() {
       </section>
 
       <CTASection title="O próximo resultado começa com o contexto certo." description="Configure veículo, uso e objetivo. A fábrica revisa o ponto de partida antes da produção." />
-    </>
+    </div>
   );
 }

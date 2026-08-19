@@ -15,7 +15,7 @@ export default async function ConfiguratorPage({ searchParams }: ConfiguratorPag
   const read = (value: string | string[] | undefined) => typeof value === "string" ? value : undefined;
 
   return (
-    <>
+    <div data-motif="cascade">
       <Breadcrumb items={[{ label: "Home", href: "/" }, { label: "Monte seu amortecedor" }]} />
       <section className="relative overflow-hidden border-y border-line-1 bg-ink-soft">
         <span className="pointer-events-none absolute -right-8 -bottom-20 text-[clamp(16rem,35vw,38rem)] leading-none font-black tracking-[-.1em] text-paper/[.018]">09</span>
@@ -35,12 +35,12 @@ export default async function ConfiguratorPage({ searchParams }: ConfiguratorPag
         </div>
       </section>
 
-      <section className="section-space bg-ink-soft">
+      <section className="section-space bg-ink-soft" data-wa-compact>
         <div className="site-container">
           <Configurator initial={{ vehicle: read(params.veiculo), line: read(params.linha), usage: read(params.uso) }} />
           <p className="mx-auto mt-6 max-w-3xl text-center font-mono text-[9px] leading-relaxed tracking-[0.06em] text-mute-4">DEMONSTRAÇÃO LOCAL · NENHUM DADO É TRANSMITIDO OU PERSISTIDO · A CONEXÃO REAL DEPENDE DE HARDENING LGPD</p>
         </div>
       </section>
-    </>
+    </div>
   );
 }
