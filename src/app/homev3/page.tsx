@@ -1,13 +1,7 @@
-import type { Metadata } from "next";
-import { ImpactJourney } from "@/components/concept-home/ImpactJourney";
+import { redirect } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "Home v3 (Hero estático)",
-  description: "Versão v3 da Home BUMP: Hero estático com passagem em parallax, para revisão do cliente.",
-  robots: { index: false, follow: false },
-  alternates: { canonical: undefined },
-};
-
+// A v3 agora é a Home oficial em "/". Mantemos a rota antiga redirecionando
+// para não quebrar links já compartilhados e evitar conteúdo duplicado.
 export default function HomeV3Page() {
-  return <ImpactJourney definitive lean v3 />;
+  redirect("/");
 }

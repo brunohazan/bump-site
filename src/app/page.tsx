@@ -9,5 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  return <ImpactJourney definitive />;
+  return <ImpactJourney definitive lean v3 />;
 }
