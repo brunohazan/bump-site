@@ -241,3 +241,23 @@ Não bloqueiam o estado aprovado:
 4. substituir cenários temporários sem alterar a narrativa;
 5. medir LCP e ajustar mídia no domínio final;
 6. considerar vídeo/Canvas/3D somente se houver ganho comprovado e fallback completo.
+
+## Atualização 2026-08-18 · v3 oficial e refino esfumaçado
+
+A partir desta data, a Home oficial em `/` é a **configuração v3** de "Do chão ao corpo": Hero
+estático de estágio único (a picape em parallax, sem barra de progresso), com a mesma narrativa e
+conteúdo. As versões anteriores foram arquivadas (`/home-v1`, `/homev2`, ambas `noindex`) e
+`/homev3` redireciona para `/`.
+
+Refino cinematográfico aprovado, sempre a serviço da narrativa (nunca efeito sem função) e leve
+(100% CSS + observer, sem vídeo/WebGL/biblioteca):
+
+- **Transição esfumaçada de cena:** a imagem/seção emerge de uma fumaça que dissolve, como corte de
+  cena — reforça "mudanças por superfícies contínuas, não cortes secos". Reveal único ao entrar.
+- **Parallax de cena:** as imagens full-bleed deslizam com leve zoom, dando profundidade.
+- **Hero mais dramático:** céu e picape um pouco mais claros e com mais contraste, mantendo a
+  legibilidade do H1.
+
+Detalhes técnicos (gatilhos, fallback, movimento reduzido) em
+[`../project/home-motion-system.md`](../project/home-motion-system.md) e as decisões em
+[`../project/adrs.md`](../project/adrs.md) (ADR-010 e ADR-011).

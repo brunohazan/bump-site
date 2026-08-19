@@ -137,3 +137,57 @@ imagens ou vídeo; criar novas cenas sticky; alterar também a composição mobi
 recebem alturas desktop próprias e exigem smoke em desktop, mobile e `?motion=reduce`.
 
 **Data:** 2026-08-14.
+
+## ADR-010 · v3 promovida a Home oficial em `/`; versões anteriores arquivadas
+
+**Decisão:** `/` passa a servir a experiência **v3** (`<ImpactJourney definitive lean v3 />`),
+indexada e canônica em `/`. A Home anterior (`definitive`) foi arquivada em `/home-v1`
+(`noindex,nofollow`); a v2 (`definitive lean`) permanece em `/homev2` como arquivo
+(`noindex,nofollow`); `/homev3` responde `307 → /` para preservar links compartilhados e evitar
+conteúdo duplicado. Atualiza a ADR-006.
+
+**Motivo:** a v3 foi aprovada pelo cliente como versão final (Hero estático de estágio único,
+passagem em parallax e camada de refino cinematográfico). Evitar duas Homes concorrentes e não
+descartar as versões anteriores.
+
+**Alternativas:** manter `/homev3` como rota separada indexável; excluir as versões anteriores;
+manter a Home `definitive` antiga em `/`.
+
+**Consequências:** `docs/`, `README.md` e `CLAUDE.md` passam a apontar `/` = v3. `/conceito-home`
+segue como preview do conceito completo (`noindex`). O `sitemap` já usava `/`, então não muda; as
+rotas arquivadas ficam fora do sitemap por serem `noindex`. Nenhum link interno apontava para as
+rotas de revisão.
+
+**Data:** 2026-08-18.
+
+## ADR-011 · Camada de refino cinematográfico do v3 (transição esfumaçada, parallax, grade do Hero)
+
+**Decisão:** adicionar, **escopado a `[data-v3="true"]`**, uma camada de refino:
+
+- **Transição esfumaçada de cena:** a imagem/seção emerge de uma fumaça que dissolve. A fumaça é uma
+  textura de ruído fractal (`feTurbulence`) embutida como `data-URI` (sem asset externo, sem
+  biblioteca). O reveal é **one-shot**, disparado por um `IntersectionObserver` dedicado que marca
+  `data-visible` uma vez e não reverte (evita a névoa "presa" ao sair parcialmente). Há uma variante
+  **escura** (`data-tone="dark"`) para seções de fundo claro, onde fumaça clara não teria contraste.
+- **Parallax de cena:** as imagens full-bleed (O uso, CTA final) deslizam com leve zoom via
+  `animation-timeline: view()`, com fallback estático.
+- **Grade do Hero:** brilho/contraste/saturação da imagem do Hero e redução do escurecimento do céu
+  no `.truckShade`, para um céu/picape mais claros e dramáticos, preservando o gradiente à esquerda
+  para legibilidade do H1.
+
+Todo o movimento usa apenas `transform`/`opacity` (compositados). Em `prefers-reduced-motion` o
+reveal vira crossfade suave de opacidade e o parallax é desligado.
+
+**Motivo:** tornar a jornada mais cinematográfica sem peso — sem vídeo, WebGL ou biblioteca de
+scroll — respeitando LCP e os princípios de movimento já documentados.
+
+**Alternativas:** vídeo de fundo ou sprites de fumaça; WebGL/Canvas; bibliotecas de scroll; animar
+o filtro `feTurbulence` (rejeitado por custo de repaint); usar `animation-timeline: view()` também
+para os reveals (rejeitado: suporte não universal — Safari/Firefox variam — por isso os reveals
+usam `IntersectionObserver` e só o parallax usa `animation-timeline`, que degrada para estático).
+
+**Consequências:** reveals funcionam em todos os navegadores; o parallax degrada para imagem
+estática onde `animation-timeline` não é suportado; efeitos são suprimidos/atenuados em movimento
+reduzido; tudo escopado ao v3, mantendo `/home-v1`, `/homev2` e `/conceito-home` inalterados.
+
+**Data:** 2026-08-18.

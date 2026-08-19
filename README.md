@@ -2,9 +2,12 @@
 
 Site institucional da BUMP, construído com Next.js 16, React 19, TypeScript e Tailwind CSS v4.
 
-A Home definitiva em `/` usa a narrativa cinematográfica **“Do chão ao corpo”**: quatro estágios
-de impacto no Hero, uma ponte principal até a seção “O corpo” e conectores progressivos entre os
-demais capítulos. `/conceito-home` preserva a mesma experiência como preview `noindex,nofollow`.
+A Home oficial em `/` é a configuração **v3** da narrativa cinematográfica **“Do chão ao corpo”**:
+Hero estático de estágio único (picape em parallax), ponte principal até a seção “O corpo”,
+conectores entre os capítulos e uma camada de refino cinematográfico (transição esfumaçada de cena,
+parallax nas imagens full-bleed e grade mais dramática do Hero). As versões anteriores foram
+arquivadas em `/home-v1` e `/homev2` (ambas `noindex,nofollow`) e `/homev3` redireciona para `/`.
+`/conceito-home` preserva o conceito completo como preview `noindex,nofollow`.
 
 ## Desenvolvimento
 

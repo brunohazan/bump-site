@@ -159,3 +159,43 @@ Ao criar uma nova seção:
 3. registrar a variante nesta tabela;
 4. manter a ponte Hero → O corpo como o momento de maior intensidade;
 5. medir desktop, mobile e reduced motion antes de publicar.
+
+## Camada de refino cinematográfico (v3, Home oficial em `/`)
+
+Desde 2026-08-18, `/` serve a configuração **v3** (`ImpactJourney definitive lean v3`). Além das
+três camadas acima, o v3 tem uma camada de refino, sempre escopada a `[data-v3="true"]` e mantendo
+os invariantes (scroll nativo, sem lib, `will-change` contido, trabalho perto da viewport).
+
+### Transição esfumaçada de cena (reveal)
+
+- A fumaça é uma textura de ruído fractal (`feTurbulence`) embutida como `data-URI` — sem asset
+  externo, sem biblioteca; o filtro é rasterizado uma vez, nunca animado.
+- O elemento `.sceneSmoke` (aria-hidden) cobre a cena; o movimento é só `opacity` (compositado).
+- Gatilho: um `IntersectionObserver` **dedicado** marca `data-visible` na primeira entrada e faz
+  `unobserve` (**one-shot**). Não usa o observer compartilhado de `[data-reveal]`, que reverte o
+  estado ao sair parcialmente e deixava a névoa "presa".
+- Variante escura `data-tone="dark"` para seções de fundo claro (ex.: O corpo), onde fumaça clara
+  não teria contraste; fica acima do conteúdo (z-index) e dissolve revelando a seção.
+- `prefers-reduced-motion`: mantém um crossfade suave de opacidade (sem parallax/zoom).
+- Por que não `animation-timeline: view()` aqui: o suporte não é universal (Safari/Firefox variam),
+  então o reveal ficava invisível para muitos usuários. `IntersectionObserver` cobre todos.
+
+### Parallax de cena
+
+- As imagens full-bleed (`.useBackground` em O uso e a imagem do `.finalCta`) deslizam com leve zoom
+  conforme a seção cruza a viewport, via `animation-timeline: view()` (só `transform`).
+- Fallback: imagem estática onde `animation-timeline` não é suportado. Desligado em movimento
+  reduzido.
+
+### Grade do Hero
+
+- `[data-v3] .truckImage` recebe mais brilho/contraste/saturação e `[data-v3] .truckShade` reduz o
+  escurecimento do céu no topo, para um céu/picape mais claros e dramáticos. O gradiente à esquerda
+  do `.truckShade` é preservado para manter a legibilidade do H1.
+
+### Ajustes de layout do v3 (referência rápida)
+
+- Seção "Antes e depois na prática": corte transversal (paralelogramo) com laterais diagonais e
+  sobreposição em flex; reafirmado em `prefers-reduced-motion` para não virar retângulo.
+- Autoridade (Cristian): vídeo institucional ao lado do texto (grid de duas colunas no desktop).
+- Marca d'água "CORPO" da seção O corpo com opacidade um pouco maior no v3 (7%).
