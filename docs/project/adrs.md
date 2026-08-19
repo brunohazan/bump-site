@@ -68,6 +68,9 @@ comum; WebGL/3D; bibliotecas externas de scroll.
 
 ## ADR-006 · Home cinematográfica em `/` e preview preservado
 
+> **Status: superada pela ADR-010 (2026-08-18).** A configuração servida em `/` passou a ser a v3;
+> a Home `definitive` original foi arquivada em `/home-v1`. O preview `/conceito-home` permanece.
+
 **Decisão:** servir “Do chão ao corpo” como Home definitiva em `/` e manter `/conceito-home` como
 preview com `noindex,nofollow`.
 
