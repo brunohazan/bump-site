@@ -179,6 +179,16 @@
 
 /* Marca d'água "CORPO" um pouco mais presente no v3 (era quase invisível a 3,5%) */
 [data-v3="true"] .promise::before { color: rgb(0 0 0 / 7%); }
+
+/* Hero mais dramático no v3: céu e picape um pouco mais claros e com mais
+   contraste/saturação. A área do texto continua escura pela camada .truckShade
+   (gradiente à esquerda preservado), então a legibilidade do H1 é mantida. */
+[data-v3="true"] .truckImage { filter: saturate(.72) contrast(1.24) brightness(.86); }
+[data-v3="true"] .truckShade {
+  background:
+    linear-gradient(90deg, #000 0%, rgb(0 0 0 / 68%) 38%, transparent 80%),
+    linear-gradient(0deg, #000 0%, transparent 48%, rgb(0 0 0 / 5%) 100%);
+}
 [data-v3="true"] .leanProof { margin-top: clamp(1.5rem, 3vw, 2.25rem); }
 
 /* Autoridade com vídeo institucional (v3): texto ao lado do vídeo */
