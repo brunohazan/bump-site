@@ -242,14 +242,15 @@
    seção. Reutiliza o observer one-shot (mesma classe .sceneSmoke). */
 .experience .sceneSmoke[data-tone="dark"] {
   z-index: 3;
-  opacity: .62;
+  opacity: .82;
   background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27900%27%20height%3D%27520%27%3E%3Cfilter%20id%3D%27d%27%20x%3D%27-15%25%27%20y%3D%27-15%25%27%20width%3D%27130%25%27%20height%3D%27130%25%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%270.006%200.01%27%20numOctaves%3D%274%27%20seed%3D%277%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20type%3D%27matrix%27%20values%3D%270%200%200%200%200.07%200%200%200%200%200.07%200%200%200%200%200.08%200%200%200%201%200%27%2F%3E%3CfeComponentTransfer%3E%3CfeFuncA%20type%3D%27gamma%27%20amplitude%3D%271.15%27%20exponent%3D%272.4%27%20offset%3D%27-0.06%27%2F%3E%3C%2FfeComponentTransfer%3E%3C%2Ffilter%3E%3Crect%20width%3D%27900%27%20height%3D%27520%27%20filter%3D%27url%28%23d%29%27%2F%3E%3C%2Fsvg%3E") center / cover;
-  -webkit-mask-image: radial-gradient(130% 130% at 50% 46%, #000 46%, transparent 82%);
-          mask-image: radial-gradient(130% 130% at 50% 46%, #000 46%, transparent 82%);
+  -webkit-mask-image: radial-gradient(150% 150% at 50% 50%, #000 66%, transparent 96%);
+          mask-image: radial-gradient(150% 150% at 50% 50%, #000 66%, transparent 96%);
+  transition: opacity 1200ms cubic-bezier(.2, .7, .2, 1) 350ms;
 }
 .experience .sceneSmoke[data-tone="dark"][data-visible] { opacity: 0; }
 @media (prefers-reduced-motion: reduce) {
-  .experience .sceneSmoke[data-tone="dark"] { opacity: .55; }
+  .experience .sceneSmoke[data-tone="dark"] { opacity: .7; transition: opacity 900ms ease 250ms; }
   .experience .sceneSmoke[data-tone="dark"][data-visible] { opacity: 0; }
 }
 
