@@ -20,7 +20,7 @@ scroll nativo, esconder conteúdo ou transformar cada seção em uma animação 
 - Observers ativam composição somente perto da viewport.
 - `will-change` volta para `auto` fora da área ativa.
 - Desktop e mobile usam a mesma narrativa, com alturas e composição próprias.
-- `?motion=reduce` permanece funcional e oferece `Ativar movimento`.
+- `?motion=reduce` permanece funcional como opt-out por URL, sem botão na interface.
 - O movimento completo é nativo em **qualquer sistema ou navegador**: a preferência de movimento
   reduzido do sistema não é consultada. A única redução é o opt-out explícito `?motion=reduce`
   (ADR-013).
@@ -137,9 +137,7 @@ do loop compartilhado.
 - `?motion=reduce` inicia a Home com `data-motion="reduced"`.
 - A jornada fica em `--journey: 0.68` e estágio `control`.
 - Ponte e conectores usam progresso estático `0.72` e alturas compactas.
-- O botão `Ativar movimento` (opt-in) define a preferência forçada para a sessão via
-  `concept-force-motion`, restaura alturas e dispara nova medição.
-- O botão desaparece depois da reativação.
+- Não existe botão de opt-in: para voltar ao movimento, basta remover `?motion=reduce` da URL.
 
 ### Motivos por cluster (site interno)
 

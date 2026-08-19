@@ -278,12 +278,16 @@ Implementação:
   tinha regra de desligamento equivalente).
 - `ImpactJourney`, `ScrollReveal` e `Configurator` leem o mesmo sinal: `prefersReduced()` depende
   apenas de `explicitReduced`, sem `matchMedia`.
-- Com `?motion=reduce`, a Home continua estática (`data-motion="reduced"`), o botão
-  `Ativar movimento` continua aparecendo e `body.concept-force-motion` continua restaurando a cena.
+- **Sem botão de opt-in na interface:** o botão `Ativar movimento` foi removido, junto com
+  `enableMotion()`, `forceMotionRef`, a classe `body.concept-force-motion`, o atributo
+  `data-force-motion` e todo o CSS que só existia para restaurar a cena depois do clique.
+- Com `?motion=reduce`, a Home continua estática (`data-motion="reduced"`), agora sem botão: para
+  voltar ao movimento basta remover o parâmetro da URL.
 
 **Motivo:** pedido do cliente. Em máquinas Windows com animações desligadas no sistema (e em perfis
 de navegador que reportam redução), a Home aparecia estática com o botão `Ativar movimento`, o que
-foi lido como defeito: a experiência aprovada não estava sendo mostrada.
+foi lido como defeito: a experiência aprovada não estava sendo mostrada. O cliente pediu, em
+seguida, que o botão saísse de vez e que o movimento fosse ativo sempre e para todos.
 
 **Alternativas:** manter o respeito automático à preferência do sistema (rejeitado pelo cliente);
 inverter para "movimento sempre, com botão de reduzir" na interface (rejeitado por poluir a Home);

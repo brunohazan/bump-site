@@ -208,7 +208,7 @@ estático:
 - ponte e conectores em progresso intermediário;
 - alturas reduzidas;
 - conteúdo e CTAs completos;
-- botão `Ativar movimento` para restaurar a experiência.
+- sem botão de opt-in: remover o parâmetro da URL devolve o movimento.
 
 A versão reduzida não exibe textos explicativos sobre preferência de movimento.
 
@@ -284,7 +284,7 @@ reveals globais.
 - **CTAs unificados** entre Home, Header e páginas, com micro-press e o mesmo easing.
 - **WhatsApp flutuante compacta** em zonas de foco (formulário de contato, configurador).
 - **Movimento completo é nativo em qualquer sistema ou navegador**; a redução acontece somente com
-  `?motion=reduce`, que mantém o botão "Ativar movimento" (ADR-013).
+  `?motion=reduce`, sem botão de opt-in na interface (ADR-013).
 
 Decisão registrada em [`../project/adrs.md`](../project/adrs.md) (ADR-013 e ADR-012, que estende a ADR-011);
 detalhes de motion em [`../project/home-motion-system.md`](../project/home-motion-system.md).

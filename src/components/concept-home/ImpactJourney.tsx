@@ -189,7 +189,6 @@ export function ImpactJourney({ definitive = false, lean = false, v3 = false }: 
   const frameRef = useRef<number | null>(null);
   const bridgeFrameRef = useRef<number | null>(null);
   const flowFrameRef = useRef<number | null>(null);
-  const forceMotionRef = useRef(false);
   const [motionReduced, setMotionReduced] = useState(false);
   const [useId, setUseId] = useState<(typeof useCases)[number]["id"]>(useCases[0].id);
   const [lineIndex, setLineIndex] = useState(0);
@@ -198,14 +197,6 @@ export function ImpactJourney({ definitive = false, lean = false, v3 = false }: 
   const sc = (text: string) => (lean ? text.replace(/^\d+\s*·\s*/, "") : text);
   const useLine = getProductLine(useCase.line)!;
   const activeLine = productLines[lineIndex];
-
-  const enableMotion = () => {
-    forceMotionRef.current = true;
-    document.body.classList.add("concept-force-motion");
-    journeyRef.current?.setAttribute("data-force-motion", "true");
-    setMotionReduced(false);
-    window.dispatchEvent(new Event("resize"));
-  };
 
   useEffect(() => {
     const body = document.body;
@@ -216,17 +207,11 @@ export function ImpactJourney({ definitive = false, lean = false, v3 = false }: 
     if (definitive) body.classList.add("concept-definitive");
     if (lean) body.classList.add("concept-lean");
 
+    // A experiência cinematográfica é o padrão em qualquer sistema ou navegador,
+    // sem opt-in na interface. A única redução é o opt-out explícito por URL.
     const explicitReduced = new URLSearchParams(window.location.search).get("motion") === "reduce";
-    // A experiência cinematográfica é o padrão em qualquer sistema ou navegador.
-    // A única forma de reduzir é o opt-out explícito ?motion=reduce, que aí sim
-    // inicia estático e exibe o opt-in "Ativar movimento".
-    if (!explicitReduced) {
-      forceMotionRef.current = true;
-      body.classList.add("concept-force-motion");
-      journey.setAttribute("data-force-motion", "true");
-    }
 
-    const prefersReduced = () => !forceMotionRef.current && explicitReduced;
+    const prefersReduced = () => explicitReduced;
     let currentProgress = 0;
     let targetProgress = 0;
     let previousTime = performance.now();
@@ -339,7 +324,7 @@ export function ImpactJourney({ definitive = false, lean = false, v3 = false }: 
     window.addEventListener("resize", requestUpdate);
 
     return () => {
-      body.classList.remove("concept-mode", "concept-definitive", "concept-force-motion", "concept-lean");
+      body.classList.remove("concept-mode", "concept-definitive", "concept-lean");
       window.removeEventListener("scroll", requestUpdate);
       window.removeEventListener("resize", requestUpdate);
       journeyObserver.disconnect();
@@ -355,7 +340,7 @@ export function ImpactJourney({ definitive = false, lean = false, v3 = false }: 
     if (!bridge) return;
 
     const explicitReduced = new URLSearchParams(window.location.search).get("motion") === "reduce";
-    const prefersReduced = () => !forceMotionRef.current && explicitReduced;
+    const prefersReduced = () => explicitReduced;
     let currentProgress = 0;
     let targetProgress = 0;
     let previousTime = performance.now();
@@ -461,7 +446,7 @@ export function ImpactJourney({ definitive = false, lean = false, v3 = false }: 
     if (!connectors.length) return;
 
     const explicitReduced = new URLSearchParams(window.location.search).get("motion") === "reduce";
-    const prefersReduced = () => !forceMotionRef.current && explicitReduced;
+    const prefersReduced = () => explicitReduced;
     const states = new Map(connectors.map((node) => {
       const pickupPath = node.querySelector<SVGPathElement>("[data-road-path]");
       return [node, {
@@ -686,11 +671,10 @@ export function ImpactJourney({ definitive = false, lean = false, v3 = false }: 
   }, []);
 
   return <div className={styles.experience} data-motion={motionReduced ? "reduced" : "full"} data-lean={lean ? "true" : undefined} data-v3={v3 ? "true" : undefined}>
-    {definitive && motionReduced && <button type="button" className={styles.motionToggleStandalone} onClick={enableMotion}>Ativar movimento</button>}
     {!definitive && <header className={styles.topbar}>
       <Link href="/" className={styles.brand} aria-label="BUMP Amortecedores"><Image src="/brand/bump-logo.png" alt="" width={180} height={53} priority className={styles.brandLogo}/></Link>
       <nav className={styles.miniNav}><a href="#rotina">Rotina</a><a href="#engenharia">Engenharia</a><a href="#linhas">Linhas</a><a href="#resultados">400 mil km</a></nav>
-      <div className={styles.topActions}>{motionReduced && <button type="button" className={styles.motionToggle} onClick={enableMotion}>Ativar movimento</button>}<Link href="/" className={styles.exit}>Sair ↗</Link></div>
+      <div className={styles.topActions}><Link href="/" className={styles.exit}>Sair ↗</Link></div>
     </header>}
 
     <section ref={journeyRef} className={styles.journey} data-stage="hero">
