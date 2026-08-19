@@ -78,7 +78,7 @@ export function Configurator({ initial }: { initial: { vehicle?: string; line?: 
     setError("");
     requestAnimationFrame(() => {
       document.getElementById("configurator-panel")?.scrollIntoView({
-        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+        behavior: document.documentElement.dataset.motion === "reduce" ? "auto" : "smooth",
         block: "start",
       });
     });

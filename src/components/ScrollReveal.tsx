@@ -41,10 +41,16 @@ export function ScrollReveal() {
     if (motif) root.dataset.pageMotif = motif;
     else delete root.dataset.pageMotif;
 
-    const elements = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // Reduzir movimento é opt-out explícito por URL (?motion=reduce), nunca a
+    // preferência do sistema: os efeitos são nativos em qualquer computador.
+    // Revalida a cada navegação de rota, já que o script inicial só roda no load.
+    const motionReduced = new URLSearchParams(window.location.search).get("motion") === "reduce";
+    if (motionReduced) root.dataset.motion = "reduce";
+    else delete root.dataset.motion;
 
-    if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+    const elements = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+
+    if (motionReduced || !("IntersectionObserver" in window)) {
       root.classList.remove("reveal-ready");
       elements.forEach((element) => element.classList.add("is-visible"));
       // Limpa o dataset no cleanup mesmo no caminho estático.

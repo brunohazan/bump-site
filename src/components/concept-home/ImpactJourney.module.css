@@ -111,7 +111,7 @@
 /* Divisor cinematográfico (v3): substitui os barDivider repetidos por
    transições narrativas distintas, sem texto. A trilha base fica sempre
    visível (fallback estático); sweep e nós só enriquecem. Todo o movimento é
-   transform/opacity e é desligado em mobile e prefers-reduced-motion. */
+   transform/opacity e é desligado em mobile e com ?motion=reduce. */
 .cinematicDivider {
   position: relative;
   z-index: 4;
@@ -205,13 +205,13 @@
 .cinematicDivider[data-variant="fechamento"]::before { left: 0; background: linear-gradient(90deg, #000, transparent); }
 .cinematicDivider[data-variant="fechamento"]::after { right: 0; background: linear-gradient(270deg, #000, transparent); }
 
-@media (min-width: 721px) and (prefers-reduced-motion: no-preference) {
-  .cinematicDivider[data-variant="pressao"] .cinematicNodes i { animation: cdPressao 3.6s var(--ease-settle, ease-in-out) infinite; }
-  .cinematicDivider[data-variant="controle"] .cinematicSweep { animation: cdControle 4.2s var(--ease-settle, ease-in-out) infinite; }
-  .cinematicDivider[data-variant="prova"] .cinematicNodes i:nth-child(3) { animation: cdProva 2.8s var(--ease-impact, ease-out) infinite; }
-  .cinematicDivider[data-variant="terreno"] .cinematicSweep { height: 22px; opacity: 0; animation: cdTerreno 5.5s linear infinite; }
-  .cinematicDivider[data-variant="estabilizacao"] .cinematicNodes i { animation: cdSettle 3.4s var(--ease-settle, ease-in-out) infinite; }
-  .cinematicDivider[data-variant="fechamento"] .cinematicTrack { animation: cdFechar 4.6s ease-in-out infinite; }
+@media (min-width: 721px) {
+  html:not([data-motion="reduce"]) .cinematicDivider[data-variant="pressao"] .cinematicNodes i { animation: cdPressao 3.6s var(--ease-settle, ease-in-out) infinite; }
+  html:not([data-motion="reduce"]) .cinematicDivider[data-variant="controle"] .cinematicSweep { animation: cdControle 4.2s var(--ease-settle, ease-in-out) infinite; }
+  html:not([data-motion="reduce"]) .cinematicDivider[data-variant="prova"] .cinematicNodes i:nth-child(3) { animation: cdProva 2.8s var(--ease-impact, ease-out) infinite; }
+  html:not([data-motion="reduce"]) .cinematicDivider[data-variant="terreno"] .cinematicSweep { height: 22px; opacity: 0; animation: cdTerreno 5.5s linear infinite; }
+  html:not([data-motion="reduce"]) .cinematicDivider[data-variant="estabilizacao"] .cinematicNodes i { animation: cdSettle 3.4s var(--ease-settle, ease-in-out) infinite; }
+  html:not([data-motion="reduce"]) .cinematicDivider[data-variant="fechamento"] .cinematicTrack { animation: cdFechar 4.6s ease-in-out infinite; }
 }
 
 @keyframes cdPressao {
@@ -277,12 +277,10 @@
   .practiceCard + .practiceCard { margin-left: calc(-1 * (var(--cut) - var(--seam))); }
 }
 
-/* O reset global de reveal em prefers-reduced-motion zera clip-path para limpar
+/* O reset global de reveal em ?motion=reduce zera clip-path para limpar
    reveals do tipo "mask". O corte diagonal destes cards é estrutural (não é reveal),
    então reafirmamos aqui com especificidade maior para não virar retângulo. */
-@media (prefers-reduced-motion: reduce) {
-  .practiceGrid .practiceCard { clip-path: polygon(var(--cut) 0, 100% 0, calc(100% - var(--cut)) 100%, 0 100%) !important; }
-}
+html[data-motion="reduce"] .practiceGrid .practiceCard { clip-path: polygon(var(--cut) 0, 100% 0, calc(100% - var(--cut)) 100%, 0 100%) !important; }
 
 /* Amarelo da logo em fundos CLAROS (v3): tom escuro legível (substitui o verde-oliva) */
 [data-v3="true"] .promise .sectionCode,
@@ -339,7 +337,7 @@
    que funciona em TODOS os navegadores, inclusive Safari — diferente de
    animation-timeline. O efeito é um crossfade só de opacidade (sem
    parallax/zoom), então continua visível e suave também em
-   prefers-reduced-motion. Fica acima da imagem e abaixo do texto (z-index
+   ?motion=reduce. Fica acima da imagem e abaixo do texto (z-index
    1 < .finalCopy z-index 2): a leitura nunca é bloqueada. Textura de ruído
    fractal embutida (data-URI), sem asset/lib. */
 .sceneSmoke {
@@ -356,10 +354,8 @@
   transition: opacity 1000ms cubic-bezier(.2, .7, .2, 1);
 }
 .experience .sceneSmoke[data-visible] { opacity: 0; }
-@media (prefers-reduced-motion: reduce) {
-  .experience .sceneSmoke { opacity: .5; transition: opacity 800ms ease; }
-  .experience .sceneSmoke[data-visible] { opacity: 0; }
-}
+html[data-motion="reduce"] .experience .sceneSmoke { opacity: .5; transition: opacity 800ms ease; }
+html[data-motion="reduce"] .experience .sceneSmoke[data-visible] { opacity: 0; }
 
 /* Variante escura da fumaça (v3) — para seções de fundo CLARO (ex.: O corpo),
    onde fumaça branca sumiria. Fica acima do conteúdo e dissolve revelando a
@@ -373,25 +369,21 @@
   transition: opacity 1200ms cubic-bezier(.2, .7, .2, 1) 350ms;
 }
 .experience .sceneSmoke[data-tone="dark"][data-visible] { opacity: 0; }
-@media (prefers-reduced-motion: reduce) {
-  .experience .sceneSmoke[data-tone="dark"] { opacity: .7; transition: opacity 900ms ease 250ms; }
-  .experience .sceneSmoke[data-tone="dark"][data-visible] { opacity: 0; }
-}
+html[data-motion="reduce"] .experience .sceneSmoke[data-tone="dark"] { opacity: .7; transition: opacity 900ms ease 250ms; }
+html[data-motion="reduce"] .experience .sceneSmoke[data-tone="dark"][data-visible] { opacity: 0; }
 
 /* Parallax de cena (v3) — as imagens full-bleed deslizam com leve zoom
    conforme a seção cruza a viewport, dando profundidade de cinema. Amarrado
    ao scroll (animation-timeline: view()); só transform (composited, leve).
-   Fallback: imagem estática. Desligado em prefers-reduced-motion (é movimento).
+   Fallback: imagem estática. Desligado com ?motion=reduce (é movimento).
    Escopado ao v3 e às cenas full-bleed (O uso e CTA final). */
 @supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    [data-v3="true"] .useBackground,
-    [data-v3="true"] .finalCta > img {
-      animation: sceneParallax linear both;
-      animation-timeline: view();
-      animation-range: cover;
-      will-change: transform;
-    }
+  html:not([data-motion="reduce"]) [data-v3="true"] .useBackground,
+  html:not([data-motion="reduce"]) [data-v3="true"] .finalCta > img {
+    animation: sceneParallax linear both;
+    animation-timeline: view();
+    animation-range: cover;
+    will-change: transform;
   }
 }
 @keyframes sceneParallax {
@@ -866,15 +858,13 @@
 .outlineAction:active,
 .finalSecondaryAction:active { transform: translateY(0) scale(.98); transition-duration: 90ms; }
 
-@media (prefers-reduced-motion: reduce) {
-  .primaryAction,
-  .heroSecondaryAction,
-  .darkAction,
-  .outlineAction,
-  .finalSecondaryAction {
-    transform: none !important;
-    transition-duration: .01ms !important;
-  }
+html[data-motion="reduce"] .primaryAction,
+html[data-motion="reduce"] .heroSecondaryAction,
+html[data-motion="reduce"] .darkAction,
+html[data-motion="reduce"] .outlineAction,
+html[data-motion="reduce"] .finalSecondaryAction {
+  transform: none !important;
+  transition-duration: .01ms !important;
 }
 
 .primaryAction {
@@ -1603,73 +1593,74 @@
   .pending { grid-template-columns: 1fr; gap: 1rem; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .journey { min-height: auto; }
-  .sticky {
-    position: relative;
-    height: auto;
-    min-height: 100svh;
-    padding: 7rem 1.25rem 4rem;
-    overflow: hidden;
-  }
-
-  .truckLayer {
-    position: absolute;
-    opacity: .28;
-    transform: none;
-  }
-
-  .terrain {
-    right: -30%;
-    bottom: 4%;
-    width: 170%;
-    transform: none;
-  }
-
-  .productStage {
-    position: relative;
-    top: auto;
-    right: auto;
-    width: min(90vw, 680px);
-    height: 52vh;
-    min-height: 360px;
-    margin: 3rem auto 0;
-    opacity: 1;
-    transform: none;
-  }
-
-  .productImage { transform: none; }
-  .energyPath, .impactPulse, .stageRail, .progress { display: none; }
-
-  .chapters {
-    position: relative;
-    z-index: 35;
-    display: grid;
-    gap: 1rem;
-    margin-top: 2rem;
-  }
-
-  .chapter {
-    position: relative;
-    inset: auto;
-    width: auto;
-    padding: 1.5rem;
-    border: 1px solid rgb(255 255 255 / 18%);
-    background: rgb(0 0 0 / 66%);
-    opacity: 1;
-    transform: none;
-  }
-
-  .chapter h1,
-  .chapter[data-key="terrain"] h1,
-  .chapter[data-key="compression"] h1,
-  .chapter[data-key="control"] h1 {
-    max-width: 16ch;
-    font-size: clamp(2rem, 8vw, 4rem);
-  }
-
-  .heroActions { align-items: flex-start; }
+html[data-motion="reduce"] .journey { min-height: auto; }
+html[data-motion="reduce"] .sticky {
+  position: relative;
+  height: auto;
+  min-height: 100svh;
+  padding: 7rem 1.25rem 4rem;
+  overflow: hidden;
 }
+
+html[data-motion="reduce"] .truckLayer {
+  position: absolute;
+  opacity: .28;
+  transform: none;
+}
+
+html[data-motion="reduce"] .terrain {
+  right: -30%;
+  bottom: 4%;
+  width: 170%;
+  transform: none;
+}
+
+html[data-motion="reduce"] .productStage {
+  position: relative;
+  top: auto;
+  right: auto;
+  width: min(90vw, 680px);
+  height: 52vh;
+  min-height: 360px;
+  margin: 3rem auto 0;
+  opacity: 1;
+  transform: none;
+}
+
+html[data-motion="reduce"] .productImage { transform: none; }
+html[data-motion="reduce"] .energyPath,
+html[data-motion="reduce"] .impactPulse,
+html[data-motion="reduce"] .stageRail,
+html[data-motion="reduce"] .progress { display: none; }
+
+html[data-motion="reduce"] .chapters {
+  position: relative;
+  z-index: 35;
+  display: grid;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+html[data-motion="reduce"] .chapter {
+  position: relative;
+  inset: auto;
+  width: auto;
+  padding: 1.5rem;
+  border: 1px solid rgb(255 255 255 / 18%);
+  background: rgb(0 0 0 / 66%);
+  opacity: 1;
+  transform: none;
+}
+
+html[data-motion="reduce"] .chapter h1,
+html[data-motion="reduce"] .chapter[data-key="terrain"] h1,
+html[data-motion="reduce"] .chapter[data-key="compression"] h1,
+html[data-motion="reduce"] .chapter[data-key="control"] h1 {
+  max-width: 16ch;
+  font-size: clamp(2rem, 8vw, 4rem);
+}
+
+html[data-motion="reduce"] .heroActions { align-items: flex-start; }
 
 
 /* Complete home chapters · v0.2 */
@@ -1740,9 +1731,15 @@
   .faq{padding-inline:1.25rem}.faqList summary{grid-template-columns:2rem 1fr auto}.faqList details p{padding-left:3rem}.faqActions{flex-direction:column}.conceptFooter{grid-template-columns:1fr auto}.conceptFooter span{display:none}
 }
 
-@media(prefers-reduced-motion:reduce){
-  .experience [data-reveal]{opacity:1;transform:none;transition:none}.marquee>div,.fluid,.useScene,.lineProduct img{animation:none!important}.useProduct img,.engineeringVisual img{transform:none}.engineeringVisual{position:relative}.finalCta{min-height:760px}
-}
+html[data-motion="reduce"] .experience [data-reveal] { opacity: 1; transform: none; transition: none; }
+html[data-motion="reduce"] .marquee > div,
+html[data-motion="reduce"] .fluid,
+html[data-motion="reduce"] .useScene,
+html[data-motion="reduce"] .lineProduct img { animation: none !important; }
+html[data-motion="reduce"] .useProduct img,
+html[data-motion="reduce"] .engineeringVisual img { transform: none; }
+html[data-motion="reduce"] .engineeringVisual { position: relative; }
+html[data-motion="reduce"] .finalCta { min-height: 760px; }
 
 
 /* Photographic fine-tuning · existing BUMP-hosted application scenes */
@@ -1791,97 +1788,94 @@
   .authorityGrid article { min-height: 480px; background-position: 58% center; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .promise::after, .durability::before, .authorityGrid article { background-attachment: scroll; }
-}
+html[data-motion="reduce"] .promise::after,
+html[data-motion="reduce"] .durability::before,
+html[data-motion="reduce"] .authorityGrid article { background-attachment: scroll; }
 
 
-/* Explicit motion opt-in for browsers/OSes reporting reduced motion */
+/* Opt-in explícito de movimento quando a página roda em ?motion=reduce */
 .topActions { justify-self: end; display: flex; align-items: center; gap: .9rem; }
 .motionToggle, .motionToggleStandalone { min-height: 34px; padding: .55rem .8rem; border: 1px solid var(--citrus); background: var(--citrus); color: #000; font-size: .58rem; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
 .motionToggleStandalone { position: fixed; z-index: 95; top: 82px; right: 4vw; }
 
-@media (prefers-reduced-motion: reduce) {
-  :global(body.concept-force-motion) .journey { min-height: 410svh; }
-  :global(body.concept-force-motion) .sticky { position: sticky; top: 0; height: 100svh; min-height: 620px; padding: 0; overflow: hidden; }
-  :global(body.concept-force-motion) .truckLayer { position: absolute; opacity: clamp(.08, calc(1 - var(--journey) * 1.45), 1); transform: translate3d(calc(var(--journey) * -8vw), 0, 0) scale(calc(1 + var(--journey) * .18)); }
-  :global(body.concept-force-motion) .terrain { right: -15vw; bottom: -2vh; width: 130vw; transform: translate3d(calc(var(--journey) * -24vw), calc(var(--journey) * -5vh), 0) scaleY(calc(1 + var(--journey) * .4)); }
-  :global(body.concept-force-motion) .productStage { position: absolute; top: 9vh; right: 5vw; width: min(49vw, 720px); height: 84vh; min-height: 0; margin: 0; opacity: clamp(0, calc((var(--journey) - .36) * 5.4), 1); transform: translate3d(calc((1 - var(--journey)) * 18vw), calc((.55 - var(--journey)) * 12vh), 0) rotate(calc(10deg - var(--journey) * 13deg)) scale(calc(.78 + var(--journey) * .24)); }
-  :global(body.concept-force-motion) .productImage { transform: scaleY(clamp(.82, calc(1 - (var(--journey) - .56) * .35), 1)); }
-  :global(body.concept-force-motion) .energyPath { display: block; }
-  :global(body.concept-force-motion) .impactPulse { display: block; }
-  :global(body.concept-force-motion) .stageRail { display: flex; }
-  :global(body.concept-force-motion) .progress { display: block; }
-  :global(body.concept-force-motion) .chapters { position: absolute; display: block; inset: 0; margin: 0; }
-  :global(body.concept-force-motion) .chapter { position: absolute; left: 13vw; right: auto; bottom: 10vh; width: min(50rem, 58vw); padding: 0; border: 0; background: transparent; opacity: 0; transform: translateY(28px); }
-  :global(body.concept-force-motion) .journey[data-stage="hero"] .chapter[data-key="hero"],
-  :global(body.concept-force-motion) .journey[data-stage="terrain"] .chapter[data-key="terrain"],
-  :global(body.concept-force-motion) .journey[data-stage="compression"] .chapter[data-key="compression"],
-  :global(body.concept-force-motion) .journey[data-stage="control"] .chapter[data-key="control"] { opacity: 1; transform: none; }
-  :global(body.concept-force-motion) .chapter h1,
-  :global(body.concept-force-motion) .chapter[data-key="terrain"] h1,
-  :global(body.concept-force-motion) .chapter[data-key="compression"] h1,
-  :global(body.concept-force-motion) .chapter[data-key="control"] h1 { max-width: 12ch; font-size: clamp(2.9rem, 5.7vw, 6.8rem); }
-  :global(body.concept-force-motion) .chapter[data-key="hero"] h1 { font-size: clamp(3.2rem, 6.4vw, 7.8rem); }
-  :global(body.concept-force-motion) .heroActions { align-items: center; }
-  :global(body.concept-force-motion) .experience [data-reveal] { opacity: 0 !important; transform: translateY(50px) !important; transition: opacity .7s ease, transform .9s cubic-bezier(.2,.7,.2,1) !important; }
-  :global(body.concept-force-motion) .experience [data-reveal][data-visible] { opacity: 1 !important; transform: none !important; }
-  :global(body.concept-force-motion) .marquee > div { animation: brandMove 28s linear infinite !important; }
-  :global(body.concept-force-motion) .fluid { animation: spin 18s linear infinite !important; }
+html[data-motion="reduce"] :global(body.concept-force-motion) .journey { min-height: 410svh; }
+html[data-motion="reduce"] :global(body.concept-force-motion) .sticky { position: sticky; top: 0; height: 100svh; min-height: 620px; padding: 0; overflow: hidden; }
+html[data-motion="reduce"] :global(body.concept-force-motion) .truckLayer { position: absolute; opacity: clamp(.08, calc(1 - var(--journey) * 1.45), 1); transform: translate3d(calc(var(--journey) * -8vw), 0, 0) scale(calc(1 + var(--journey) * .18)); }
+html[data-motion="reduce"] :global(body.concept-force-motion) .terrain { right: -15vw; bottom: -2vh; width: 130vw; transform: translate3d(calc(var(--journey) * -24vw), calc(var(--journey) * -5vh), 0) scaleY(calc(1 + var(--journey) * .4)); }
+html[data-motion="reduce"] :global(body.concept-force-motion) .productStage { position: absolute; top: 9vh; right: 5vw; width: min(49vw, 720px); height: 84vh; min-height: 0; margin: 0; opacity: clamp(0, calc((var(--journey) - .36) * 5.4), 1); transform: translate3d(calc((1 - var(--journey)) * 18vw), calc((.55 - var(--journey)) * 12vh), 0) rotate(calc(10deg - var(--journey) * 13deg)) scale(calc(.78 + var(--journey) * .24)); }
+html[data-motion="reduce"] :global(body.concept-force-motion) .productImage { transform: scaleY(clamp(.82, calc(1 - (var(--journey) - .56) * .35), 1)); }
+html[data-motion="reduce"] :global(body.concept-force-motion) .energyPath { display: block; }
+html[data-motion="reduce"] :global(body.concept-force-motion) .impactPulse { display: block; }
+html[data-motion="reduce"] :global(body.concept-force-motion) .stageRail { display: flex; }
+html[data-motion="reduce"] :global(body.concept-force-motion) .progress { display: block; }
+html[data-motion="reduce"] :global(body.concept-force-motion) .chapters { position: absolute; display: block; inset: 0; margin: 0; }
+html[data-motion="reduce"] :global(body.concept-force-motion) .chapter { position: absolute; left: 13vw; right: auto; bottom: 10vh; width: min(50rem, 58vw); padding: 0; border: 0; background: transparent; opacity: 0; transform: translateY(28px); }
+html[data-motion="reduce"] :global(body.concept-force-motion) .journey[data-stage="hero"] .chapter[data-key="hero"],
+html[data-motion="reduce"] :global(body.concept-force-motion) .journey[data-stage="terrain"] .chapter[data-key="terrain"],
+html[data-motion="reduce"] :global(body.concept-force-motion) .journey[data-stage="compression"] .chapter[data-key="compression"],
+html[data-motion="reduce"] :global(body.concept-force-motion) .journey[data-stage="control"] .chapter[data-key="control"] { opacity: 1; transform: none; }
+html[data-motion="reduce"] :global(body.concept-force-motion) .chapter h1,
+html[data-motion="reduce"] :global(body.concept-force-motion) .chapter[data-key="terrain"] h1,
+html[data-motion="reduce"] :global(body.concept-force-motion) .chapter[data-key="compression"] h1,
+html[data-motion="reduce"] :global(body.concept-force-motion) .chapter[data-key="control"] h1 { max-width: 12ch; font-size: clamp(2.9rem, 5.7vw, 6.8rem); }
+html[data-motion="reduce"] :global(body.concept-force-motion) .chapter[data-key="hero"] h1 { font-size: clamp(3.2rem, 6.4vw, 7.8rem); }
+html[data-motion="reduce"] :global(body.concept-force-motion) .heroActions { align-items: center; }
+html[data-motion="reduce"] :global(body.concept-force-motion) .experience [data-reveal] { opacity: 0 !important; transform: translateY(50px) !important; transition: opacity .7s ease, transform .9s cubic-bezier(.2,.7,.2,1) !important; }
+html[data-motion="reduce"] :global(body.concept-force-motion) .experience [data-reveal][data-visible] { opacity: 1 !important; transform: none !important; }
+html[data-motion="reduce"] :global(body.concept-force-motion) .marquee > div { animation: brandMove 28s linear infinite !important; }
+html[data-motion="reduce"] :global(body.concept-force-motion) .fluid { animation: spin 18s linear infinite !important; }
+
+@media (max-width: 900px) {
+  html[data-motion="reduce"] .topActions { gap: .55rem; }
+  html[data-motion="reduce"] .motionToggle,
+  html[data-motion="reduce"] .motionToggleStandalone { padding-inline: .6rem; font-size: .52rem; }
+  html[data-motion="reduce"] .motionToggleStandalone { top: 80px; right: 1.25rem; }
+  html[data-motion="reduce"] :global(body.concept-force-motion) .journey { min-height: 330svh; }
+  html[data-motion="reduce"] :global(body.concept-force-motion) .sticky { min-height: 560px; }
+  html[data-motion="reduce"] :global(body.concept-force-motion) .truckLayer { opacity: clamp(.1, calc(1 - var(--journey) * 1.6), .82); transform: translate3d(calc(var(--journey) * -14vw), 0, 0) scale(calc(1.1 + var(--journey) * .16)); }
+  html[data-motion="reduce"] :global(body.concept-force-motion) .terrain { right: -80vw; width: 260vw; height: 30vh; transform: translate3d(calc(var(--journey) * -75vw), 0, 0) scaleY(calc(1 + var(--journey) * .25)); }
+  html[data-motion="reduce"] :global(body.concept-force-motion) .stageRail { display: none; }
+  html[data-motion="reduce"] :global(body.concept-force-motion) .chapter { left: 1.25rem; right: 1.25rem; bottom: 7.5rem; width: auto; }
+  html[data-motion="reduce"] :global(body.concept-force-motion) .chapter h1,
+  html[data-motion="reduce"] :global(body.concept-force-motion) .chapter[data-key="hero"] h1,
+  html[data-motion="reduce"] :global(body.concept-force-motion) .chapter[data-key="terrain"] h1,
+  html[data-motion="reduce"] :global(body.concept-force-motion) .chapter[data-key="compression"] h1,
+  html[data-motion="reduce"] :global(body.concept-force-motion) .chapter[data-key="control"] h1 { max-width: 13ch; font-size: clamp(2.25rem, 11vw, 4.4rem); }
+  html[data-motion="reduce"] :global(body.concept-force-motion) .productStage { top: 10vh; right: -18vw; width: 92vw; height: 58vh; opacity: clamp(0, calc((var(--journey) - .43) * 6), .86); transform: translate3d(calc((1 - var(--journey)) * 24vw), calc((.5 - var(--journey)) * 8vh), 0) rotate(calc(14deg - var(--journey) * 17deg)); }
+  html[data-motion="reduce"] :global(body.concept-force-motion) .heroActions { align-items: stretch; }
 }
 
-@media (max-width: 900px) and (prefers-reduced-motion: reduce) {
-  .topActions { gap: .55rem; }
-  .motionToggle, .motionToggleStandalone { padding-inline: .6rem; font-size: .52rem; }
-  .motionToggleStandalone { top: 80px; right: 1.25rem; }
-  :global(body.concept-force-motion) .journey { min-height: 330svh; }
-  :global(body.concept-force-motion) .sticky { min-height: 560px; }
-  :global(body.concept-force-motion) .truckLayer { opacity: clamp(.1, calc(1 - var(--journey) * 1.6), .82); transform: translate3d(calc(var(--journey) * -14vw), 0, 0) scale(calc(1.1 + var(--journey) * .16)); }
-  :global(body.concept-force-motion) .terrain { right: -80vw; width: 260vw; height: 30vh; transform: translate3d(calc(var(--journey) * -75vw), 0, 0) scaleY(calc(1 + var(--journey) * .25)); }
-  :global(body.concept-force-motion) .stageRail { display: none; }
-  :global(body.concept-force-motion) .chapter { left: 1.25rem; right: 1.25rem; bottom: 7.5rem; width: auto; }
-  :global(body.concept-force-motion) .chapter h1,
-  :global(body.concept-force-motion) .chapter[data-key="hero"] h1,
-  :global(body.concept-force-motion) .chapter[data-key="terrain"] h1,
-  :global(body.concept-force-motion) .chapter[data-key="compression"] h1,
-  :global(body.concept-force-motion) .chapter[data-key="control"] h1 { max-width: 13ch; font-size: clamp(2.25rem, 11vw, 4.4rem); }
-  :global(body.concept-force-motion) .productStage { top: 10vh; right: -18vw; width: 92vw; height: 58vh; opacity: clamp(0, calc((var(--journey) - .43) * 6), .86); transform: translate3d(calc((1 - var(--journey)) * 24vw), calc((.5 - var(--journey)) * 8vh), 0) rotate(calc(14deg - var(--journey) * 17deg)); }
-  :global(body.concept-force-motion) .heroActions { align-items: stretch; }
-}
 
+/* ?motion=reduce mantém a mesma composição narrativa, sem virar outra página */
+html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .journey { min-height: auto; }
+html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .sticky { position: relative; height: auto; min-height: auto; padding: 0; overflow: hidden; }
+html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .truckLayer { position: absolute; inset: 0 0 auto; height: 100svh; opacity: .72; transform: none; }
+html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .truckShade { background: linear-gradient(90deg,#000 0%,rgb(0 0 0 / 70%) 52%,transparent 90%),linear-gradient(0deg,#000 0%,transparent 48%,rgb(0 0 0 / 25%) 100%); }
+html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .terrain { right: -15vw; bottom: auto; top: 70svh; width: 130vw; height: 28vh; transform: none; }
+html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .productStage { position: absolute; z-index: 10; top: 8vh; right: -8vw; width: min(44vw,680px); height: 82vh; min-height: 0; margin: 0; opacity: .18; transform: rotate(-4deg); pointer-events: none; }
+html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .compressionScale { display: none; }
+html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .chapters { position: relative; z-index: 35; display: block; margin: 0; }
+html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .chapter { position: relative; inset: auto; display: flex; min-height: 78svh; width: auto; flex-direction: column; justify-content: flex-end; padding: 8rem max(13vw,calc((100vw - 1060px)/2)) 9vh; border: 0; background: linear-gradient(0deg,#000 0%,rgb(0 0 0 / 72%) 45%,transparent 100%); opacity: 1; transform: none; }
+html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .chapter:first-child { min-height: 100svh; padding-bottom: 9vh; background: linear-gradient(0deg,#000 0%,rgb(0 0 0 / 45%) 58%,transparent 100%); }
+html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .chapter h1,
+html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .chapter[data-key="terrain"] h1,
+html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .chapter[data-key="compression"] h1,
+html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .chapter[data-key="control"] h1 { max-width: 12ch; font-size: clamp(3rem,6vw,7rem); line-height: .86; }
+html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .description { max-width: 42rem; font-size: clamp(1rem,1.3vw,1.2rem); }
+html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .heroActions { align-items: center; }
 
-/* Reduced motion keeps the same narrative composition instead of becoming a different page */
-@media (prefers-reduced-motion: reduce) {
-  :global(body:not(.concept-force-motion)) .journey { min-height: auto; }
-  :global(body:not(.concept-force-motion)) .sticky { position: relative; height: auto; min-height: auto; padding: 0; overflow: hidden; }
-  :global(body:not(.concept-force-motion)) .truckLayer { position: absolute; inset: 0 0 auto; height: 100svh; opacity: .72; transform: none; }
-  :global(body:not(.concept-force-motion)) .truckShade { background: linear-gradient(90deg,#000 0%,rgb(0 0 0 / 70%) 52%,transparent 90%),linear-gradient(0deg,#000 0%,transparent 48%,rgb(0 0 0 / 25%) 100%); }
-  :global(body:not(.concept-force-motion)) .terrain { right: -15vw; bottom: auto; top: 70svh; width: 130vw; height: 28vh; transform: none; }
-  :global(body:not(.concept-force-motion)) .productStage { position: absolute; z-index: 10; top: 8vh; right: -8vw; width: min(44vw,680px); height: 82vh; min-height: 0; margin: 0; opacity: .18; transform: rotate(-4deg); pointer-events: none; }
-  :global(body:not(.concept-force-motion)) .compressionScale { display: none; }
-  :global(body:not(.concept-force-motion)) .chapters { position: relative; z-index: 35; display: block; margin: 0; }
-  :global(body:not(.concept-force-motion)) .chapter { position: relative; inset: auto; display: flex; min-height: 78svh; width: auto; flex-direction: column; justify-content: flex-end; padding: 8rem max(13vw,calc((100vw - 1060px)/2)) 9vh; border: 0; background: linear-gradient(0deg,#000 0%,rgb(0 0 0 / 72%) 45%,transparent 100%); opacity: 1; transform: none; }
-  :global(body:not(.concept-force-motion)) .chapter:first-child { min-height: 100svh; padding-bottom: 9vh; background: linear-gradient(0deg,#000 0%,rgb(0 0 0 / 45%) 58%,transparent 100%); }
-  :global(body:not(.concept-force-motion)) .chapter h1,
-  :global(body:not(.concept-force-motion)) .chapter[data-key="terrain"] h1,
-  :global(body:not(.concept-force-motion)) .chapter[data-key="compression"] h1,
-  :global(body:not(.concept-force-motion)) .chapter[data-key="control"] h1 { max-width: 12ch; font-size: clamp(3rem,6vw,7rem); line-height: .86; }
-  :global(body:not(.concept-force-motion)) .description { max-width: 42rem; font-size: clamp(1rem,1.3vw,1.2rem); }
-  :global(body:not(.concept-force-motion)) .heroActions { align-items: center; }
-}
-
-@media (max-width: 900px) and (prefers-reduced-motion: reduce) {
-  :global(body:not(.concept-force-motion)) .truckLayer { height: 100svh; opacity: .78; }
-  :global(body:not(.concept-force-motion)) .truckImage { object-position: 62% center; }
-  :global(body:not(.concept-force-motion)) .terrain { top: 72svh; right: -80vw; width: 260vw; }
-  :global(body:not(.concept-force-motion)) .productStage { top: 5vh; right: -42vw; width: 110vw; height: 68vh; opacity: .11; }
-  :global(body:not(.concept-force-motion)) .chapter { min-height: 70svh; padding: 7rem 1.25rem 4rem; }
-  :global(body:not(.concept-force-motion)) .chapter:first-child { min-height: 100svh; padding-bottom: 7rem; }
-  :global(body:not(.concept-force-motion)) .chapter h1,
-  :global(body:not(.concept-force-motion)) .chapter[data-key="terrain"] h1,
-  :global(body:not(.concept-force-motion)) .chapter[data-key="compression"] h1,
-  :global(body:not(.concept-force-motion)) .chapter[data-key="control"] h1 { max-width: 13ch; font-size: clamp(2.55rem,11vw,4.6rem); }
-  :global(body:not(.concept-force-motion)) .heroActions { align-items: stretch; }
+@media (max-width: 900px) {
+  html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .truckLayer { height: 100svh; opacity: .78; }
+  html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .truckImage { object-position: 62% center; }
+  html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .terrain { top: 72svh; right: -80vw; width: 260vw; }
+  html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .productStage { top: 5vh; right: -42vw; width: 110vw; height: 68vh; opacity: .11; }
+  html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .chapter { min-height: 70svh; padding: 7rem 1.25rem 4rem; }
+  html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .chapter:first-child { min-height: 100svh; padding-bottom: 7rem; }
+  html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .chapter h1,
+  html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .chapter[data-key="terrain"] h1,
+  html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .chapter[data-key="compression"] h1,
+  html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .chapter[data-key="control"] h1 { max-width: 13ch; font-size: clamp(2.55rem,11vw,4.6rem); }
+  html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .heroActions { align-items: stretch; }
 }
 
 /* Official BUMP identity and local vehicle-brand marks */
@@ -2407,16 +2401,16 @@
   }
 }
 
-@media (min-width: 901px) and (prefers-reduced-motion: reduce) {
-  :global(body:not(.concept-force-motion)) .flowConnector[data-road-surface] .flowRoadWorld,
-  :global(body:not(.concept-force-motion)) .flowConnector[data-road-surface] .flowPickupMotion,
-  :global(body:not(.concept-force-motion)) .flowConnector[data-road-surface] .flowPickupBody,
-  :global(body:not(.concept-force-motion)) .flowConnector[data-road-surface] .flowPickupDust ellipse {
+@media (min-width: 901px) {
+  html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .flowConnector[data-road-surface] .flowRoadWorld,
+  html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .flowConnector[data-road-surface] .flowPickupMotion,
+  html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .flowConnector[data-road-surface] .flowPickupBody,
+  html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .flowConnector[data-road-surface] .flowPickupDust ellipse {
     will-change: auto;
   }
 
-  :global(body:not(.concept-force-motion)) .flowConnector[data-flow="body-use"] .flowPickupMotion,
-  :global(body:not(.concept-force-motion)) .flowPickupDust {
+  html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .flowConnector[data-flow="body-use"] .flowPickupMotion,
+  html[data-motion="reduce"] :global(body:not(.concept-force-motion)) .flowPickupDust {
     display: none;
   }
 }
@@ -2455,11 +2449,11 @@
   background: radial-gradient(circle at 40% 34%, rgb(252 243 19 / 16%), transparent 62%);
   opacity: 0;
 }
-@media (prefers-reduced-motion: no-preference) and (min-width: 721px) {
-  .engineeringVisual::after,
-  .lineProduct::after,
-  .productStage::after { animation: productSweep 7.5s var(--ease-settle, ease-in-out) infinite; }
-  .useProduct::after { animation: productDepth 6s ease-in-out infinite; }
+@media (min-width: 721px) {
+  html:not([data-motion="reduce"]) .engineeringVisual::after,
+  html:not([data-motion="reduce"]) .lineProduct::after,
+  html:not([data-motion="reduce"]) .productStage::after { animation: productSweep 7.5s var(--ease-settle, ease-in-out) infinite; }
+  html:not([data-motion="reduce"]) .useProduct::after { animation: productDepth 6s ease-in-out infinite; }
 }
 @keyframes productSweep {
   0% { transform: translateX(-120%); opacity: 0; }

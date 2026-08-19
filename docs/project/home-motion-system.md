@@ -21,9 +21,10 @@ scroll nativo, esconder conteúdo ou transformar cada seção em uma animação 
 - `will-change` volta para `auto` fora da área ativa.
 - Desktop e mobile usam a mesma narrativa, com alturas e composição próprias.
 - `?motion=reduce` permanece funcional e oferece `Ativar movimento`.
-- A preferência de movimento reduzido do **sistema** é respeitada por padrão: a Home inicia
-  estática e exibe `Ativar movimento` (opt-in), sem forçar movimento.
-- Reveals globais respeitam `prefers-reduced-motion`; variam o gesto por cluster (`data-motif` no
+- O movimento completo é nativo em **qualquer sistema ou navegador**: a preferência de movimento
+  reduzido do sistema não é consultada. A única redução é o opt-out explícito `?motion=reduce`
+  (ADR-013).
+- Reveals globais respeitam `html[data-motion="reduce"]`; variam o gesto por cluster (`data-motif` no
   wrapper e/ou `data-page-motif` no `<html>`, derivado do pathname) e são **reversíveis por padrão**
   (`data-reveal-once` fixa o estado para one-shot).
 - Não exibir os textos “Movimento conceitual · acerto sujeito à validação técnica” ou
@@ -128,10 +129,11 @@ do loop compartilhado.
 
 ## Movimento reduzido e reativação
 
-- A experiência completa é o padrão aprovado.
-- **Preferência do sistema respeitada por padrão:** no mount de `ImpactJourney`, só se força
-  movimento quando `!(explicitReduced || media.matches)`. Com o sistema em "reduzir", a Home inicia
-  em `data-motion="reduced"`, sem `concept-force-motion`, exibindo `Ativar movimento`.
+- A experiência completa é o padrão aprovado e é entregue em qualquer sistema ou navegador.
+- **Sinal único:** `layout.tsx` grava `data-motion="reduce"` no `<html>` antes da pintura quando a
+  URL traz `?motion=reduce` (e remove o atributo fora disso); `ScrollReveal` revalida a cada
+  navegação de rota. CSS e JS leem esse mesmo sinal — nada consulta `prefers-reduced-motion`.
+- No mount de `ImpactJourney`, o movimento só deixa de ser forçado quando `explicitReduced`.
 - `?motion=reduce` inicia a Home com `data-motion="reduced"`.
 - A jornada fica em `--journey: 0.68` e estágio `control`.
 - Ponte e conectores usam progresso estático `0.72` e alturas compactas.
@@ -155,7 +157,7 @@ wrapper manual:
 | Conversão / CTAs | `cascade` | cascata com stagger |
 | Legal | `calm` | apenas opacidade |
 
-Todos são compositor-only e suprimidos em `prefers-reduced-motion`. Os reveals são **reversíveis por
+Todos são compositor-only e suprimidos sob `html[data-motion="reduce"]`. Os reveals são **reversíveis por
 padrão** (entram e saem ao cruzar a viewport); `data-reveal-once` fixa o estado após a primeira
 entrada (one-shot), reservado a conteúdos que não devem reanimar.
 
@@ -204,7 +206,7 @@ os invariantes (scroll nativo, sem lib, `will-change` contido, trabalho perto da
   observer compartilhado de `[data-reveal]`.
 - Variante escura `data-tone="dark"` para seções de fundo claro (ex.: O corpo), onde fumaça clara
   não teria contraste; fica acima do conteúdo (z-index) e dissolve revelando a seção.
-- `prefers-reduced-motion`: mantém um crossfade suave de opacidade (sem parallax/zoom).
+- Sob `?motion=reduce`: mantém um crossfade suave de opacidade (sem parallax/zoom).
 - Por que não `animation-timeline: view()` aqui: o suporte não é universal (Safari/Firefox variam),
   então o reveal ficava invisível para muitos usuários. `IntersectionObserver` cobre todos.
 
@@ -227,11 +229,11 @@ O componente decorativo `CinematicDivider` (em `ImpactJourney.tsx`) substitui os
 repetidos por seis transições narrativas distintas e **sem texto**: `pressao`, `controle`, `prova`,
 `terreno`, `estabilizacao` e `fechamento`. Cada variante é `aria-hidden`, usa apenas
 transform/opacity/CSS e mantém uma trilha base sempre visível como fallback estático. Sweep e nós
-móveis são desligados no mobile (`max-width: 720px`) e em `prefers-reduced-motion`.
+móveis são desligados no mobile (`max-width: 720px`) e sob `?motion=reduce`.
 
 ### Ajustes de layout do v3 (referência rápida)
 
 - Seção "Antes e depois na prática": corte transversal (paralelogramo) com laterais diagonais e
-  sobreposição em flex; reafirmado em `prefers-reduced-motion` para não virar retângulo.
+  sobreposição em flex; reafirmado sob `?motion=reduce` para não virar retângulo.
 - Autoridade (Cristian): vídeo institucional ao lado do texto (grid de duas colunas no desktop).
 - Marca d'água "CORPO" da seção O corpo com opacidade um pouco maior no v3 (7%).

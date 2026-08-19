@@ -200,7 +200,9 @@ Mobile usa a mesma narrativa, não uma miniatura do desktop:
 
 ## Movimento reduzido
 
-`?motion=reduce` mantém a composição narrativa em estado estático:
+O movimento completo é o padrão em qualquer computador, sistema ou navegador. A única forma de
+reduzir é o opt-out explícito por URL, `?motion=reduce`, que mantém a composição narrativa em estado
+estático:
 
 - Hero no capítulo Controle;
 - ponte e conectores em progresso intermediário;
@@ -208,7 +210,7 @@ Mobile usa a mesma narrativa, não uma miniatura do desktop:
 - conteúdo e CTAs completos;
 - botão `Ativar movimento` para restaurar a experiência.
 
-A versão reduzida não exibe textos explicativos sobre preferência do sistema.
+A versão reduzida não exibe textos explicativos sobre preferência de movimento.
 
 ## Performance e acessibilidade
 
@@ -281,8 +283,8 @@ reveals globais.
   distintas e sem texto (pressão, controle, prova, terreno, estabilização, fechamento).
 - **CTAs unificados** entre Home, Header e páginas, com micro-press e o mesmo easing.
 - **WhatsApp flutuante compacta** em zonas de foco (formulário de contato, configurador).
-- **Movimento reduzido do sistema é respeitado por padrão**, mantendo o botão de opt-in
-  "Ativar movimento".
+- **Movimento completo é nativo em qualquer sistema ou navegador**; a redução acontece somente com
+  `?motion=reduce`, que mantém o botão "Ativar movimento" (ADR-013).
 
-Decisão registrada em [`../project/adrs.md`](../project/adrs.md) (ADR-012, que estende a ADR-011);
+Decisão registrada em [`../project/adrs.md`](../project/adrs.md) (ADR-013 e ADR-012, que estende a ADR-011);
 detalhes de motion em [`../project/home-motion-system.md`](../project/home-motion-system.md).

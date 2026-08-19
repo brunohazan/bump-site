@@ -36,10 +36,19 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = { themeColor: "#000000", colorScheme: "dark" };
 
+// Movimento é o padrão em qualquer sistema ou navegador: nada de opt-in.
+// O único opt-out é ?motion=reduce, marcado no <html> antes da pintura para
+// o CSS e o JS lerem a mesma fonte (data-motion="reduce").
+const motionFlagScript =
+  'try{var m=new URLSearchParams(location.search).get("motion");' +
+  'if(m==="reduce"){document.documentElement.setAttribute("data-motion","reduce")}' +
+  'else{document.documentElement.removeAttribute("data-motion")}}catch(e){}';
+
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="pt-BR">
       <body>
+        <script dangerouslySetInnerHTML={{ __html: motionFlagScript }} />
         <JsonLd data={organizationJsonLd} />
         <JsonLd data={websiteJsonLd} />
         <ScrollReveal />

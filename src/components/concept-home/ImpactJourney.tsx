@@ -216,18 +216,17 @@ export function ImpactJourney({ definitive = false, lean = false, v3 = false }: 
     if (definitive) body.classList.add("concept-definitive");
     if (lean) body.classList.add("concept-lean");
 
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     const explicitReduced = new URLSearchParams(window.location.search).get("motion") === "reduce";
-    // Default respeita a preferência do sistema: só força movimento quando o
-    // usuário NÃO pediu redução (nem por ?motion=reduce nem pelo sistema).
-    // Com o sistema em "reduzir", inicia estático e exibe o opt-in "Ativar movimento".
-    if (!(explicitReduced || media.matches)) {
+    // A experiência cinematográfica é o padrão em qualquer sistema ou navegador.
+    // A única forma de reduzir é o opt-out explícito ?motion=reduce, que aí sim
+    // inicia estático e exibe o opt-in "Ativar movimento".
+    if (!explicitReduced) {
       forceMotionRef.current = true;
       body.classList.add("concept-force-motion");
       journey.setAttribute("data-force-motion", "true");
     }
 
-    const prefersReduced = () => !forceMotionRef.current && (explicitReduced || media.matches);
+    const prefersReduced = () => !forceMotionRef.current && explicitReduced;
     let currentProgress = 0;
     let targetProgress = 0;
     let previousTime = performance.now();
@@ -338,13 +337,11 @@ export function ImpactJourney({ definitive = false, lean = false, v3 = false }: 
     syncPreference();
     window.addEventListener("scroll", requestUpdate, { passive: true });
     window.addEventListener("resize", requestUpdate);
-    media.addEventListener("change", syncPreference);
 
     return () => {
       body.classList.remove("concept-mode", "concept-definitive", "concept-force-motion", "concept-lean");
       window.removeEventListener("scroll", requestUpdate);
       window.removeEventListener("resize", requestUpdate);
-      media.removeEventListener("change", syncPreference);
       journeyObserver.disconnect();
       revealObserver.disconnect();
       smokeObserver.disconnect();
@@ -357,9 +354,8 @@ export function ImpactJourney({ definitive = false, lean = false, v3 = false }: 
     const bridge = bridgeRef.current;
     if (!bridge) return;
 
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     const explicitReduced = new URLSearchParams(window.location.search).get("motion") === "reduce";
-    const prefersReduced = () => !forceMotionRef.current && (explicitReduced || media.matches);
+    const prefersReduced = () => !forceMotionRef.current && explicitReduced;
     let currentProgress = 0;
     let targetProgress = 0;
     let previousTime = performance.now();
@@ -450,12 +446,10 @@ export function ImpactJourney({ definitive = false, lean = false, v3 = false }: 
     syncPreference();
     window.addEventListener("scroll", requestUpdate, { passive: true });
     window.addEventListener("resize", requestUpdate);
-    media.addEventListener("change", syncPreference);
 
     return () => {
       window.removeEventListener("scroll", requestUpdate);
       window.removeEventListener("resize", requestUpdate);
-      media.removeEventListener("change", syncPreference);
       observer.disconnect();
       bridge.removeAttribute("data-active");
       if (bridgeFrameRef.current !== null) cancelAnimationFrame(bridgeFrameRef.current);
@@ -466,9 +460,8 @@ export function ImpactJourney({ definitive = false, lean = false, v3 = false }: 
     const connectors = Array.from(document.querySelectorAll<HTMLElement>(`.${styles.experience} [data-flow]`));
     if (!connectors.length) return;
 
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     const explicitReduced = new URLSearchParams(window.location.search).get("motion") === "reduce";
-    const prefersReduced = () => !forceMotionRef.current && (explicitReduced || media.matches);
+    const prefersReduced = () => !forceMotionRef.current && explicitReduced;
     const states = new Map(connectors.map((node) => {
       const pickupPath = node.querySelector<SVGPathElement>("[data-road-path]");
       return [node, {
@@ -680,13 +673,11 @@ export function ImpactJourney({ definitive = false, lean = false, v3 = false }: 
     syncPreference();
     window.addEventListener("scroll", requestUpdate, { passive: true });
     window.addEventListener("resize", requestUpdate);
-    media.addEventListener("change", syncPreference);
     desktopMedia.addEventListener("change", syncPickupAssets);
 
     return () => {
       window.removeEventListener("scroll", requestUpdate);
       window.removeEventListener("resize", requestUpdate);
-      media.removeEventListener("change", syncPreference);
       desktopMedia.removeEventListener("change", syncPickupAssets);
       observer.disconnect();
       connectors.forEach((node) => node.removeAttribute("data-active"));

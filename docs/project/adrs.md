@@ -241,12 +241,9 @@ compartilhados, sem alterar copy, ordem de seções, rotas ou estratégia comerc
   observando zonas `data-wa-compact` (form de contato, configurador); ao entrar na zona, recolhe para
   ícone preservando `aria-label` e alvo de toque.
 
-**Correção de movimento reduzido (núcleo):** o v3 passa a **respeitar por padrão** a preferência do
-sistema. No mount de `ImpactJourney`, só força movimento quando `!(explicitReduced || media.matches)`.
-Com o sistema em "reduzir", a Home inicia estática (`data-motion="reduced"`) e exibe o opt-in
-"Ativar movimento"; `enableMotion()` e `?motion=reduce` permanecem funcionais. O bloco
-`body.concept-force-motion` dentro de `@media (prefers-reduced-motion: reduce)` serve exclusivamente
-ao opt-in.
+**Correção de movimento reduzido (núcleo):** *superada pela ADR-013.* Este trecho fazia o v3
+respeitar por padrão a preferência de movimento do sistema; hoje a redução acontece somente com
+`?motion=reduce`.
 
 **Motivo:** unificar a identidade visual sob a paleta oficial e dar a cada cluster um gesto próprio,
 mantendo continuidade cinematográfica e corrigindo o desrespeito à preferência de movimento do
@@ -260,5 +257,42 @@ sempre com botão de reduzir (rejeitado por acessibilidade); introduzir bibliote
 sem scroll-hijack e com scroll nativo; páginas sem `data-reveal` não ganham movimento novo; layouts
 de `/home-v1`, `/homev2` e `/conceito-home` permanecem inalterados, herdando apenas a paleta.
 Referencia e estende a ADR-011.
+
+**Data:** 2026-08-19.
+
+## ADR-013 · Movimento nativo em qualquer sistema; redução só por `?motion=reduce`
+
+**Decisão:** o site deixa de consultar `prefers-reduced-motion` para decidir se anima. A experiência
+cinematográfica completa é entregue por padrão em qualquer computador, sistema ou navegador, e o
+único opt-out é o parâmetro explícito `?motion=reduce`. Substitui a "correção de movimento reduzido"
+registrada na ADR-012.
+
+Implementação:
+
+- `layout.tsx` grava `data-motion="reduce"` no `<html>` antes da pintura quando a URL traz
+  `?motion=reduce`, e remove o atributo caso contrário. `ScrollReveal` revalida o atributo a cada
+  navegação de rota.
+- Todo o CSS que antes vivia em `@media (prefers-reduced-motion: reduce)` passa a ser escopado por
+  `html[data-motion="reduce"]`; o que vivia em `@media (prefers-reduced-motion: no-preference)`
+  passa a valer sempre (ou é escopado por `html:not([data-motion="reduce"])` quando o reduzido não
+  tinha regra de desligamento equivalente).
+- `ImpactJourney`, `ScrollReveal` e `Configurator` leem o mesmo sinal: `prefersReduced()` depende
+  apenas de `explicitReduced`, sem `matchMedia`.
+- Com `?motion=reduce`, a Home continua estática (`data-motion="reduced"`), o botão
+  `Ativar movimento` continua aparecendo e `body.concept-force-motion` continua restaurando a cena.
+
+**Motivo:** pedido do cliente. Em máquinas Windows com animações desligadas no sistema (e em perfis
+de navegador que reportam redução), a Home aparecia estática com o botão `Ativar movimento`, o que
+foi lido como defeito: a experiência aprovada não estava sendo mostrada.
+
+**Alternativas:** manter o respeito automático à preferência do sistema (rejeitado pelo cliente);
+inverter para "movimento sempre, com botão de reduzir" na interface (rejeitado por poluir a Home);
+detectar apenas Windows (rejeitado por ser frágil e arbitrário).
+
+**Consequências:** usuários que configuram redução de movimento no sistema operacional passam a
+receber a experiência completa, o que contraria a recomendação de acessibilidade (WCAG 2.3.3) que a
+ADR-012 seguia; a rota de escape passa a ser explícita e por URL (`?motion=reduce`), documentada
+aqui e mantida funcional. Nenhuma copy, rota ou layout muda; o movimento segue compositor-only, sem
+scroll-hijack.
 
 **Data:** 2026-08-19.
