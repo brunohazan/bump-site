@@ -36,6 +36,11 @@ git diff --check
 - Header, Footer e ação de WhatsApp persistentes
 - SEO/AEO com canonical, sitemap, `llms.txt`, robots e JSON-LD
 
+## Colaboração
+
+Fluxo de branches, gate de validação e o que nunca entra no repositório estão em
+[`CONTRIBUTING.md`](CONTRIBUTING.md).
+
 ## Documentação
 
 A documentação canônica versionada começa em [`docs/README.md`](docs/README.md):
@@ -43,6 +48,8 @@ A documentação canônica versionada começa em [`docs/README.md`](docs/README.
 - direção criativa: [`docs/creative/home-do-chao-ao-corpo.md`](docs/creative/home-do-chao-ao-corpo.md)
 - arquitetura do motion: [`docs/project/home-motion-system.md`](docs/project/home-motion-system.md)
 - decisões de arquitetura: [`docs/project/adrs.md`](docs/project/adrs.md)
+- invariantes, paleta e pendências: [`docs/project/invariantes-e-fluxo.md`](docs/project/invariantes-e-fluxo.md)
+- checklists de operação: [`docs/project/checklists/`](docs/project/checklists/)
 - marca e ativos: [`docs/brand/README.md`](docs/brand/README.md)
 
 A evolução estética cinematográfica global (nova paleta do cliente — preto `#000000`, amarelo
